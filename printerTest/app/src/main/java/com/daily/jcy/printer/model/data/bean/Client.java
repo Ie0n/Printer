@@ -1,6 +1,6 @@
-package com.daily.jcy.printer.model;
+package com.daily.jcy.printer.model.data.bean;
 
-public class User {
+public class Client {
     private Long id;
     private String name;
     private String tel;

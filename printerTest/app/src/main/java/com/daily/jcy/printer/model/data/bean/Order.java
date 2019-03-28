@@ -1,4 +1,4 @@
-package com.daily.jcy.printer.model;
+package com.daily.jcy.printer.model.data.bean;
 
 public class Order {
     private Long id;

@@ -1,4 +1,4 @@
-package com.daily.jcy.printer.model;
+package com.daily.jcy.printer.model.data.bean;
 
 public class Food {
     private Long id;

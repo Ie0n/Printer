@@ -1,18 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.activity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/layout_up"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_layout_up_height"
+                android:background="@color/design_default_color_primary"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/main_search"
+                    android:layout_width="350dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/search_bg"
+                    android:hint="@string/start_order"
+                    android:paddingStart="@dimen/search_padding_left"
+                    android:paddingLeft="@dimen/search_padding_left"
+                    android:textColor="@color/secondary_text"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/layout_up" />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="30dp">
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:src="@mipmap/ic_more"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btn_client"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:background="@mipmap/ic_client"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_food"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:background="@mipmap/ic_food"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:background="@mipmap/ic_clear"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_setting"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom|end"
+                android:background="@mipmap/ic_setting"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

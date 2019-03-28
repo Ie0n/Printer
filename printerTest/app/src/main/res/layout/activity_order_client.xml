@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.OrderClientActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/design_default_color_primary"
+            android:gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/main_search"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/search_bg"
+                android:hint="@string/edit_client_num"
+                android:paddingStart="@dimen/search_padding_left"
+                android:paddingLeft="@dimen/search_padding_left"
+                android:textColor="@color/secondary_text"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_client_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_up" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
