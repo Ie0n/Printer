@@ -11,6 +11,15 @@ public class MainPresenter extends MainContract.Presenter {
     private MainContract.View mView;
     private MainModel mModel;
     private static final String TAG = "MainPresenter-zz";
+//    private static MainPresenter presenter;
+
+//    public static MainPresenter getInstance() {
+//        if (presenter == null) {
+//            presenter = new MainPresenter();
+//            return presenter;
+//        }
+//        return presenter;
+//    }
 
     // 绑定View
     @Override

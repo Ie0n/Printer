@@ -19,6 +19,9 @@ public abstract class BasePresenter<V extends BaseView, M extends BaseModel> {
         this.view = null;
     }
 
+//    public static BasePresenter getInstance() {
+//    }
+
     public abstract void showResult();
 
     public abstract M createModel();

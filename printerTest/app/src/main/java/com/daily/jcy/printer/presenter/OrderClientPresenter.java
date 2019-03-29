@@ -1,24 +1,33 @@
 package com.daily.jcy.printer.presenter;
 
 import com.daily.jcy.printer.contract.OrderClientContract;
+import com.daily.jcy.printer.model.OrderClientModel;
 
 public class OrderClientPresenter extends OrderClientContract.Presenter {
 
 
+    private OrderClientContract.View mView;
+    private OrderClientContract.Model mModel;
 
+    @Override
+    public void attachView(OrderClientContract.View view) {
+        super.attachView(view);
+        mView = view;
+        mModel = createModel();
+    }
 
     @Override
     public void updateClientListData() {
-
+        mView.updateClientListData(mModel.getClientData());
     }
 
     @Override
     public void showResult() {
-
+        mView.showResult(mModel.getResult());
     }
 
     @Override
     public OrderClientContract.Model createModel() {
-        return null;
+        return new OrderClientModel();
     }
 }

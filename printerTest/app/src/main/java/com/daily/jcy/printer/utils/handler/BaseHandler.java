@@ -1,6 +1,7 @@
 package com.daily.jcy.printer.utils.handler;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -18,14 +19,16 @@ public class BaseHandler extends Handler {
     private static final String TAG = "BaseHandler-zz";
     private WeakReference<BaseModel> weakReference;
 
-    public BaseHandler(BaseModel model) {
+    public BaseHandler(BaseModel model, Looper looper) {
+        super(looper);
         this.weakReference = new WeakReference<>(model);
     }
+
 
     @Override
     public void handleMessage(Message msg) {
         BaseModel model = weakReference.get();
-        Log.i(TAG, "handleMessage: ");
+        Log.i(TAG, "handleMessage: " + Thread.currentThread().getName());
         super.handleMessage(msg);
         switch (msg.what) {
             case RESULT_ERROR:

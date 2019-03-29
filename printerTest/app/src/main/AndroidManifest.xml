@@ -10,10 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:label="搜索客户"
-            android:name=".view.activity.OrderClientActivity" />
-        <activity android:name=".view.activity.MainActivity"
-            android:windowSoftInputMode = "stateAlwaysHidden|adjustPan">
+            android:name=".view.activity.PrinterActivity"
+            android:label="出单"/>
+        <activity
+            android:name=".view.activity.OrderFoodActivity"
+            android:label="选择菜品" />
+        <activity
+            android:name=".view.activity.OrderClientActivity"
+            android:label="选择客户" />
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
