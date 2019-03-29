@@ -1,16 +1,20 @@
 package com.daily.jcy.printer.presenter;
 
 
+import android.os.Message;
 import android.util.Log;
 
 import com.daily.jcy.printer.contract.MainContract;
 import com.daily.jcy.printer.model.MainModel;
+import com.daily.jcy.printer.utils.handler.BaseHandler;
 
 public class MainPresenter extends MainContract.Presenter {
 
     private MainContract.View mView;
     private MainModel mModel;
     private static final String TAG = "MainPresenter-zz";
+    private BaseHandler mHandler;
+
 
     // 绑定View
     @Override
@@ -18,12 +22,18 @@ public class MainPresenter extends MainContract.Presenter {
         super.attachView(view);
         mView = view;
         mModel = (MainModel) createModel();
+        mHandler = new BaseHandler(mModel);
     }
 
     // 解绑View
     @Override
     public void detachView() {
         super.detachView();
+    }
+
+    @Override
+    public void showResult(String result) {
+        mView.showResult(result);
     }
 
     // 创建Model
@@ -35,12 +45,21 @@ public class MainPresenter extends MainContract.Presenter {
     @Override
     public void updateOrderListData() {
         Log.i(TAG, "updateOrderListData: ");
+//        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
+//        Message message = Message.obtain();
+//        message.what = BaseHandler.RESULT_SUCCESS;
+//        mHandler.handleMessage(message);
         mView.updateOrderListData(mModel.getOrderListData());
     }
 
     @Override
-    public void showResult() {
-        Log.i(TAG, "showResult: ");
-        mView.showResult(mModel.getResult());
+    public void deleteOrderListData() {
+        mView.deleteOrderListData(mModel.deleteOrderListData());
     }
+
+//    @Override
+//    public void showResult() {
+//        Log.i(TAG, "showResult: ");
+//        mView.showResult(mModel.getResult());
+//    }
 }

@@ -1,6 +1,8 @@
 package com.daily.jcy.printer.view.activity;
 
 import android.content.Intent;
+import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +36,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private boolean isOpen = false;
     private AnimateUtils animateUtils;
     private Button btnClear;
+    private OrderRecycleViewAdapter adapter;
     private ArrayList<View> animViews;
+    private List<Order> data;
 
 
 
@@ -45,6 +49,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         initPresenter();
         initView();
         initUtils();
+
     }
 
     @Override
@@ -54,7 +59,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     private void initPresenter() {
-        presenter = new MainPresenter();
+      presenter = new MainPresenter();
+
         presenter.attachView(this);
     }
 
@@ -66,8 +72,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         searchEdit.addTextChangedListener(this);
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         presenter.updateOrderListData();
-        presenter.showResult();
+        adapter = new OrderRecycleViewAdapter(this, data);
+        orderRecyclerView.setAdapter(adapter);
+
 
         // 菜单控件
         btnMore = findViewById(R.id.fab_menu);
@@ -100,7 +109,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void updateOrderListData(List<Order> data) {
         Log.i(TAG, "updateOrderListData: ");
-        orderRecyclerView.setAdapter(new OrderRecycleViewAdapter(this, data));
+        this.data = data;
+    }
+
+    @Override
+    public void deleteOrderListData(boolean is) {
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -144,22 +158,29 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 break;
             }
             case R.id.btn_client:
-                animateUtils.closeMenu();
+                CloseMenu();
                 Toast.makeText(this, "客户", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_food:
-                animateUtils.closeMenu();
+                CloseMenu();
                 Toast.makeText(this, "菜单", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_clear:
-                animateUtils.closeMenu();
+                CloseMenu();
+                presenter.deleteOrderListData();
                 Toast.makeText(this, "清除", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
-                animateUtils.closeMenu();
+                CloseMenu();
                 Toast.makeText(this, "设置", Toast.LENGTH_SHORT).show();
                 break;
 
+        }
+    }
+    private void CloseMenu(){
+        if (isOpen){
+            animateUtils.closeMenu();
+            isOpen = false;
         }
     }
 }

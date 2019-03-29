@@ -12,8 +12,13 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
 
     }
 
+//    @Override
+//    public void showResult() {
+//
+//    }
+
     @Override
-    public void showResult() {
+    public void showResult(String result) {
 
     }
 

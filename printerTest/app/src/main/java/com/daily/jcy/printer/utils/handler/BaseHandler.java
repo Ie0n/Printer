@@ -26,7 +26,6 @@ public class BaseHandler extends Handler {
     public void handleMessage(Message msg) {
         BaseModel model = weakReference.get();
         Log.i(TAG, "handleMessage: ");
-        super.handleMessage(msg);
         switch (msg.what) {
             case RESULT_ERROR:
                 model.setResult(MSG_ERROR);
@@ -36,6 +35,8 @@ public class BaseHandler extends Handler {
                 break;
 
         }
+        super.handleMessage(msg);
+
 
     }
 }
