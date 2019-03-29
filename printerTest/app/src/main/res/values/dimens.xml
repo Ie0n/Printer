@@ -2,4 +2,10 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="search_padding_left">45dp</dimen>
     <dimen name="main_layout_up_height">180dp</dimen>
+    <dimen name="item_card_margin">10dp</dimen>
+    <dimen name="item_card_corner">10dp</dimen>
+    <dimen name="item_card_translation_z">3dp</dimen>
+    <dimen name="item_card_margin_top">5dp</dimen>
+    <dimen name="main_fab_layout_margin">30dp</dimen>
+    <dimen name="txt_id_size">17sp</dimen>
 </resources>

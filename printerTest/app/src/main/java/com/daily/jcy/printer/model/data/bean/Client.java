@@ -1,16 +1,25 @@
 package com.daily.jcy.printer.model.data.bean;
 
-public class Client {
-    private Long id;
+import java.io.Serializable;
+
+public class Client implements Serializable {
+    private String id;
     private String name;
     private String tel;
     private String address;
 
-    public Long getId() {
+    public Client(String id, String name, String tel, String address) {
+        this.id = id;
+        this.name = name;
+        this.tel = tel;
+        this.address = address;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
