@@ -2,17 +2,26 @@ package com.daily.jcy.printer.model.data.bean;
 
 import java.io.Serializable;
 
-public class Client implements Serializable {
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
+public class Client implements Serializable{
+
+    @Id (assignable = true)
+    private Long ID;
+
     private String id;
     private String name;
     private String tel;
     private String address;
 
-    public Client(String id, String name, String tel, String address) {
+    public Client(Long ID,String id, String name, String tel, String address) {
         this.id = id;
         this.name = name;
         this.tel = tel;
         this.address = address;
+        this.ID = ID;
     }
 
     public String getId() {
@@ -45,5 +54,13 @@ public class Client implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
     }
 }

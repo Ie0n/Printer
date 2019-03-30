@@ -21,19 +21,29 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
         mView.updateClientListData(mModel.getClientData());
     }
 
+    @Override
+    public void SearchClient(Long id) {
+        mModel.getClientID(id);
+    }
+
+    @Override
+    public void finishSearch() {
+        mView.finishSearch();
+    }
+
 //    @Override
 //    public void showResult() {
 //
 //    }
 
     @Override
-<<<<<<< HEAD
-    public void showResult(String result) {
 
-=======
+    public void showResult(String result) {
+    }
+
+    @Override
     public void showResult() {
-        mView.showResult(mModel.getResult());
->>>>>>> 2ced59842afddb468f74fd71e2a07d21bf2bdcda
+
     }
 
     @Override

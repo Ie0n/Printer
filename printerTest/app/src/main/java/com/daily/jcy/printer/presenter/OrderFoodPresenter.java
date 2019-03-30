@@ -16,6 +16,11 @@ public class OrderFoodPresenter extends OrderFoodContract.Presenter {
     }
 
     @Override
+    public void showResult(String result) {
+
+    }
+
+    @Override
     public void showResult() {
         mView.showResult(mModel.getResult());
     }

@@ -2,7 +2,7 @@ package com.daily.jcy.printer.model.data.bean;
 
 import java.io.Serializable;
 
-public class Food implements Serializable {
+public class Food{
     private String id;
     private String CNname;
     private String GERname;

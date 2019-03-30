@@ -11,14 +11,19 @@ public interface OrderClientContract {
 
     interface Model extends BaseModel {
         List<Client> getClientData();
+        Client getClientID(Long id);
     }
 
     interface View extends BaseView {
         void updateClientListData(List<Client> data);
+        void finishSearch();
+        void notifyUi(List<Client>data);
     }
 
     abstract class Presenter extends BasePresenter<OrderClientContract.View, OrderClientContract.Model> {
         public abstract void updateClientListData();
+        public abstract void SearchClient(Long id);
+        public abstract void finishSearch();
     }
 
 }

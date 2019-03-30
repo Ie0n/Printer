@@ -73,9 +73,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        presenter.updateOrderListData();
-        adapter = new OrderRecycleViewAdapter(this, data);
-        orderRecyclerView.setAdapter(adapter);
+
 
 
         // 菜单控件
@@ -89,6 +87,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         btnFood.setOnClickListener(this);
         btnSetting.setOnClickListener(this);
         btnClear.setOnClickListener(this);
+
+        presenter.updateOrderListData();
+        adapter = new OrderRecycleViewAdapter(this, data);
+        orderRecyclerView.setAdapter(adapter);
     }
 
     private void initUtils() {
