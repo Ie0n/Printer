@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.SettingActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/setting_layout_setting_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/setting_txt_set_password"
+            android:text="设置启动密码"
+            android:textColor="@color/primary_text"
+            android:layout_centerVertical="true"
+            android:textSize="20sp"/>
+
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/ic_setting_password"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginTop="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否开启启动密码"
+            android:textSize="20sp"
+            android:textColor="@color/primary_text"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:id="@+id/setting_switch_password"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:textColor="@color/accent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>

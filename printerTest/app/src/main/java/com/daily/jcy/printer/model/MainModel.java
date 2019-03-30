@@ -1,19 +1,30 @@
 package com.daily.jcy.printer.model;
 
+<<<<<<< HEAD
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+=======
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 import android.util.Log;
 
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.contract.MainContract;
 import com.daily.jcy.printer.model.data.bean.Order;
+<<<<<<< HEAD
 
 import com.daily.jcy.printer.presenter.MainPresenter;
 import com.daily.jcy.printer.utils.handler.BaseHandler;
 
+=======
+import com.daily.jcy.printer.presenter.MainPresenter;
+import com.daily.jcy.printer.utils.handler.BaseHandler;
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +36,18 @@ public class MainModel implements MainContract.Model {
     private static final String TAG = "MainModel-zz";
     private List<Order> data;
     private String result;
+<<<<<<< HEAD
 
     private Box<Order>orderBox;
 
     private BaseHandler mHandler;
     private MainPresenter presenter;
 
+=======
+    private Box<Order>orderBox;
+    private BaseHandler mHandler;
+    private MainPresenter presenter;
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 
     public MainModel() {
 //        mHandler = new BaseHandler(this, Looper.getMainLooper());
@@ -42,8 +59,13 @@ public class MainModel implements MainContract.Model {
         Log.i(TAG, "getOrderListData: ");
         orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
         data = new ArrayList<>();
+<<<<<<< HEAD
 
         data.add(new Order(1L,"2019.3.11 11:30","1111元"));
+=======
+        data.add(new Order(0L,"2019.3.11 11:30","1660元"));
+        data.add(new Order(1L,"2019.3.11 11:30","1660元"));
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         data.add(new Order(2L,"2019.3.11 11:30","1660元"));
         data.add(new Order(3L,"2019.3.11 11:30","1660元"));
         data.add(new Order(4L,"2019.3.11 11:30","1660元"));
@@ -54,11 +76,17 @@ public class MainModel implements MainContract.Model {
         data.add(new Order(9L,"2019.3.11 11:30","177元"));
         data.add(new Order(10L,"2019.3.11 11:30","8888元"));
         orderBox.put(data);
+<<<<<<< HEAD
 
 //        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
         setResult("Success");
 //        presenter.showResult(getResult());
 
+=======
+//        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
+        setResult("Success");
+//        presenter.showResult(getResult());
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         return data;
     }
 

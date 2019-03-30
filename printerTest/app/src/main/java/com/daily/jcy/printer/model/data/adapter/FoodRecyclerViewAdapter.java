@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
+import com.daily.jcy.printer.view.activity.OrderFoodActivity;
 import com.daily.jcy.printer.view.activity.PrinterActivity;
 
 import java.util.List;
@@ -62,12 +63,13 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
         viewHolder.txtGerName.setText(mData.get(i).getGERname());
         viewHolder.txtPrice.setText(mData.get(i).getPrice());
 
-        if (mConetxt instanceof PrinterActivity) {
-            viewHolder.contentLayout.removeView(viewHolder.btnAdd);
-        } else {
+        // 当是下单的菜品页面才显示加号和监听
+        if (mConetxt instanceof OrderFoodActivity) {
             viewHolder.btnAdd.setOnClickListener(this);
             viewHolder.btnAdd.setTag(R.id.tag_position, i);
             viewHolder.btnAdd.setTag(R.id.tag_is_click, true);
+        } else {
+            viewHolder.contentLayout.removeView(viewHolder.btnAdd);
         }
     }
 
@@ -85,5 +87,10 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void addData(Food food, int position) {
+        mData.add(position, food);
+        notifyItemInserted(position);
     }
 }

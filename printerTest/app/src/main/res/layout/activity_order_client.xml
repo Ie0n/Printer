@@ -19,7 +19,7 @@
             android:gravity="center_horizontal">
 
             <EditText
-                android:id="@+id/order_food_search"
+                android:id="@+id/order_client_search"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"

@@ -21,6 +21,11 @@ import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderClientPresenter;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
+import com.daily.jcy.printer.utils.message.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -36,7 +41,11 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     private ClientRecycleViewAdapter adapter;
     private Client targetClient;
     private View tagrView;
+<<<<<<< HEAD
     private List<Client> data;
+=======
+    private String result = "";
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 
     private Long id;
 
@@ -44,6 +53,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_client);
+        EventBus.getDefault().register(this);
         initPresenter();
         initView();
         setCustomActionBar();
@@ -52,6 +62,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         presenter.detachView();
     }
 
@@ -61,9 +72,14 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     }
 
     private void initView() {
-        search = findViewById(R.id.order_food_search);
+        search = findViewById(R.id.order_client_search);
         clientRecyclerView = findViewById(R.id.order_client_rv);
         clientRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+<<<<<<< HEAD
+=======
+        search.addTextChangedListener(this);
+
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         presenter.updateClientListData();
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -85,11 +101,17 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event) {
+        Log.i(TAG, "onMessageEvent: ");
+        result = event.getMessage();
+    }
 
 
     // View接口
     @Override
     public void updateClientListData(List<Client> data) {
+<<<<<<< HEAD
         this.data = data;
         adapter = new ClientRecycleViewAdapter(this, data);
         clientRecyclerView.setAdapter(adapter);
@@ -112,8 +134,32 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     public void showResult(String text) {
         super.showResult(text);
         Log.i(TAG, "showResult: " + text);
+=======
+        Log.i(TAG, "Result: " + result);
+        if (result.equals(MessageEvent.INIT)) {
+            adapter = new ClientRecycleViewAdapter(this, data);
+            clientRecyclerView.setAdapter(adapter);
+            adapter.setOnItemClickListener(this);
+        } else {
+            adapter.setmData(data);
+            adapter.notifyDataSetChanged();
+        }
     }
 
+    @Override
+    public void showResult(String result) {
+        super.showResult(result);
+        this.result = result;
+        Log.i(TAG, "showResult: " + result);
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        super.onTextChanged(s, start, before, count);
+        Log.i(TAG, "onTextChanged: " + s);
+        presenter.onTxtChange(s);
+    }
 
     @Override
     public void onItemClick(View view, Client client, Food food) {
@@ -125,9 +171,10 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         // 传输点击的Client对象
         bundle.putSerializable(TARGET_CLIENT, targetClient);
         intent.putExtra(TARGET_Client_BUNDLE, bundle);
-        startActivity(intent);
+        startActivityForResult(intent,1);
     }
 
+<<<<<<< HEAD
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_order_client, null);
@@ -152,4 +199,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     public void setId(Long id) {
         this.id = id;
     }
+=======
+
+>>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 }
