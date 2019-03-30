@@ -12,6 +12,7 @@ import android.view.View;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.BaseModel;
 import com.daily.jcy.printer.presenter.BasePresenter;
+import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.view.BaseView;
 
 public class BaseActivity extends AppCompatActivity implements TextWatcher, BaseView , View.OnClickListener,View.OnFocusChangeListener {
@@ -69,4 +70,6 @@ public class BaseActivity extends AppCompatActivity implements TextWatcher, Base
     public void onFocusChange(View v, boolean hasFocus) {
 
     }
+
+
 }

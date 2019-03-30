@@ -7,12 +7,14 @@ public class Client implements Serializable {
     private String name;
     private String tel;
     private String address;
+    private String note;
 
-    public Client(String id, String name, String tel, String address) {
+    public Client(String id, String name, String tel, String address,String note) {
         this.id = id;
         this.name = name;
         this.tel = tel;
         this.address = address;
+        this.note = note;
     }
 
     public String getId() {
@@ -45,5 +47,13 @@ public class Client implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getNote() {
+        return note;
     }
 }

@@ -9,6 +9,8 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
     private OrderClientContract.View mView;
     private OrderClientContract.Model mModel;
 
+
+
     @Override
     public void attachView(OrderClientContract.View view) {
         super.attachView(view);
@@ -18,7 +20,14 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
 
     @Override
     public void updateClientListData() {
-        mView.updateClientListData(mModel.getClientData());
+        mView.updateClientListData(mModel.getClientData(null));
+        showResult();
+    }
+
+    @Override
+    public void onTxtChange(CharSequence s) {
+        mView.updateClientListData(mModel.getClientData(s));
+        showResult();
     }
 
 //    @Override
@@ -26,14 +35,9 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
 //
 //    }
 
-    @Override
-<<<<<<< HEAD
-    public void showResult(String result) {
 
-=======
     public void showResult() {
         mView.showResult(mModel.getResult());
->>>>>>> 2ced59842afddb468f74fd71e2a07d21bf2bdcda
     }
 
     @Override

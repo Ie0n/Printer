@@ -13,10 +13,8 @@ public class MainPresenter extends MainContract.Presenter {
     private MainContract.View mView;
     private MainModel mModel;
     private static final String TAG = "MainPresenter-zz";
-<<<<<<< HEAD
     private BaseHandler mHandler;
 
-=======
 //    private static MainPresenter presenter;
 
 //    public static MainPresenter getInstance() {
@@ -26,7 +24,6 @@ public class MainPresenter extends MainContract.Presenter {
 //        }
 //        return presenter;
 //    }
->>>>>>> 2ced59842afddb468f74fd71e2a07d21bf2bdcda
 
     // 绑定View
     @Override
@@ -34,7 +31,7 @@ public class MainPresenter extends MainContract.Presenter {
         super.attachView(view);
         mView = view;
         mModel = (MainModel) createModel();
-        mHandler = new BaseHandler(mModel);
+//        mHandler = new BaseHandler(mModel);
     }
 
     // 解绑View
@@ -44,8 +41,8 @@ public class MainPresenter extends MainContract.Presenter {
     }
 
     @Override
-    public void showResult(String result) {
-        mView.showResult(result);
+    public void showResult() {
+        mView.showResult(mModel.getResult());
     }
 
     // 创建Model

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.OrderFoodActivity">
+    tools:context=".view.activity.ClientActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,12 +19,12 @@
             android:gravity="center_horizontal">
 
             <EditText
-                android:id="@+id/order_client_search"
+                android:id="@+id/client_search"
                 android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_bg"
-                android:hint="@string/edit_food_num"
+                android:hint="@string/edit_client_num"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="@dimen/search_padding_left"
@@ -33,39 +33,20 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/order_food_rv"
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/client_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_up" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/client_btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_more"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="30dp"/>
+
     </RelativeLayout>
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:background="@color/white"
-        android:layout_margin="@dimen/main_fab_layout_margin"
-        android:translationZ="@dimen/item_card_translation_z">
-
-        <Button
-            android:id="@+id/order_food_btn_pop"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:background="@mipmap/ic_pop" />
-
-        <TextView
-            android:id="@+id/order_food_txt_count"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end|top"
-            android:background="@drawable/pop_txt_bg"
-            android:gravity="center"
-            android:text="@string/test_txt_num"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-
-    </FrameLayout>
-
 </android.support.design.widget.CoordinatorLayout>

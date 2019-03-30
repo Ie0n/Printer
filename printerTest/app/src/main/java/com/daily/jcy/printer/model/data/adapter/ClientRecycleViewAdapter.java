@@ -34,7 +34,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtId, txtName, txtPhone, txtAddress;
+        TextView txtId, txtName, txtPhone, txtAddress,txtNote;
         RelativeLayout itemView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -44,6 +44,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
             txtName = itemView.findViewById(R.id.item_txt_name_client);
             txtPhone = itemView.findViewById(R.id.item_txt_phone_client);
             txtAddress = itemView.findViewById(R.id.item_txt_address_client);
+            txtNote = itemView.findViewById(R.id.item_txt_note_client);
         }
     }
 
@@ -60,6 +61,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
         viewHolder.txtName.setText(mData.get(i).getName());
         viewHolder.txtPhone.setText(mData.get(i).getTel());
         viewHolder.txtAddress.setText(mData.get(i).getAddress());
+        viewHolder.txtNote.setText(mData.get(i).getNote());
 
         viewHolder.itemView.setOnClickListener(this);
         viewHolder.itemView.setTag(i);
@@ -81,5 +83,18 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         Log.i(TAG, "setOnItemClickListener: ");
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setmData(List<Client> mData) {
+        this.mData = mData;
+    }
+
+    public List<Client> getmData() {
+        return mData;
+    }
+
+    public void addData(Client client, int position) {
+        mData.add(position, client);
+        notifyItemInserted(position);
     }
 }

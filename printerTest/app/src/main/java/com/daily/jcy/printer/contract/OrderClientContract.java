@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderClientContract {
 
     interface Model extends BaseModel {
-        List<Client> getClientData();
+        List<Client> getClientData(CharSequence s);
     }
 
     interface View extends BaseView {
@@ -19,6 +19,8 @@ public interface OrderClientContract {
 
     abstract class Presenter extends BasePresenter<OrderClientContract.View, OrderClientContract.Model> {
         public abstract void updateClientListData();
+
+        public abstract void onTxtChange(CharSequence s);
     }
 
 }

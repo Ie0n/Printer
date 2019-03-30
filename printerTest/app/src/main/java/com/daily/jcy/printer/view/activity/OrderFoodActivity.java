@@ -35,7 +35,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     private Button btnPop;
     private static final String TAG = "OrderFoodActivity-dd";
     private FoodRecyclerViewAdapter adapter;
-    private static int count = 0;
+    private int count = 0;
     private List<Food> targetFoodList;
     private Bundle beforeBundle;
 
@@ -47,6 +47,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         initBeforePageArg();
         initPresenter();
         initView();
+        Log.i(TAG, "onCreate: ");
     }
 
     private void initBeforePageArg() {
@@ -67,7 +68,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
 
         targetFoodList = new ArrayList<>();
 
-        search = findViewById(R.id.order_food_search);
+        search = findViewById(R.id.order_client_search);
         foodRecycler = findViewById(R.id.order_food_rv);
         btnPop = findViewById(R.id.order_food_btn_pop);
         txtSelectCount = findViewById(R.id.order_food_txt_count);
