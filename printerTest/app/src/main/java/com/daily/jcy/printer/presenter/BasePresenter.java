@@ -19,20 +19,12 @@ public abstract class BasePresenter<V extends BaseView, M extends BaseModel> {
         this.view = null;
     }
 
-<<<<<<< HEAD
     public abstract void showResult(String result);
 
-=======
-//    public abstract void showResult(String result);
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 //    public static BasePresenter getInstance() {
 //    }
 
     public abstract void showResult();
-<<<<<<< HEAD
-
-=======
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 
     public abstract M createModel();
 

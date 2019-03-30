@@ -8,12 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.BaseModel;
 import com.daily.jcy.printer.presenter.BasePresenter;
 import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.view.BaseView;
+
+import java.util.regex.Pattern;
 
 public class BaseActivity extends AppCompatActivity implements TextWatcher, BaseView , View.OnClickListener,View.OnFocusChangeListener {
 
@@ -38,6 +41,17 @@ public class BaseActivity extends AppCompatActivity implements TextWatcher, Base
 
     }
 
+    public String editTextClear(EditText editText,String string) {
+        editText.setText("");
+        string = null;
+        return null;
+    }
+
+    // 判断是为为整数
+    public boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
 
 
     @Override

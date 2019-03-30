@@ -4,6 +4,7 @@ public class MessageEvent {
 
     public static final String INIT = "init";
     public static final String UPDATE = "update";
+    public static final String PUT_SUCCESS = "Put Success";
     private String message;
 
     public MessageEvent(String message) {

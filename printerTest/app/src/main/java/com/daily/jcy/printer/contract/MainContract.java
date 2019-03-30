@@ -13,6 +13,7 @@ public interface MainContract {
         //        void onSearchResult(Long id);
         List<Order> getOrderListData();
         boolean deleteOrderListData();
+
     }
 
     interface View extends BaseView {

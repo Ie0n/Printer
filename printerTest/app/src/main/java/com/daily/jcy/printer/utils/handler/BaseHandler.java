@@ -28,18 +28,9 @@ public class BaseHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         BaseModel model = weakReference.get();
-<<<<<<< HEAD
-
-        Log.i(TAG, "handleMessage: ");
 
         Log.i(TAG, "handleMessage: " + Thread.currentThread().getName());
         super.handleMessage(msg);
-
-=======
-        Log.i(TAG, "handleMessage: ");
-        Log.i(TAG, "handleMessage: " + Thread.currentThread().getName());
-        super.handleMessage(msg);
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         switch (msg.what) {
             case RESULT_ERROR:
                 model.setResult(MSG_ERROR);

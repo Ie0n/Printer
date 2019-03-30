@@ -3,7 +3,9 @@ package com.daily.jcy.printer.view.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.daily.jcy.printer.model.data.adapter.ClientRecycleViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderClientPresenter;
+import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
 import com.daily.jcy.printer.utils.callback.OnClientDialogOkListener;
 import com.daily.jcy.printer.view.dialog.ClientDialog;
@@ -36,6 +39,9 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     private FloatingActionButton btnAdd;
     private ClientDialog dialog;
     private Client newClient;
+    private static final String TAG = "ClientActivity-ff";
+    private Button btnSearch;
+    private String input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +66,11 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     private void initView() {
         search = findViewById(R.id.client_search);
         btnAdd = findViewById(R.id.client_btn_add);
+        btnSearch = findViewById(R.id.client_btn_search);
         btnAdd.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
         search.addTextChangedListener(this);
+
         initRecyclerView();
     }
 
@@ -86,17 +95,19 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
                 menuBridge.closeMenu();
 
                 // 点击删除的操作
-                int position = menuBridge.getPosition();
-                Toast.makeText(ClientActivity.this, "删除" + position, Toast.LENGTH_SHORT).show();
-
+                // 通知去删除
+                presenter.deleteClient(adapter.getmData().get(adapterPosition).getId());
             }
         };
         clientRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
         clientRecyclerView.setOnItemMenuClickListener(onItemMenuClickListener);
+        // 初始化adapter
+        adapter = new ClientRecycleViewAdapter(this, null);
+        clientRecyclerView.setAdapter(adapter);
         presenter.updateClientListData();
-
     }
 
+    // 初始化dialog
     private void initDialog() {
         dialog = new ClientDialog(this);
         dialog.setOnClientDialogOkListener(this);
@@ -104,25 +115,67 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     }
 
 
+    // 初始化数据
     @Override
     public void updateClientListData(List<Client> data) {
-        adapter = new ClientRecycleViewAdapter(this, data);
-        clientRecyclerView.setAdapter(adapter);
+        LogUtils.log(LogUtils.TEST_DB, "updateClientListData: ");
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
         // 设置Item的点击事件
         adapter.setOnItemClickListener(this);
-
     }
 
+
+    // 搜索后的回调
+    @Override
+    public void notifyUi(List<Client> data) {
+        Log.i(TAG, "notifyUi: ");
+        if (data == null || data.size() == 0) {
+            Toast.makeText(this, "不存在该编号", Toast.LENGTH_SHORT).show();
+        } else {
+            adapter.setmData(data);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    // 删除的回调
+    @Override
+    public void deleteResult(String result) {
+        Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        presenter.updateClientListData();
+        // 清空搜索栏和监听值
+        input = editTextClear(search, input);
+    }
+
+
+    // 搜索监听
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
+        input = s.toString();
+        // 搜索栏为空的时候
+        if (s.toString().equals("")) {
+            presenter.updateClientListData();
+        }
     }
 
+
+    // 点击监听
     @Override
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnAdd) {
             dialog.show();
+        } else if (v == btnSearch) {
+            // 如果为空或无就拉取全部数据
+            if (input == null || input.equals("")) {
+                presenter.updateClientListData();
+            } else if (isInteger(input)) {
+                Log.i(TAG, "onClick: " + input);
+                presenter.searchClient(input);
+            } else {
+                Toast.makeText(this, "请输入正确的编号", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -130,18 +183,20 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     public void onItemClick(View view, Client client, Food food) {
         // 点击了Item的操作
         Toast.makeText(this, "点击了Item" + view.getTag(), Toast.LENGTH_SHORT).show();
-
     }
 
     // 关闭Dialog的回调
     @Override
     public void onOkListener(Client client) {
         if (client != null) {
+            LogUtils.log(LogUtils.TEST_DB, "onOkListener");
             newClient = client;
             // 存入数据库,
-
+            presenter.putClient(client);
             // 刷新页面
-            adapter.addData(newClient,0);
+            adapter.addData(newClient, 0);
         }
     }
+
+
 }

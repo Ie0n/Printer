@@ -3,7 +3,6 @@ package com.daily.jcy.printer;
 import android.content.Context;
 import android.util.Log;
 
-import com.daily.jcy.printer.model.data.bean.MyObjectBox;
 
 import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;

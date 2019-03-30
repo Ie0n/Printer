@@ -3,9 +3,6 @@ package com.daily.jcy.printer;
 import android.app.Application;
 import android.util.Log;
 
-import com.daily.jcy.printer.model.data.bean.MyObjectBox;
-
-import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;
 
 public class MyApplication extends Application {
@@ -14,6 +11,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ObjectBox.init(this);
+        if (BuildConfig.DEBUG) {
+            boolean started = new AndroidObjectBrowser(ObjectBox.getBoxStore()).start(this);
+            Log.i("ObjectBrowser", "Started: " + started);
+        }
     }
 
 }

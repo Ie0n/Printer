@@ -1,14 +1,11 @@
 package com.daily.jcy.printer.model;
 
-<<<<<<< HEAD
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.R;
-=======
 import android.util.Log;
-
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 import com.daily.jcy.printer.contract.OrderClientContract;
 import com.daily.jcy.printer.model.data.bean.Client;
+import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.utils.message.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,51 +21,56 @@ public class OrderClientModel implements OrderClientContract.Model {
     private List<Client> data;
     private String mResult;
     private Box<Client> clientBox;
+    private List<Client> queryList;
+    private Client targetClient;
 
 
-    @Override
-<<<<<<< HEAD
-    public List<Client> getClientData() {
-        data = new ArrayList<>();
+    public OrderClientModel() {
         clientBox = ObjectBox.getBoxStore().boxFor(Client.class);
-        data.add(new Client(1L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(2L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(3L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(4L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(5L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(6L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        data.add(new Client(7L,"10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China"));
-        clientBox.put(data);
-        setResult("Success");
-=======
-    public List<Client> getClientData(CharSequence s) {
-        if (s == null) {
-            data = new ArrayList<>();
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhh"));
-            data.add(new Client("10001", "张三", "10008011111111", "CQUPT,Nanan,Chongqing,China","hhhl"));
-            setResult(MessageEvent.INIT);
-//            EventBus.getDefault().post(new MessageEvent(MessageEvent.INIT));
-        } else {
-            Log.i(TAG, "getClientData: " + s);
-            data.clear();
-            setResult(MessageEvent.UPDATE);
+        data = new ArrayList<>();
+        queryList = new ArrayList<>();
 
+    }
+
+    // 返回全部数据
+    @Override
+    public List<Client> getClientData(CharSequence s) {
+        data.clear();
+        if (clientBox.getAll() != null) {
+            data.addAll(clientBox.getAll());
+            LogUtils.log(LogUtils.TEST_DB, "size：" + data.size() + "getSize: " + clientBox.getAll().size());
         }
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
+        LogUtils.log(LogUtils.TEST_DB, " getClientData");
         return data;
     }
 
+    // 搜索
     @Override
-    public Client getClientID(Long id) {
-        data.clear();
-        data.add(new Client(id,"ddd","ddd","aaaaaaa","ddddddddddd"));
-        return clientBox.get(id);
+    public List<Client> searchClientDb(CharSequence s) {
+        queryList.clear();
+        long targetId = Long.parseLong(s.toString());
+        targetClient = clientBox.get(targetId);
+        if (targetClient != null) {
+            queryList.add(targetClient);
+        }
+        return queryList;
     }
+
+    // 删除
+    @Override
+    public String deleteClient(long deleteId) {
+        clientBox.remove(deleteId);
+        return "删除成功";
+    }
+
+    // 存储Client
+    @Override
+    public String putClient(Client client) {
+        clientBox.put(client);
+        LogUtils.log( LogUtils.TEST_DB,"getCount: " + clientBox.count() + "ID: " + clientBox.getId(client));
+        return MessageEvent.PUT_SUCCESS;
+    }
+
 
     @Override
     public String getResult() {
@@ -79,5 +81,6 @@ public class OrderClientModel implements OrderClientContract.Model {
     public void setResult(String result) {
         mResult = result;
     }
+
 
 }

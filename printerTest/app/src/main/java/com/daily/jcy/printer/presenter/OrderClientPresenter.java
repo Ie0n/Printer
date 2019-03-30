@@ -1,13 +1,17 @@
 package com.daily.jcy.printer.presenter;
 
+import android.util.Log;
+
 import com.daily.jcy.printer.contract.OrderClientContract;
 import com.daily.jcy.printer.model.OrderClientModel;
+import com.daily.jcy.printer.model.data.bean.Client;
 
 public class OrderClientPresenter extends OrderClientContract.Presenter {
 
 
     private OrderClientContract.View mView;
     private OrderClientContract.Model mModel;
+    private static final String TAG = "OrderClientPresenter-ff";
 
 
 
@@ -18,48 +22,42 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
         mModel = createModel();
     }
 
+    // 初始化数据
     @Override
     public void updateClientListData() {
         mView.updateClientListData(mModel.getClientData(null));
         showResult();
     }
 
+
+    // 搜索
     @Override
-    public void onTxtChange(CharSequence s) {
-        mView.updateClientListData(mModel.getClientData(s));
+    public void searchClient(CharSequence s) {
+        Log.i(TAG, "searchClient: ");
+        mView.notifyUi(mModel.searchClientDb(s));
         showResult();
     }
 
-    @Override
-    public void SearchClient(Long id) {
-        mModel.getClientID(id);
-    }
 
     @Override
-    public void finishSearch() {
-        mView.finishSearch();
-    }
-
-//    @Override
-//    public void showResult() {
-//
-//    }
-
-<<<<<<< HEAD
-    @Override
-
     public void showResult(String result) {
     }
 
     @Override
-    public void showResult() {
+    public void showResult() {}
 
-=======
-
-    public void showResult() {
-        mView.showResult(mModel.getResult());
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
+    // 存储
+    @Override
+    public String putClient(Client client) {
+        return mModel.putClient(client);
     }
+
+    // 删除
+    @Override
+    public void deleteClient(long deleteId) {
+        mView.deleteResult(mModel.deleteClient(deleteId));
+    }
+
 
     @Override
     public OrderClientContract.Model createModel() {

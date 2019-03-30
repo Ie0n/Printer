@@ -57,14 +57,18 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.txtId.setText(mData.get(i).getId());
-        viewHolder.txtName.setText(mData.get(i).getName());
-        viewHolder.txtPhone.setText(mData.get(i).getTel());
-        viewHolder.txtAddress.setText(mData.get(i).getAddress());
-        viewHolder.txtNote.setText(mData.get(i).getNote());
+        if (mData == null || mData.size() == 0) {
 
-        viewHolder.itemView.setOnClickListener(this);
-        viewHolder.itemView.setTag(i);
+        } else {
+            viewHolder.txtId.setText(String.valueOf(mData.get(i).getId()));
+            viewHolder.txtName.setText(mData.get(i).getName());
+            viewHolder.txtPhone.setText(mData.get(i).getTel());
+            viewHolder.txtAddress.setText(mData.get(i).getAddress());
+            viewHolder.txtNote.setText(mData.get(i).getNote());
+
+            viewHolder.itemView.setOnClickListener(this);
+            viewHolder.itemView.setTag(i);
+        }
     }
 
     @Override

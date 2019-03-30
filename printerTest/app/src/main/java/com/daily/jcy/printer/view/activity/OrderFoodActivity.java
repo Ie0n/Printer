@@ -51,11 +51,8 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         initBeforePageArg();
         initPresenter();
         initView();
-<<<<<<< HEAD
         setCustomActionBar();
-=======
         Log.i(TAG, "onCreate: ");
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
     }
 
     private void initBeforePageArg() {

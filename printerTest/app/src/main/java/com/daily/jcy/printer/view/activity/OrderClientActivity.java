@@ -41,11 +41,8 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     private ClientRecycleViewAdapter adapter;
     private Client targetClient;
     private View tagrView;
-<<<<<<< HEAD
     private List<Client> data;
-=======
     private String result = "";
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 
     private Long id;
 
@@ -75,11 +72,8 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         search = findViewById(R.id.order_client_search);
         clientRecyclerView = findViewById(R.id.order_client_rv);
         clientRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-<<<<<<< HEAD
-=======
         search.addTextChangedListener(this);
 
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         presenter.updateClientListData();
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,7 +84,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                presenter.SearchClient(Long.parseLong(search.getText().toString()));
+//                presenter.SearchClient(Long.parseLong(search.getText().toString()));
 
             }
 
@@ -111,16 +105,10 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     // View接口
     @Override
     public void updateClientListData(List<Client> data) {
-<<<<<<< HEAD
         this.data = data;
         adapter = new ClientRecycleViewAdapter(this, data);
         clientRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void finishSearch() {
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -129,12 +117,16 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         this.data.addAll(data);
     }
 
+    @Override
+    public void deleteResult(String result) {
+
+    }
+
 
     @Override
     public void showResult(String text) {
         super.showResult(text);
         Log.i(TAG, "showResult: " + text);
-=======
         Log.i(TAG, "Result: " + result);
         if (result.equals(MessageEvent.INIT)) {
             adapter = new ClientRecycleViewAdapter(this, data);
@@ -146,19 +138,12 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         }
     }
 
-    @Override
-    public void showResult(String result) {
-        super.showResult(result);
-        this.result = result;
-        Log.i(TAG, "showResult: " + result);
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
-    }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
         Log.i(TAG, "onTextChanged: " + s);
-        presenter.onTxtChange(s);
+        presenter.searchClient(s);
     }
 
     @Override
@@ -174,7 +159,6 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         startActivityForResult(intent,1);
     }
 
-<<<<<<< HEAD
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_order_client, null);
@@ -199,7 +183,4 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     public void setId(Long id) {
         this.id = id;
     }
-=======
-
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
 }

@@ -22,9 +22,53 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:5744900525910538668",
+      "lastPropertyId": "5:526773023396560773",
+      "name": "Client",
+      "properties": [
+        {
+          "id": "1:479776799513551339",
+          "name": "id"
+        },
+        {
+          "id": "2:3724758619801811348",
+          "name": "name"
+        },
+        {
+          "id": "3:6644622773199537067",
+          "name": "tel"
+        },
+        {
+          "id": "4:1080201358955299628",
+          "name": "address"
+        },
+        {
+          "id": "5:526773023396560773",
+          "name": "note"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:3357013948896619154",
+      "lastPropertyId": "2:2364255014878999194",
+      "name": "StringIdEntity",
+      "properties": [
+        {
+          "id": "1:2366575648299036758",
+          "name": "id"
+        },
+        {
+          "id": "2:2364255014878999194",
+          "name": "uid"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:1684302530159793158",
+  "lastEntityId": "3:3357013948896619154",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -16,21 +16,28 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@color/design_default_color_primary"
-            android:gravity="center_horizontal">
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/client_search"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_bg"
                 android:hint="@string/edit_client_num"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingStart="@dimen/search_padding_left"
                 android:paddingLeft="@dimen/search_padding_left"
                 android:textColor="@color/secondary_text"
+                android:lines="1"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/client_btn_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索"/>
         </LinearLayout>
 
         <com.yanzhenjie.recyclerview.SwipeRecyclerView

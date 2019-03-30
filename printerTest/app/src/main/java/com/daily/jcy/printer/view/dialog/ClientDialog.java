@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,8 +15,11 @@ import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.utils.callback.OnClientDialogOkListener;
 
+import java.util.regex.Pattern;
+
 public class ClientDialog extends Dialog implements  View.OnClickListener {
 
+    private static final String TAG = "-mm";
     private TextView txtOk;
     private TextView txtCancel;
     private Client client;
@@ -168,7 +172,8 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
             if (!isComplete(id, name, phone, address)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
             } else {
-                client = new Client(id, name, phone, address, note);
+                Log.i(TAG, "onClick: " + Long.parseLong(id));
+                client = new Client(Long.parseLong(id), name, phone, address, note);
                 clear();
                 dismiss();
             }
@@ -184,7 +189,17 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
                 return false;
             }
         }
+        if (!isInteger(strings[0])){
+            Toast.makeText(mContext, "请输入正整数", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
+    }
+
+    private boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
     }
 
     private void clear() {

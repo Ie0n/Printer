@@ -4,15 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.daily.jcy.printer"
-<<<<<<< HEAD
-
-        minSdkVersion 17
-
         minSdkVersion 21
-
-=======
-        minSdkVersion 21
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

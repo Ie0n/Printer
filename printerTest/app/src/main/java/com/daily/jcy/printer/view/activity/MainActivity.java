@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private AnimateUtils animateUtils;
     private Button btnClear;
     private ArrayList<View> animViews;
+    private OrderRecycleViewAdapter adapter;
 
 
 
@@ -49,10 +50,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     private void verification() {
-        // 取出是否开启密码
-        if (true) {
-            startActivity(new Intent(this, LoginActivity.class));
-        }
+//        // 取出是否开启密码
+//        if (true) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//        }
 
     }
 
@@ -75,14 +76,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         searchEdit.addTextChangedListener(this);
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-<<<<<<< HEAD
-
-
-
-=======
         presenter.updateOrderListData();
-        presenter.showResult();
->>>>>>> a2437fb7320af0ad1818d88a72852064d8c6e055
+//        presenter.showResult();
 
         // 菜单控件
         btnMore = findViewById(R.id.fab_menu);
@@ -97,7 +92,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         btnClear.setOnClickListener(this);
 
         presenter.updateOrderListData();
-        adapter = new OrderRecycleViewAdapter(this, data);
+//        adapter = new OrderRecycleViewAdapter(this, data);
         orderRecyclerView.setAdapter(adapter);
     }
 
