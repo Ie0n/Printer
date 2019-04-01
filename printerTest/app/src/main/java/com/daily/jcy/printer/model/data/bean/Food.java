@@ -8,13 +8,16 @@ public class Food{
     private String GERname;
     private String price;
     private boolean isSweetAndWine;
+    private int num;
 
 
-    public Food(String id, String CNname, String GERname, String price,boolean isSweetAndWine) {
+    public Food(String id, String CNname, String GERname, String price, boolean isSweetAndWine, int num) {
+        this.num = num;
         this.id = id;
         this.CNname = CNname;
         this.GERname = GERname;
         this.price = price;
+        this.isSweetAndWine = isSweetAndWine;
     }
 
     public String getId() {
@@ -55,5 +58,13 @@ public class Food{
 
     public void setSweetAndWine(boolean sweetAndWine) {
         isSweetAndWine = sweetAndWine;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public int getNum() {
+        return num;
     }
 }

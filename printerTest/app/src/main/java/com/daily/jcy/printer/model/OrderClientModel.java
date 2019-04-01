@@ -1,14 +1,10 @@
 package com.daily.jcy.printer.model;
 
 import com.daily.jcy.printer.ObjectBox;
-import com.daily.jcy.printer.R;
-import android.util.Log;
 import com.daily.jcy.printer.contract.OrderClientContract;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.utils.message.MessageEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +65,13 @@ public class OrderClientModel implements OrderClientContract.Model {
         clientBox.put(client);
         LogUtils.log( LogUtils.TEST_DB,"getCount: " + clientBox.count() + "ID: " + clientBox.getId(client));
         return MessageEvent.PUT_SUCCESS;
+    }
+
+    @Override
+    public String updateClient(Client clickClient, Client updateClient) {
+        clientBox.remove(clickClient);
+        clientBox.put(updateClient);
+        return "更新成功";
     }
 
 

@@ -18,7 +18,8 @@ import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderClientPresenter;
 import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
-import com.daily.jcy.printer.utils.callback.OnClientDialogOkListener;
+import com.daily.jcy.printer.utils.callback.OnClientDialogDismissListener;
+import com.daily.jcy.printer.utils.message.MessageEvent;
 import com.daily.jcy.printer.view.dialog.ClientDialog;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -30,18 +31,19 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import java.util.List;
 
 public class ClientActivity extends BaseActivity implements OrderClientContract.View,
-        OnItemClickListener, OnClientDialogOkListener {
+        OnItemClickListener, OnClientDialogDismissListener {
 
     private EditText search;
     private SwipeRecyclerView clientRecyclerView;
     private OrderClientPresenter presenter;
     private ClientRecycleViewAdapter adapter;
     private FloatingActionButton btnAdd;
-    private ClientDialog dialog;
-    private Client newClient;
+    private ClientDialog createDialog;
+    private ClientDialog updateDialog;
     private static final String TAG = "ClientActivity-ff";
     private Button btnSearch;
     private String input;
+    private Client clickClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +111,14 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
 
     // 初始化dialog
     private void initDialog() {
-        dialog = new ClientDialog(this);
-        dialog.setOnClientDialogOkListener(this);
-        dialog.setCanceledOnTouchOutside(false);
+        createDialog = new ClientDialog(this, new MessageEvent(MessageEvent.CREATE_CLIENT));
+        createDialog.setOnClientDialogDismissListener(this);
+        createDialog.setCanceledOnTouchOutside(false);
+
+        MessageEvent event = new MessageEvent(MessageEvent.UPDATE_CLIENT);
+        updateDialog = new ClientDialog(this, event);
+        updateDialog.setOnClientDialogDismissListener(this);
+        updateDialog.setCanceledOnTouchOutside(false);
     }
 
 
@@ -159,13 +166,12 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         }
     }
 
-
     // 点击监听
     @Override
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnAdd) {
-            dialog.show();
+            createDialog.show();
         } else if (v == btnSearch) {
             // 如果为空或无就拉取全部数据
             if (input == null || input.equals("")) {
@@ -179,22 +185,38 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         }
     }
 
+
     @Override
     public void onItemClick(View view, Client client, Food food) {
         // 点击了Item的操作
         Toast.makeText(this, "点击了Item" + view.getTag(), Toast.LENGTH_SHORT).show();
+        if (client != null) {
+            clickClient = client;
+            updateDialog.setBeforeClient(client);
+            updateDialog.show();
+        }
     }
 
-    // 关闭Dialog的回调
+    // 关闭创建的Dialog的回调
     @Override
-    public void onOkListener(Client client) {
+    public void onCreateListener(Client client) {
         if (client != null) {
-            LogUtils.log(LogUtils.TEST_DB, "onOkListener");
-            newClient = client;
+            LogUtils.log(LogUtils.TEST_DB, "onCreateListener");
             // 存入数据库,
             presenter.putClient(client);
             // 刷新页面
-            adapter.addData(newClient, 0);
+            adapter.addData(client, 0);
+        }
+    }
+
+    // 更新数据的Dialog回调
+    @Override
+    public void onUpdateListener(Client client) {
+        if (client != null) {
+            // 更新数据
+            presenter.updateClient(clickClient,client);
+            // 刷新列表
+            presenter.updateClientListData();
         }
     }
 

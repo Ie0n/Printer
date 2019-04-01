@@ -13,10 +13,12 @@ import android.widget.Toast;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderFoodContract;
 import com.daily.jcy.printer.model.data.adapter.FoodRecyclerViewAdapter;
+import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderFoodPresenter;
 import com.daily.jcy.printer.utils.LogUtils;
 import com.daily.jcy.printer.utils.callback.OnFoodDialogOkListener;
+import com.daily.jcy.printer.utils.callback.OnItemClickListener;
 import com.daily.jcy.printer.view.dialog.FoodDialog;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenu;
@@ -27,7 +29,7 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.List;
 
-public class FoodActivity extends BaseActivity implements OrderFoodContract.View , OnFoodDialogOkListener {
+public class FoodActivity extends BaseActivity implements OrderFoodContract.View , OnFoodDialogOkListener, OnItemClickListener {
 
     private OrderFoodContract.Presenter presenter;
     private SwipeRecyclerView foodRecyclerView;
@@ -99,13 +101,18 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
         };
         foodRecyclerView.setSwipeMenuCreator(swipeMenuCreator);
         foodRecyclerView.setOnItemMenuClickListener(onItemMenuClickListener);
+        // 初始化adapter
+        adapter = new FoodRecyclerViewAdapter(this, null);
+        foodRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
         presenter.updateFoodListData();
     }
 
     @Override
     public void updateFoodListData(List<Food> data) {
-        adapter = new FoodRecyclerViewAdapter(this, data);
-        foodRecyclerView.setAdapter(adapter);
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -134,5 +141,11 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
             adapter.addData(food, 0);
             // 数据库操作
         }
+    }
+
+    // 点击Item的回调
+    @Override
+    public void onItemClick(View view, Client client, Food food) {
+
     }
 }
