@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@color/design_default_color_primary"
-            android:gravity="center_horizontal">
+            android:gravity="center">
 
             <EditText
                 android:id="@+id/food_search"
@@ -31,6 +31,7 @@
                 android:paddingLeft="@dimen/search_padding_left"
                 android:textColor="@color/secondary_text"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <com.yanzhenjie.recyclerview.SwipeRecyclerView

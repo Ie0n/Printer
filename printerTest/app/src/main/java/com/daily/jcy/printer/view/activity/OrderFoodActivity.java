@@ -70,9 +70,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     }
 
     private void initView() {
-
         targetFoodList = new ArrayList<>();
-
         search = findViewById(R.id.order_client_search);
         foodRecycler = findViewById(R.id.order_food_rv);
         btnPop = findViewById(R.id.order_food_btn_pop);
@@ -81,6 +79,9 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
 
         search.addTextChangedListener(this);
         foodRecycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new FoodRecyclerViewAdapter(this, null);
+        foodRecycler.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
         btnPop.setOnClickListener(this);
 
         presenter.updateFoodListData();
@@ -88,9 +89,22 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
 
     @Override
     public void updateFoodListData(List<Food> data) {
-        adapter = new FoodRecyclerViewAdapter(this, data);
-        foodRecycler.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyUI(List<Food> data) {
+        if (data == null || data.size() == 0) {
+            Toast.makeText(this, "不存在该编号", Toast.LENGTH_SHORT).show();
+        }
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteResult(String result) {
+
     }
 
     @Override
@@ -102,7 +116,12 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
-
+        // 搜索栏为空
+        if (s.toString().equals("")) {
+            presenter.updateFoodListData();
+        } else {
+            presenter.searchFood(s.toString());
+        }
     }
 
     @Override

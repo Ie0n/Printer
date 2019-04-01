@@ -1,15 +1,89 @@
 package com.daily.jcy.printer.model;
 
+import android.util.Log;
+
+import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.contract.OrderFoodContract;
 import com.daily.jcy.printer.model.data.bean.Food;
+import com.daily.jcy.printer.model.data.bean.Food_;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 public class OrderFoodModel implements OrderFoodContract.Model {
 
     private List<Food> data;
     private String mResult;
+    private Box<Food> foodBox;
+    private List<Food> queryList;
+    private static final String TAG = "OrderFoodModel-ll";
+    private Food targetFood;
+    private List<Food> targetFoodList;
+
+    public OrderFoodModel() {
+        foodBox = ObjectBox.getBoxStore().boxFor(Food.class);
+        data = new ArrayList<>();
+        queryList = new ArrayList<>();
+    }
+
+    @Override
+    public List<Food> getFoodData() {
+        data.clear();
+        if (foodBox.getAll() != null) {
+            data.addAll(foodBox.getAll());
+            Log.i(TAG, "getFoodData: size: " + foodBox.getAll().size()) ;
+        }
+        return data;
+    }
+
+    // 搜索
+    @Override
+    public List<Food> searchFoodDb(String s) {
+        queryList.clear();
+//        getTargetFood(s);
+        targetFoodList = queryTargetList(s);
+        if (targetFoodList != null) {
+            queryList.addAll(targetFoodList);
+        }
+        return queryList;
+    }
+
+    @Override
+    public String deleteFood(Food deleteFood) {
+        getTargetFood(deleteFood.getUid());
+        if (targetFood != null) {
+            foodBox.remove(targetFood);
+            return "删除成功";
+        } else {
+            return "删除失败";
+        }
+    }
+
+    @Override
+    public String putFood(Food food) {
+        foodBox.put(food);
+        Log.i(TAG, "putFood: " + "size：" + foodBox.count());
+        return "添加成功";
+    }
+
+    @Override
+    public String updateFood(Food oldFood, Food updateFood) {
+        deleteFood(oldFood);
+        putFood(updateFood);
+        return "更新成功";
+    }
+
+    @Override
+    public void getTargetFood(String uid) {
+        targetFood = foodBox.query().equal(Food_.uid, uid).build().findUnique();
+    }
+
+    @Override
+    public List<Food> queryTargetList(String input) {
+        return foodBox.query().startsWith(Food_.uid, input).build().find();
+    }
 
     @Override
     public String getResult() {
@@ -19,20 +93,5 @@ public class OrderFoodModel implements OrderFoodContract.Model {
     @Override
     public void setResult(String result) {
         mResult = result;
-    }
-
-    @Override
-    public List<Food> getFoodData() {
-        data = new ArrayList<>();
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        data.add(new Food("10001", "黄焖鸡米饭", "Braised chicken with rice", "$3.99", false));
-        setResult("Success");
-        return data;
     }
 }

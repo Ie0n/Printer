@@ -23,13 +23,16 @@ public interface OrderClientContract {
         String putClient(Client client);
 
         // 更新
-        String updateClient(Client clickClient, Client updateClient);
+        String updateClient(Client oldClient, Client updateClient);
+
+        // 查找并输出搜索关键字的列表
+        List<Client> queryTargetList(String strNum);
     }
 
     interface View extends BaseView {
         // 拉取所有数据
         void updateClientListData(List<Client> data);
-        void notifyUi(List<Client>data);
+        void notifyUI(List<Client>data);
 
         void deleteResult(String result);
     }

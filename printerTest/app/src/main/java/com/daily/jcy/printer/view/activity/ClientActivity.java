@@ -46,9 +46,9 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     private ClientDialog createDialog;
     private ClientDialog updateDialog;
     private static final String TAG = "ClientActivity-ff";
-    private Button btnSearch;
     private String input;
-    private Client clickClient;
+    private Client oldClient;
+    private int clickPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +74,8 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     private void initView() {
         search = findViewById(R.id.client_search);
         btnAdd = findViewById(R.id.client_btn_add);
-        btnSearch = findViewById(R.id.client_btn_search);
         btnAdd.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
         search.addTextChangedListener(this);
-
         initRecyclerView();
     }
 
@@ -112,6 +109,9 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         // 初始化adapter
         adapter = new ClientRecycleViewAdapter(this, null);
         clientRecyclerView.setAdapter(adapter);
+        // 设置Item的点击事件
+        adapter.setOnItemClickListener(this);
+        // 拉取全部数据
         presenter.updateClientListData();
     }
 
@@ -131,24 +131,20 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     // 初始化数据
     @Override
     public void updateClientListData(List<Client> data) {
-        LogUtils.log(LogUtils.TEST_DB, "updateClientListData: ");
         adapter.setmData(data);
         adapter.notifyDataSetChanged();
-        // 设置Item的点击事件
-        adapter.setOnItemClickListener(this);
     }
 
 
     // 搜索后的回调
     @Override
-    public void notifyUi(List<Client> data) {
-        Log.i(TAG, "notifyUi: ");
+    public void notifyUI(List<Client> data) {
+        Log.i(TAG, "notifyUI: ");
         if (data == null || data.size() == 0) {
             Toast.makeText(this, "不存在该编号", Toast.LENGTH_SHORT).show();
-        } else {
-            adapter.setmData(data);
-            adapter.notifyDataSetChanged();
         }
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
     }
 
     // 删除的回调
@@ -169,6 +165,8 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         // 搜索栏为空的时候
         if (s.toString().equals("")) {
             presenter.updateClientListData();
+        } else {
+            presenter.searchClient(input);
         }
     }
 
@@ -178,16 +176,6 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         super.onClick(v);
         if (v == btnAdd) {
             createDialog.show();
-        } else if (v == btnSearch) {
-            // 如果为空或无就拉取全部数据
-            if (input == null || input.equals("")) {
-                presenter.updateClientListData();
-            } else if (isInteger(input)) {
-                Log.i(TAG, "onClick: " + input);
-                presenter.searchClient(input);
-            } else {
-                Toast.makeText(this, "请输入正确的编号", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -195,34 +183,34 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
     @Override
     public void onItemClick(View view, Client client, Food food) {
         // 点击了Item的操作
-        Toast.makeText(this, "点击了Item" + view.getTag(), Toast.LENGTH_SHORT).show();
         if (client != null) {
-            clickClient = client;
+            oldClient = client;
             updateDialog.setBeforeClient(client);
             updateDialog.show();
+            clickPosition = (int) view.getTag(R.id.tag_position);
         }
     }
 
     // 关闭创建的Dialog的回调
     @Override
-    public void onCreateListener(Client client) {
-        if (client != null) {
+    public void onCreateListener(Client newClient) {
+        if (newClient != null) {
             LogUtils.log(LogUtils.TEST_DB, "onCreateListener");
             // 存入数据库,
-            presenter.putClient(client);
+            presenter.putClient(newClient);
             // 刷新页面
-            adapter.addData(client, 0);
+            adapter.addData(newClient, 0);
         }
     }
 
     // 更新数据的Dialog回调
     @Override
-    public void onUpdateListener(Client client) {
-        if (client != null) {
+    public void onUpdateListener(Client updateClient) {
+        if (updateClient != null) {
             // 更新数据
-            presenter.updateClient(clickClient,client);
-            // 刷新列表
-            presenter.updateClientListData();
+            presenter.updateClient(oldClient, updateClient);
+            // 刷新Item的数据
+            adapter.updateData(updateClient, clickPosition);
         }
     }
     private void setCustomActionBar() {

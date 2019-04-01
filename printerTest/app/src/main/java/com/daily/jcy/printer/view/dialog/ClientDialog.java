@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class ClientDialog extends Dialog implements  View.OnClickListener {
 
     private static final String TAG = "-mm";
-    private int mCommand = 0; // 判断是创建还是更新
+    private int mCommand; // 判断是创建还是更新
     private TextView txtOk;
     private TextView txtCancel;
     private Client client;
@@ -111,16 +111,16 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     public void onClick(View v) {
         // 取消和完成的点击事件
         if (v == txtCancel) {
-            clear();
             dismiss();
+            clear();
         } else if (v == txtOk){
             if (!isComplete(id, name, phone, address)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
             } else {
                 Log.i(TAG, "onClick: " + Long.parseLong(id));
                 client = new Client(Long.parseLong(id), name, phone, address, note);
-                clear();
                 dismiss();
+                clear();
             }
         }
     }
@@ -147,6 +147,7 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
         return pattern.matcher(str).matches();
     }
     private void clear() {
+        client = null;
         id = name = phone = address = note = null;
         editName.setText("");
         editNum.setText("");

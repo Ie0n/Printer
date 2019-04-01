@@ -57,18 +57,22 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull FoodRecyclerViewAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.txtId.setText(mData.get(i).getId());
-        viewHolder.txtCNName.setText(mData.get(i).getCNname());
-        viewHolder.txtGerName.setText(mData.get(i).getGERname());
-        viewHolder.txtPrice.setText(mData.get(i).getPrice());
+        if (mData != null && mData.size() != 0) {
+            viewHolder.txtId.setText(mData.get(i).getUid());
+            viewHolder.txtCNName.setText(mData.get(i).getCNname());
+            viewHolder.txtGerName.setText(mData.get(i).getGERname());
+            viewHolder.txtPrice.setText(mData.get(i).getPrice());
 
-        // 当是下单的菜品页面才显示加号和监听
-        if (mConetxt instanceof OrderFoodActivity) {
-            viewHolder.btnAdd.setOnClickListener(this);
-            viewHolder.btnAdd.setTag(R.id.tag_position, i);
-            viewHolder.btnAdd.setTag(R.id.tag_is_click, true);
-        } else {
-            viewHolder.contentLayout.removeView(viewHolder.btnAdd);
+            // 当是下单的菜品页面才显示加号
+            if (mConetxt instanceof OrderFoodActivity) {
+                viewHolder.btnAdd.setOnClickListener(this);
+                viewHolder.btnAdd.setTag(R.id.tag_position, i);
+                viewHolder.btnAdd.setTag(R.id.tag_is_click, true);
+            } else {
+                viewHolder.contentLayout.removeView(viewHolder.btnAdd);
+                viewHolder.contentLayout.setOnClickListener(this);
+                viewHolder.contentLayout.setTag(R.id.tag_position, i);
+            }
         }
     }
 
@@ -99,5 +103,10 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
 
     public List<Food> getmData() {
         return mData;
+    }
+
+    public void updateData(Food food, int position) {
+        mData.set(position, food);
+        notifyItemChanged(position);
     }
 }

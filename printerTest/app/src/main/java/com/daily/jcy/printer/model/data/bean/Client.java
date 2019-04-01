@@ -11,7 +11,6 @@ import io.objectbox.annotation.Id;
 public class Client implements Serializable{
     @Id(assignable = true)
     public long id;
-//    private String
     private String name;
     private String tel;
     private String address;
@@ -25,9 +24,8 @@ public class Client implements Serializable{
         this.note = note;
     }
 
-//    public void setId(String id) {
-//        this.id = id;
-//    }
+    public Client() {
+    }
 
     public long getId() {
         return id;

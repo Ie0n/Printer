@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderClientContract;
@@ -44,14 +44,12 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     private View tagrView;
     private List<Client> data;
     private String result = "";
-
     private Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_client);
-        EventBus.getDefault().register(this);
         initPresenter();
         initView();
         setCustomActionBar();
@@ -60,7 +58,6 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         presenter.detachView();
     }
 
@@ -74,53 +71,32 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         clientRecyclerView = findViewById(R.id.order_client_rv);
         clientRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         search.addTextChangedListener(this);
-
-        presenter.updateClientListData();
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-//                presenter.SearchClient(Long.parseLong(search.getText().toString()));
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MessageEvent event) {
-        Log.i(TAG, "onMessageEvent: ");
-//        result = event.getMessage();
-    }
-
-
-    // View接口
-    @Override
-    public void updateClientListData(List<Client> data) {
-        this.data = data;
         adapter = new ClientRecycleViewAdapter(this, data);
         clientRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
+        presenter.updateClientListData();
     }
 
+    // 拉取所有数据
     @Override
-    public void notifyUi(List<Client> data) {
-        this.data.clear();
-        this.data.addAll(data);
+    public void updateClientListData(List<Client> data) {
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
+    }
+
+    // 搜索结果刷新UI
+    @Override
+    public void notifyUI(List<Client> data) {
+        if (data == null || data.size() == 0) {
+            Toast.makeText(this, "不存在该编号", Toast.LENGTH_SHORT).show();
+        }
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void deleteResult(String result) {
-
     }
 
 
@@ -143,14 +119,17 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
-        Log.i(TAG, "onTextChanged: " + s);
-        presenter.searchClient(s);
+        // 搜索栏为空的时候
+        if (s.toString().equals("")) {
+            presenter.updateClientListData();
+        } else {
+            presenter.searchClient(s.toString());
+        }
     }
 
     @Override
     public void onItemClick(View view, Client client, Food food) {
         tagrView = view;
-        Log.i(TAG, "onItemClick: " + view.getTag());
         targetClient = client;
         Intent intent = new Intent(this, OrderFoodActivity.class);
         Bundle bundle = new Bundle();
@@ -164,8 +143,6 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
         getSupportActionBar().setCustomView(mActionBarView, lp);
-        TextView text = mActionBarView.findViewById(R.id.title);
-        text.setText("选择客户");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);

@@ -28,7 +28,7 @@
                 android:paddingStart="@dimen/search_padding_left"
                 android:paddingLeft="@dimen/search_padding_left"
                 android:maxLines="1"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="@color/secondary_text"
                 android:textStyle="bold" />
         </LinearLayout>

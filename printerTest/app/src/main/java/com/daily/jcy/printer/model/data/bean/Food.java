@@ -1,9 +1,17 @@
 package com.daily.jcy.printer.model.data.bean;
 
+
 import java.io.Serializable;
 
-public class Food implements Serializable{
-    private String id;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
+public class Food implements Serializable {
+
+    @Id(assignable = true)
+    public long id;
+    private String uid;
     private String CNname;
     private String GERname;
     private String price;
@@ -11,29 +19,32 @@ public class Food implements Serializable{
     private int num;
 
 
-    public Food(String id, String CNname, String GERname, String price,boolean isSweetAndWine) {
-        this.id = id;
-        this.CNname = CNname;
-        this.GERname = GERname;
-        this.price = price;
-        this.isSweetAndWine = isSweetAndWine;
+    public Food() {
     }
 
-    public Food(String id, String CNname, String GERname, String price,boolean isSweetAndWine,int num) {
-        this.id = id;
-        this.CNname = CNname;
-        this.GERname = GERname;
-        this.price = price;
-        this.isSweetAndWine = isSweetAndWine;
+    public Food(String uid, String CNname, String GERname, String price, boolean isSweetAndWine, int num) {
         this.num = num;
+        this.uid = uid;
+        this.CNname = CNname;
+        this.GERname = GERname;
+        this.price = price;
+        this.isSweetAndWine = isSweetAndWine;
     }
 
-    public String getId() {
-        return id;
+    public Food(String uid, String CNname, String GERname, String price, boolean isSweetAndWine) {
+        this.uid = uid;
+        this.CNname = CNname;
+        this.GERname = GERname;
+        this.price = price;
+        this.isSweetAndWine = isSweetAndWine;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getCNname() {
@@ -68,11 +79,20 @@ public class Food implements Serializable{
         isSweetAndWine = sweetAndWine;
     }
 
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public int getNum() {
         return num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

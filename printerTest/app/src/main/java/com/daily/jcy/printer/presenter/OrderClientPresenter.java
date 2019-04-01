@@ -34,7 +34,7 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
     @Override
     public void searchClient(CharSequence s) {
         Log.i(TAG, "searchClient: ");
-        mView.notifyUi(mModel.searchClientDb(s));
+        mView.notifyUI(mModel.searchClientDb(s));
         showResult();
     }
 
@@ -60,8 +60,8 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
 
     // 更新
     @Override
-    public void updateClient(Client clickClient, Client updateClient) {
-        mModel.updateClient(clickClient,updateClient);
+    public void updateClient(Client oldClient, Client updateClient) {
+        mModel.updateClient(oldClient,updateClient);
     }
 
 

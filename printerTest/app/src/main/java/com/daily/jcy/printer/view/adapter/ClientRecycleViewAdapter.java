@@ -63,10 +63,11 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
             viewHolder.txtName.setText(mData.get(i).getName());
             viewHolder.txtPhone.setText(mData.get(i).getTel());
             viewHolder.txtAddress.setText(mData.get(i).getAddress());
-            viewHolder.txtNote.setText(mData.get(i).getNote());
-
+            if (mData.get(i).getNote() != null) {
+                viewHolder.txtNote.setText(mData.get(i).getNote());
+            }
             viewHolder.itemView.setOnClickListener(this);
-            viewHolder.itemView.setTag(i);
+            viewHolder.itemView.setTag(R.id.tag_position,i);
         }
     }
 
@@ -79,7 +80,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
     public void onClick(View v) {
         if (onItemClickListener != null) {
             Log.i(TAG, "onClick: ");
-            onItemClickListener.onItemClick(v, mData.get((int) v.getTag()),null);
+            onItemClickListener.onItemClick(v, mData.get((int) v.getTag(R.id.tag_position)),null);
         }
     }
 
@@ -96,8 +97,15 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
         return mData;
     }
 
+    // 增加数据
     public void addData(Client client, int position) {
         mData.add(position, client);
         notifyItemInserted(position);
+    }
+
+    // 刷新数据
+    public void updateData(Client client, int position) {
+        mData.set(position, client);
+        notifyItemChanged(position);
     }
 }

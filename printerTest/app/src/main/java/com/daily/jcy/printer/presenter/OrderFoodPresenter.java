@@ -2,6 +2,7 @@ package com.daily.jcy.printer.presenter;
 
 import com.daily.jcy.printer.contract.OrderFoodContract;
 import com.daily.jcy.printer.model.OrderFoodModel;
+import com.daily.jcy.printer.model.data.bean.Food;
 
 public class OrderFoodPresenter extends OrderFoodContract.Presenter {
 
@@ -30,10 +31,34 @@ public class OrderFoodPresenter extends OrderFoodContract.Presenter {
         return new OrderFoodModel();
     }
 
+    // 拉取全部数据
     @Override
     public void updateFoodListData() {
         mView.updateFoodListData(mModel.getFoodData());
     }
 
+    // 搜索
+    @Override
+    public void searchFood(String input) {
+        mView.notifyUI(mModel.searchFoodDb(input));
+        showResult();
+    }
 
+    // 更新数据
+    @Override
+    public void updateFood(Food oldFood, Food updateFood) {
+        mModel.updateFood(oldFood, updateFood);
+    }
+
+    // 添加
+    @Override
+    public void putFood(Food newFood) {
+        mModel.putFood(newFood);
+    }
+
+    // 删除
+    @Override
+    public void deleteFood(Food deleteFood) {
+        mView.deleteResult(mModel.deleteFood(deleteFood));
+    }
 }

@@ -20,7 +20,7 @@
 
             <EditText
                 android:id="@+id/client_search"
-                android:layout_width="300dp"
+                android:layout_width="350dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_bg"
@@ -33,11 +33,6 @@
                 android:lines="1"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/client_btn_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="搜索"/>
         </LinearLayout>
 
         <com.yanzhenjie.recyclerview.SwipeRecyclerView
