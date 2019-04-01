@@ -58,6 +58,12 @@ public class OrderClientPresenter extends OrderClientContract.Presenter {
         mView.deleteResult(mModel.deleteClient(deleteId));
     }
 
+    // 更新
+    @Override
+    public void updateClient(Client clickClient, Client updateClient) {
+        mModel.updateClient(clickClient,updateClient);
+    }
+
 
     @Override
     public OrderClientContract.Model createModel() {

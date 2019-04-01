@@ -21,6 +21,9 @@ public interface OrderClientContract {
 
         // 添加
         String putClient(Client client);
+
+        // 更新
+        String updateClient(Client clickClient, Client updateClient);
     }
 
     interface View extends BaseView {
@@ -44,6 +47,8 @@ public interface OrderClientContract {
         // 删除
         public abstract void deleteClient(long deleteId);
 
+        // 更新
+        public abstract void updateClient(Client clickClient, Client updateClient);
     }
 
 }

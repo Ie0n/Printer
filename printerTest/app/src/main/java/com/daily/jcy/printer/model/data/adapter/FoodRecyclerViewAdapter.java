@@ -93,4 +93,12 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
         mData.add(position, food);
         notifyItemInserted(position);
     }
+
+    public void setmData(List<Food> mData) {
+        this.mData = mData;
+    }
+
+    public List<Food> getmData() {
+        return mData;
+    }
 }

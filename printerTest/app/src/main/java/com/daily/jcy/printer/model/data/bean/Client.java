@@ -1,5 +1,7 @@
 package com.daily.jcy.printer.model.data.bean;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 import io.objectbox.annotation.Entity;
@@ -66,4 +68,14 @@ public class Client implements Serializable{
     public String getNote() {
         return note;
    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "[ id = " + getId() +
+                " name = " + getName() +
+                "tel = " + getTel() +
+                "address = " + getAddress() +
+                "note = " + getNote();
+    }
 }

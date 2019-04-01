@@ -98,7 +98,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event) {
         Log.i(TAG, "onMessageEvent: ");
-        result = event.getMessage();
+//        result = event.getMessage();
     }
 
 
