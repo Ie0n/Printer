@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.utils;
 
 import android.Manifest;
 import android.app.Activity;

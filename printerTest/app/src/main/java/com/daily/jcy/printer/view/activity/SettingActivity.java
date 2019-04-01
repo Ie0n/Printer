@@ -2,15 +2,19 @@ package com.daily.jcy.printer.view.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.utils.LogUtils;
@@ -33,6 +37,7 @@ public class SettingActivity extends BaseActivity implements Switch.OnCheckedCha
         setContentView(R.layout.activity_setting);
         inflater = LayoutInflater.from(this);
         initView();
+        setCustomActionBar();
     }
 
     private void initView() {
@@ -92,5 +97,23 @@ public class SettingActivity extends BaseActivity implements Switch.OnCheckedCha
             dialog.show();
             
         }
+    }
+    private void setCustomActionBar() {
+        ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        getSupportActionBar().setCustomView(mActionBarView, lp);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        text.setText("设置");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ImageView back = mActionBarView.findViewById(R.id.pic);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingActivity.this.finish();
+            }
+        });
     }
 }

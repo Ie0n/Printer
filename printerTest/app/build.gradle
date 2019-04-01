@@ -42,5 +42,6 @@ dependencies {
 
     debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion"
     releaseImplementation "io.objectbox:objectbox-android:$objectboxVersion"
+    implementation 'com.github.promeg:tinypinyin:1.0.0'
 }
 apply plugin: 'io.objectbox'

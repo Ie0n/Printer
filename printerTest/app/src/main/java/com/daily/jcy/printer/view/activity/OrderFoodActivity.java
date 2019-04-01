@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderFoodContract;
-import com.daily.jcy.printer.model.data.adapter.FoodRecyclerViewAdapter;
+import com.daily.jcy.printer.view.adapter.FoodRecyclerViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderFoodPresenter;
@@ -159,7 +159,9 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     }
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_order_food, null);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        text.setText("选择菜品");
         getSupportActionBar().setCustomView(mActionBarView, lp);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);

@@ -1,10 +1,12 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 import android.widget.ListView;
+
+import com.daily.jcy.printer.R;
 
 
 public class ScrollListView extends ListView {

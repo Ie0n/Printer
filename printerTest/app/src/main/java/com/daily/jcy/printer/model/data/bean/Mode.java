@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.model.data.bean;
 
 
 public class Mode {

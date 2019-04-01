@@ -1,4 +1,4 @@
-package com.daily.jcy.printer.presenter;
+package com.daily.jcy.printer.manager;
 
 
 import android.content.Context;

@@ -18,7 +18,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-        <com.example.jcy.testleancloud.SingleLineOmissionTextView
+        <com.daily.jcy.printer.view.SingleLineOmissionTextView
             android:gravity="center"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
-        <com.example.jcy.testleancloud.SingleLineOmissionTextView
+        <com.daily.jcy.printer.view.SingleLineOmissionTextView
             android:id="@+id/tv_blue_list_operation"
             android:layout_width="50dp"
             android:layout_height="match_parent"
@@ -111,7 +111,7 @@
     </LinearLayout>
 
 
-    <com.example.jcy.testleancloud.ScrollListView
+    <com.daily.jcy.printer.view.ScrollListView
         android:visibility="gone"
         android:id="@+id/lv_already_blue_list"
         android:layout_width="match_parent"
@@ -141,7 +141,7 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <com.example.jcy.testleancloud.ScrollListView
+    <com.daily.jcy.printer.view.ScrollListView
         android:visibility="gone"
         android:id="@+id/lv_blue_list"
         android:layout_width="match_parent"

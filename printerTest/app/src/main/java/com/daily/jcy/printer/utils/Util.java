@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.utils;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -14,6 +14,9 @@ import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.daily.jcy.printer.MyApplication;
+import com.daily.jcy.printer.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

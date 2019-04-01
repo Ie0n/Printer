@@ -9,4 +9,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="white">#ffffff</color>
+    <color name="tran_light_grey">#88EEEEE0</color>
+    <color name="title">#0083C7</color>
 </resources>

@@ -13,10 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderClientContract;
-import com.daily.jcy.printer.model.data.adapter.ClientRecycleViewAdapter;
+import com.daily.jcy.printer.view.adapter.ClientRecycleViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.presenter.OrderClientPresenter;
@@ -161,8 +162,10 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
 
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_order_client, null);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
         getSupportActionBar().setCustomView(mActionBarView, lp);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        text.setText("选择客户");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);

@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

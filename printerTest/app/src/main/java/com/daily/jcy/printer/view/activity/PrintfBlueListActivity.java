@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.view.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,12 +21,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daily.jcy.printer.MyApplication;
+import com.daily.jcy.printer.R;
+import com.daily.jcy.printer.manager.PrintfManager;
+import com.daily.jcy.printer.manager.SharedPreferencesManager;
+import com.daily.jcy.printer.utils.PermissionUtil;
+import com.daily.jcy.printer.utils.Util;
+import com.daily.jcy.printer.view.adapter.BlueListViewAdapter;
+
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.jcy.testleancloud.Util.rotate;
+import static com.daily.jcy.printer.utils.Util.rotate;
+
 
 public class PrintfBlueListActivity extends Activity {
 

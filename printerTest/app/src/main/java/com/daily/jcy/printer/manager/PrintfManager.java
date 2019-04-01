@@ -1,4 +1,4 @@
-package com.daily.jcy.printer.presenter;
+package com.daily.jcy.printer.manager;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -195,40 +195,40 @@ public class PrintfManager {
     }
 
     public void printf_80(final String companyName,
-                          final String operator, final String remark,
-                          final List<Mode> modeList) {
+                          final String client, final String remark,
+                          final List<Food> foodList) {
         MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Util.ToastTextThread(context, "正在打印...请稍候");
-                    printTwoColumn("公司名称:", companyName);
+                    printTwoColumn("餐厅名称:", companyName);
                     printfWrap();
-                    printTwoColumn("操作人:", operator);
+                    printTwoColumn("客户:", client);
                     printTabSpace(5);
                     printTwoColumn("时间:", Util.stampToDate(System.currentTimeMillis()));
                     printfWrap();
                     printPlusLine_80();
-                    printText("类型");
+                    printText("菜名");
                     printTabSpace(14);
                     printText("数量");
                     printTabSpace(10);
-                    printText("价钱");
+                    printText("价格");
                     printfWrap();
                     //补全空白算法：举例：“类型”字符串占据4个字节，用对应的类型名称减去4，则得到要补全的空白字节数
                     // " " 表示一个字节
-                    for (int j = 0; j < modeList.size(); j++) {
-                        Mode mode = modeList.get(j);
-                        String name = mode.getName();
-                        printText(name);//打印类型
+                    for (int j = 0; j < foodList.size(); j++) {
+                        Food food = foodList.get(j);
+                        String name = food.getCNname();
+                        printText(name);
                         int supplementNumber = name.getBytes().length - 4;
                         printTabSpace(14 - supplementNumber);//补全空白
 
-                        Integer number = mode.getNumber();
+                        Integer number = food.getNum();
                         printText(String.valueOf(number));//打印数量
                         supplementNumber = String.valueOf(number).getBytes().length - 4;
                         printTabSpace(10 - supplementNumber);//补全空白
-                        String totalPrice = String.valueOf(mode.getPrice() * number);
+                        String totalPrice = String.valueOf(Integer.parseInt(food.getPrice()) * number);
                         printText(totalPrice);//打印总价
 
                         printfWrap();
@@ -411,9 +411,6 @@ public class PrintfManager {
         printText("- - - - - - - - - - - - - - - - - - - - - - -\n");
     }
 
-    private void printPlusLine_50() throws IOException {
-        printText("- - - - - - - - - - - - - - - -\n");
-    }
 
     /**
      * 字体大小
@@ -448,41 +445,6 @@ public class PrintfManager {
     public static byte[] boldOn() {
         byte[] result = { 27, 69, 1 };
         return result;
-    }
-
-    public void changBlueName(final String name) {
-        //启动线程，来接收数据
-        MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Util.ToastTextThread(context, context.getString(R.string.chang_bluetooth_name_now));
-                    //进入空中AT指令
-                    String AT = "$OpenFscAtEngine$";
-                    mPrinter.sendByteData(AT.getBytes());
-                    Thread.sleep(500);
-                    byte[] read = mPrinter.read();
-                    if (read == null) {
-                        Util.ToastTextThread(context, context.getString(R.string.chang_bluetooth_name_fail));
-                    } else {
-                        String readString = new String(read);
-                        if (readString.contains("$OK,Opened$")) {//进入空中模式
-                            mPrinter.sendByteData(("AT+NAME=" + name + "\r\n").getBytes());
-                            Thread.sleep(500);
-                            byte[] isSuccess = mPrinter.read();
-                            if (new String(isSuccess).contains("OK")) {
-                                Util.ToastTextThread(context, context.getString(R.string.chang_bluetooth_name_success));
-                                SharedPreferencesManager.saveBluetoothName(context,name);
-                            } else {
-                                Util.ToastTextThread(context, context.getString(R.string.chang_bluetooth_name_fail));
-                            }
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     /**

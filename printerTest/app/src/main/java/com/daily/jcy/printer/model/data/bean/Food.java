@@ -2,7 +2,7 @@ package com.daily.jcy.printer.model.data.bean;
 
 import java.io.Serializable;
 
-public class Food{
+public class Food implements Serializable{
     private String id;
     private String CNname;
     private String GERname;
@@ -11,13 +11,21 @@ public class Food{
     private int num;
 
 
-    public Food(String id, String CNname, String GERname, String price, boolean isSweetAndWine, int num) {
-        this.num = num;
+    public Food(String id, String CNname, String GERname, String price,boolean isSweetAndWine) {
         this.id = id;
         this.CNname = CNname;
         this.GERname = GERname;
         this.price = price;
         this.isSweetAndWine = isSweetAndWine;
+    }
+
+    public Food(String id, String CNname, String GERname, String price,boolean isSweetAndWine,int num) {
+        this.id = id;
+        this.CNname = CNname;
+        this.GERname = GERname;
+        this.price = price;
+        this.isSweetAndWine = isSweetAndWine;
+        this.num = num;
     }
 
     public String getId() {
@@ -60,11 +68,11 @@ public class Food{
         isSweetAndWine = sweetAndWine;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
-
     public int getNum() {
         return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.jcy.testleancloud;
+package com.daily.jcy.printer.receiver;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.print.sdk.PrinterConstants;
+import com.daily.jcy.printer.manager.PrintfManager;
 
 public class NameOfBroadcastReceiverClass extends BroadcastReceiver {
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.MainContract;
-import com.daily.jcy.printer.model.data.adapter.OrderRecycleViewAdapter;
+import com.daily.jcy.printer.view.adapter.OrderRecycleViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Order;
 import com.daily.jcy.printer.presenter.MainPresenter;
 import com.daily.jcy.printer.utils.AnimateUtils;
@@ -163,22 +163,28 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 break;
             }
             case R.id.btn_client:
-                animateUtils.closeMenu();
+                CloseMenu();
                 startActivity(new Intent(this, ClientActivity.class));
                 break;
             case R.id.btn_food:
-                animateUtils.closeMenu();
+                CloseMenu();
                 startActivity(new Intent(this,FoodActivity.class));
                 break;
             case R.id.btn_clear:
-                animateUtils.closeMenu();
+                CloseMenu();
                 Toast.makeText(this, "清除", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
-                animateUtils.closeMenu();
+                CloseMenu();
                 startActivity(new Intent(this,SettingActivity.class));
                 break;
 
+        }
+    }
+    private void CloseMenu(){
+        if (isOpen){
+            animateUtils.closeMenu();
+            isOpen = false;
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.daily.jcy.printer.model.data.adapter;
+package com.daily.jcy.printer.view.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,7 +14,6 @@ import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
 import com.daily.jcy.printer.view.activity.OrderFoodActivity;
-import com.daily.jcy.printer.view.activity.PrinterActivity;
 
 import java.util.List;
 

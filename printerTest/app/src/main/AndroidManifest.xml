@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -47,6 +50,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".receiver.NameOfBroadcastReceiverClass"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"></action><!--蓝牙适配器状态改变-->
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"></action><!--连接已经断开-->
+            </intent-filter>
+        </receiver>
+        <activity android:name=".view.activity.PrintfBlueListActivity"/>
     </application>
 
 </manifest>
