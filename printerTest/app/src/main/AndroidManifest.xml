@@ -22,28 +22,35 @@
         <activity android:name=".view.activity.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.SettingActivity"
             android:label="设置" />
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.FoodActivity"
             android:label="菜品"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.ClientActivity"
             android:label="客户资料"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.PrinterActivity"
             android:label="出单" />
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.OrderFoodActivity"
             android:label="选择菜品" />
         <activity
+            android:launchMode="singleTask"
             android:name=".view.activity.OrderClientActivity"
             android:label="选择客户" />
         <activity
             android:name=".view.activity.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

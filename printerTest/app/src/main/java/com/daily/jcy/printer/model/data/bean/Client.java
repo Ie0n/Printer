@@ -15,6 +15,7 @@ public class Client implements Serializable{
     private String tel;
     private String address;
     private String note;
+//    private
 
     public Client(long id, String name, String tel, String address,String note) {
         this.id = id;

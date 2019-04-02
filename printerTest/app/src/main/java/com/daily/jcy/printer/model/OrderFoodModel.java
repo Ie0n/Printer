@@ -33,7 +33,7 @@ public class OrderFoodModel implements OrderFoodContract.Model {
         data.clear();
         if (foodBox.getAll() != null) {
             data.addAll(foodBox.getAll());
-            Log.i(TAG, "getFoodData: size: " + foodBox.getAll().size()) ;
+            Log.i(TAG, "getFoodData: size: " + foodBox.getAll().size());
         }
         return data;
     }
@@ -83,6 +83,36 @@ public class OrderFoodModel implements OrderFoodContract.Model {
     @Override
     public List<Food> queryTargetList(String input) {
         return foodBox.query().startsWith(Food_.uid, input).build().find();
+    }
+
+    // 添加份数
+    @Override
+    public Food addFoodCount(Food targetFood) {
+        int count = targetFood.getNum();
+        count++;
+        targetFood.setNum(count);
+        putFood(targetFood);
+        return targetFood;
+    }
+
+    @Override
+    public Food subFoodCount(Food targetFood) {
+        int count = targetFood.getNum();
+        count--;
+        targetFood.setNum(count);
+        putFood(targetFood);
+        return targetFood;
+    }
+
+    @Override
+    public void clearFoodCount() {
+        List<Food> foodList = foodBox.getAll();
+        if (foodList != null) {
+            for (int i = 0; i < foodList.size(); i++) {
+                foodList.get(i).setNum(0);
+            }
+            foodBox.put(foodList);
+        }
     }
 
     @Override

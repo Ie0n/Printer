@@ -1,6 +1,8 @@
 package com.daily.jcy.printer.model.data.bean;
 
 
+import android.support.annotation.Nullable;
+
 import java.io.Serializable;
 
 import io.objectbox.annotation.Entity;
@@ -16,7 +18,7 @@ public class Food implements Serializable {
     private String GERname;
     private String price;
     private boolean isSweetAndWine;
-    private int num;
+    private int num = 0;
 
 
     public Food() {
@@ -94,5 +96,15 @@ public class Food implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    @Nullable
+    @Override
+    public String toString() {
+        return "[ id: " + getId()
+                + " uid: " + getUid()
+                + " CName: " + getCNname()
+                + " count: " + getNum();
     }
 }

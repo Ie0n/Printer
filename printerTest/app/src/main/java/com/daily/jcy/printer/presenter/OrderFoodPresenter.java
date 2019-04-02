@@ -61,4 +61,19 @@ public class OrderFoodPresenter extends OrderFoodContract.Presenter {
     public void deleteFood(Food deleteFood) {
         mView.deleteResult(mModel.deleteFood(deleteFood));
     }
+
+    @Override
+    public void addFoodCount(Food targetFood) {
+        mView.addTargetList(mModel.addFoodCount(targetFood));
+    }
+
+    @Override
+    public void subFoodCount(Food targetFood) {
+        mView.subTargetList(mModel.subFoodCount(targetFood));
+    }
+
+    @Override
+    public void clearFoodCount() {
+        mModel.clearFoodCount();
+    }
 }

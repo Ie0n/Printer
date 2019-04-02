@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
+import com.daily.jcy.printer.utils.callback.OnItemFoodClickListener;
 import com.daily.jcy.printer.view.activity.OrderFoodActivity;
 
 import java.util.List;
@@ -20,20 +21,24 @@ import java.util.List;
 public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerViewAdapter.ViewHolder> implements View.OnClickListener {
 
     private List<Food> mData;
-    private Context mConetxt;
+    private Context mContext;
     private LayoutInflater inflater;
-    private OnItemClickListener onItemClickListener;
+    private OnItemFoodClickListener onItemFoodClickListener;
+    public static final int BTN_ADD = 1;
+    public static final int BTN_SUB = -1;
+    private TextView txtCount;
+
 
     public FoodRecyclerViewAdapter(Context context, List<Food> mData) {
         this.mData = mData;
-        this.mConetxt = context;
+        this.mContext = context;
         inflater = LayoutInflater.from(context);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtId, txtCNName, txtGerName, txtPrice;
-        Button btnAdd;
+        TextView txtId, txtCNName, txtGerName, txtPrice,txtCount,txtCountText;
+        Button btnAdd,btnSub;
         RelativeLayout contentLayout;
 
         public ViewHolder(@NonNull View itemView) {
@@ -44,6 +49,9 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
             txtGerName = itemView.findViewById(R.id.item_txt_ger_name);
             txtPrice = itemView.findViewById(R.id.item_txt_price_food);
             btnAdd = itemView.findViewById(R.id.item_btn_add_food);
+            btnSub = itemView.findViewById(R.id.item_btn_sub_food);
+            txtCount = itemView.findViewById(R.id.item_txt_count_food);
+            txtCountText = itemView.findViewById(R.id.item_txt_count_txt_food);
         }
     }
 
@@ -63,13 +71,27 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
             viewHolder.txtGerName.setText(mData.get(i).getGERname());
             viewHolder.txtPrice.setText(mData.get(i).getPrice());
 
-            // 当是下单的菜品页面才显示加号
-            if (mConetxt instanceof OrderFoodActivity) {
+            // 当是下单的菜品页面才显示加减和份数
+            if (mContext instanceof OrderFoodActivity) {
+//                viewHolder.
+                // 加号
                 viewHolder.btnAdd.setOnClickListener(this);
                 viewHolder.btnAdd.setTag(R.id.tag_position, i);
-                viewHolder.btnAdd.setTag(R.id.tag_is_click, true);
+                viewHolder.btnAdd.setTag(R.id.tag_what,BTN_ADD);
+                viewHolder.btnAdd.setTag(R.id.tag_txt_count,viewHolder.txtCount);
+                // 减号
+                viewHolder.btnSub.setOnClickListener(this);
+                viewHolder.btnSub.setTag(R.id.tag_position, i);
+                viewHolder.btnSub.setTag(R.id.tag_what, BTN_SUB);
+                viewHolder.btnSub.setTag(R.id.tag_txt_count, viewHolder.txtCount);
+                // 份数
+                viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
+
             } else {
                 viewHolder.contentLayout.removeView(viewHolder.btnAdd);
+                viewHolder.contentLayout.removeView(viewHolder.btnSub);
+                viewHolder.contentLayout.removeView(viewHolder.txtCount);
+                viewHolder.contentLayout.removeView(viewHolder.txtCountText);
                 viewHolder.contentLayout.setOnClickListener(this);
                 viewHolder.contentLayout.setTag(R.id.tag_position, i);
             }
@@ -83,13 +105,14 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
 
     @Override
     public void onClick(View v) {
-        if (onItemClickListener != null) {
-            onItemClickListener.onItemClick(v, null, mData.get((Integer) v.getTag(R.id.tag_position)));
+        if (onItemFoodClickListener != null) {
+//            onItemClickListener.onItemClick(v, null, mData.get((Integer) v.getTag(R.id.tag_position)));
+            onItemFoodClickListener.onItemFoodClick( v, (TextView)v.getTag(R.id.tag_txt_count), mData.get((int) v.getTag(R.id.tag_position)));
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public void setOnItemFoodClickListener(OnItemFoodClickListener onItemFoodClickListener) {
+        this.onItemFoodClickListener = onItemFoodClickListener;
     }
 
     public void addData(Food food, int position) {

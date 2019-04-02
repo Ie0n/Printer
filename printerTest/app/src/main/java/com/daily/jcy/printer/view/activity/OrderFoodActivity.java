@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderFoodContract;
+import com.daily.jcy.printer.utils.callback.OnItemFoodClickListener;
 import com.daily.jcy.printer.view.adapter.FoodRecyclerViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
@@ -28,7 +29,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderFoodActivity extends BaseActivity implements OrderFoodContract.View , OnItemClickListener {
+public class OrderFoodActivity extends BaseActivity implements OrderFoodContract.View, OnItemFoodClickListener {
 
     public static final String TARGET_FOOD_BUNDLE = "targetFoodBundle";
     public static final String TARGET_FOOD_LIST = "targetFoodList";
@@ -39,7 +40,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     private Button btnPop;
     private static final String TAG = "OrderFoodActivity-dd";
     private FoodRecyclerViewAdapter adapter;
-    private int count = 0;
+    private int selectCount = 0;
     private List<Food> targetFoodList;
     private Bundle beforeBundle;
 
@@ -52,7 +53,13 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         initPresenter();
         initView();
         setCustomActionBar();
-        Log.i(TAG, "onCreate: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.clearFoodCount();
+        presenter.detachView();
     }
 
     private void initBeforePageArg() {
@@ -63,10 +70,10 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
 
     }
 
-
     private void initPresenter() {
         presenter = new OrderFoodPresenter();
         presenter.attachView(this);
+        presenter.clearFoodCount();
     }
 
     private void initView() {
@@ -76,12 +83,11 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         btnPop = findViewById(R.id.order_food_btn_pop);
         txtSelectCount = findViewById(R.id.order_food_txt_count);
 
-
         search.addTextChangedListener(this);
         foodRecycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new FoodRecyclerViewAdapter(this, null);
         foodRecycler.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setOnItemFoodClickListener(this);
         btnPop.setOnClickListener(this);
 
         presenter.updateFoodListData();
@@ -93,6 +99,10 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * 通过通知Adapter刷新UI
+     * @param data 从数据库中检索里到的新数据返回
+     */
     @Override
     public void notifyUI(List<Food> data) {
         if (data == null || data.size() == 0) {
@@ -107,12 +117,62 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
 
     }
 
+    /**
+     * 修改选址菜篮里列表的信息。
+     * 如果本来就存在就修改里买呢对象的信息，否则新添加
+     * @param targetFood 对其数量加1后返回的对象
+     */
+    @Override
+    public void addTargetList(Food targetFood) {
+        boolean flag = false;
+        for (int i = 0; i < targetFoodList.size(); i++) {
+            // 如果本来就有就修改
+            if (targetFood.getUid().equals(targetFoodList.get(i).getUid())) {
+                targetFoodList.set(i, targetFood);
+                flag = true;
+                break;
+            }
+        }
+        // 没找到就添加
+        if (!flag) {
+            targetFoodList.add(targetFood);
+        }
+        Log.i(TAG, "addTargetList: " + targetFoodList.size());
+    }
+
+    /**
+     * 修改选中菜篮里的信息，如果是减到了0就直接移除列表
+     * @param targetFood 对其数量减1返回的对象
+     */
+    @Override
+    public void subTargetList(Food targetFood) {
+        for (int i = 0; i < targetFoodList.size(); i++) {
+
+            if (targetFood.getUid().equals(targetFoodList.get(i).getUid())) {
+                if (targetFood.getNum() == 0) {
+                    targetFoodList.remove(i);
+                } else {
+                    targetFoodList.set(i, targetFood);
+                }
+                break;
+            }
+        }
+        Log.i(TAG, "subTargetList: " + targetFoodList.size());
+    }
+
     @Override
     public void showResult(String text) {
         super.showResult(text);
         Log.i(TAG, "showResult: " + text);
     }
 
+    /**
+     * 当s改变时立刻通知数据库中检索数据返回到NotifyUI
+     * @param s 输入框中输入的文字
+     * @param start
+     * @param before
+     * @param count 字数
+     */
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
@@ -129,10 +189,12 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         super.onClick(v);
         // 点击菜篮的操作
         if (v == btnPop) {
-            if (targetFoodList.size() != 0) {
+            if (targetFoodList != null && selectCount != 0) {
+                // 清除所有Food的count
+                presenter.clearFoodCount();
                 toNextActivity();
             } else {
-                Toast.makeText(this, "请先选择菜品", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "菜篮还没有菜", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -146,38 +208,39 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         startActivity(intent);
     }
 
-    // 点击加号的监听
+    // 点击加减号的监听
     @Override
-    public void onItemClick(View view, Client client, Food food) {
-        // 如果被点击
-        if ((boolean)view.getTag(R.id.tag_is_click)) {
-            // 菜品未被添加被添加后的操作
-            view.setBackgroundResource(R.mipmap.ic_yes);
-            targetFoodList.add(food);
-            count++;
-            view.setTag(R.id.tag_is_click, false);
-        } else {
-            view.setBackgroundResource(R.mipmap.ic_add);
-            for (int i = 0; i < targetFoodList.size(); i++) {
-                if (targetFoodList.get(i) == food) {
-                    targetFoodList.remove(i);
-                }
+    public void onItemFoodClick(View view, TextView txtCount, Food food) {
+
+        if ((int) view.getTag(R.id.tag_what) == FoodRecyclerViewAdapter.BTN_ADD) {
+            // 菜篮
+            selectCount ++;
+            // 修改显示的份数
+            txtCount.setText(String.valueOf(food.getNum() + 1));
+            // 到数据库修改food添加的份数
+            presenter.addFoodCount(food);
+        } else if ((int) view.getTag(R.id.tag_what) == FoodRecyclerViewAdapter.BTN_SUB) {
+            if (Integer.parseInt(txtCount.getText().toString()) != 0) {
+                // 菜篮
+                selectCount--;
+                // 修改显示的份数
+                txtCount.setText(String.valueOf(food.getNum() - 1));
+                // 到数据库减少Food的份数
+                presenter.subFoodCount(food);
             }
-            count--;
-            view.setTag(R.id.tag_is_click,true);
         }
 
-
-        if (count > 0) {
+        if (selectCount > 0) {
             txtSelectCount.setVisibility(View.VISIBLE);
-            txtSelectCount.setText(String.valueOf(count));
+            txtSelectCount.setText(String.valueOf(selectCount));
         } else {
-            txtSelectCount.setText(String.valueOf(count));
+            txtSelectCount.setText(String.valueOf(0));
             txtSelectCount.setVisibility(View.GONE);
         }
     }
+
     private void setCustomActionBar() {
-        ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
         TextView text = mActionBarView.findViewById(R.id.title);
         text.setText("选择菜品");

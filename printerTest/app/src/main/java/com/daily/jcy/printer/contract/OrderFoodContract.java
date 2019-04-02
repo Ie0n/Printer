@@ -28,6 +28,16 @@ public interface OrderFoodContract {
         void getTargetFood(String uid);
 
         List<Food> queryTargetList(String input);
+
+        // 添加份数
+        Food addFoodCount(Food targetFood);
+
+        // 减去份数
+        Food subFoodCount(Food targetFood);
+
+        // 清除所有份数
+        void clearFoodCount();
+
     }
 
     interface View extends BaseView {
@@ -36,6 +46,13 @@ public interface OrderFoodContract {
         void notifyUI(List<Food> data);
 
         void deleteResult(String result);
+
+        // 添加份数
+        void addTargetList(Food targetFood);
+
+        // 减去份数
+        void subTargetList(Food targetFood);
+
     }
 
     abstract class Presenter extends BasePresenter<OrderFoodContract.View, OrderFoodContract.Model> {
@@ -48,6 +65,12 @@ public interface OrderFoodContract {
         public abstract void putFood(Food newFood);
 
         public abstract void deleteFood(Food deleteFood);
+
+        public abstract void addFoodCount(Food targetFood);
+
+        public abstract void subFoodCount(Food targetFood);
+
+        public abstract void clearFoodCount();
     }
 
 }

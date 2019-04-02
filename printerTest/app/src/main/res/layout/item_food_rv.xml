@@ -15,10 +15,10 @@
 
         <RelativeLayout
             android:id="@+id/item_layout_food"
-            android:paddingStart="20dp"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp">
 
             <TextView
                 android:id="@+id/item_txt_id_food"
@@ -58,15 +58,48 @@
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/txt_id_size" />
 
+            <TextView
+                android:id="@+id/item_txt_count_txt_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_price_food"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@id/item_txt_count_food"
+                android:text="@string/food_num"
+                android:textColor="@color/primary_text"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/item_txt_count_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_price_food"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                android:text="0"
+                android:textColor="@color/primary_text"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/item_btn_sub_food"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/item_txt_price_food"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/item_btn_add_food"
+                android:background="@mipmap/ic_sub" />
+
             <Button
                 android:id="@+id/item_btn_add_food"
-                android:background="@mipmap/ic_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
+                android:layout_below="@id/item_txt_price_food"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/item_txt_price_food" />
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="10dp"
+                android:background="@mipmap/ic_add" />
 
         </RelativeLayout>
 

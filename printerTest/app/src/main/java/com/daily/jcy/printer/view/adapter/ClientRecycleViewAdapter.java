@@ -56,9 +56,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        if (mData == null || mData.size() == 0) {
-
-        } else {
+        if (mData != null && mData.size() != 0) {
             viewHolder.txtId.setText(String.valueOf(mData.get(i).getId()));
             viewHolder.txtName.setText(mData.get(i).getName());
             viewHolder.txtPhone.setText(mData.get(i).getTel());

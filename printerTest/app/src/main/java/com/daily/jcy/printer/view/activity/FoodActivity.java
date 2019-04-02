@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.OrderFoodContract;
+import com.daily.jcy.printer.utils.callback.OnItemFoodClickListener;
 import com.daily.jcy.printer.view.adapter.FoodRecyclerViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
@@ -29,7 +31,7 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.List;
 
-public class FoodActivity extends BaseActivity implements OrderFoodContract.View, OnFoodDialogDismissListener, OnItemClickListener {
+public class FoodActivity extends BaseActivity implements OrderFoodContract.View, OnFoodDialogDismissListener, OnItemFoodClickListener {
 
     private OrderFoodContract.Presenter presenter;
     private SwipeRecyclerView foodRecyclerView;
@@ -111,7 +113,7 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
         // 初始化adapter
         adapter = new FoodRecyclerViewAdapter(this, null);
         foodRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setOnItemFoodClickListener(this);
         presenter.updateFoodListData();
     }
 
@@ -137,6 +139,16 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
         presenter.updateFoodListData();
         // 清空搜索栏和监听值
         input = editTextClear(search, input);
+    }
+
+    @Override
+    public void addTargetList(Food targetFood) {
+
+    }
+
+    @Override
+    public void subTargetList(Food targetFood) {
+
     }
 
     @Override
@@ -168,7 +180,7 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
 
     // 点击Item的回调
     @Override
-    public void onItemClick(View view, Client client, Food food) {
+    public void onItemFoodClick(View view, TextView txtCount, Food food) {
         if (food != null) {
             clickPosition = (int) view.getTag(R.id.tag_position);
             oldFood = food;
@@ -176,6 +188,7 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
             updateDialog.show();
         }
     }
+
 
     // CreateDialog关闭的回调
     @Override
@@ -186,8 +199,8 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
             presenter.putFood(newFood);
         }
     }
-
     // updateDialog关闭的回调
+
     @Override
     public void onUpdateListener(Food updateFood) {
         if (updateFood != null) {

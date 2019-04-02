@@ -226,4 +226,5 @@
     <string name="chang_bluetooth_name_success">更换蓝牙名称成功,重启打印机后生效</string>
     <string name="chang_bluetooth_name_fail">更换蓝牙名称失败，您可重启打印机后再试试</string>
     <string name="chang_bluetooth_name_now">正在更换蓝牙名称...请稍候</string>
+    <string name="food_num">份数：</string>
 </resources>
