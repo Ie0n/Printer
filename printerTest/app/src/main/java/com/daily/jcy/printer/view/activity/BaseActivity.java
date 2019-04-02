@@ -1,5 +1,6 @@
 package com.daily.jcy.printer.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,22 +27,10 @@ public class BaseActivity extends AppCompatActivity implements TextWatcher, Base
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onItemClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-
     }
 
-    public String editTextClear(EditText editText,String string) {
+
+    public String editTextClear(EditText editText, String string) {
         editText.setText("");
         string = null;
         return null;

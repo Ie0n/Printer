@@ -338,7 +338,6 @@ public class PrintfBlueListActivity extends Activity {
         tv_blue_list_back = (TextView) findViewById(R.id.tv_blue_list_back);
         tv_blue_list_operation = (TextView) findViewById(R.id.tv_blue_list_operation);
 
-        tv_blue_list_modify = (TextView)findViewById(R.id.tv_blue_list_modify);
         tv_blue_list_name = (TextView)findViewById(R.id.tv_blue_list_name);
         tv_blue_list_address = (TextView)findViewById(R.id.tv_blue_list_address);
 

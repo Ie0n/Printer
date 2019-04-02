@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.android.print.sdk.PrinterConstants;
 import com.android.print.sdk.PrinterInstance;
@@ -25,7 +26,7 @@ import java.util.Set;
 public class PrintfManager {
 
     protected String TAG = "PrintfManager";
-    public final static int WIDTH_PIXEL = 384;
+    public final static int WIDTH_PIXEL = 564;
     protected List<BluetoothChangLister> bluetoothChangListerList = new ArrayList<>();
 
     /**
@@ -205,12 +206,12 @@ public class PrintfManager {
                     printTwoColumn("餐厅名称:", companyName);
                     printfWrap();
                     printTwoColumn("客户:", client);
-                    printTabSpace(5);
+                    printfWrap();
                     printTwoColumn("时间:", Util.stampToDate(System.currentTimeMillis()));
                     printfWrap();
                     printPlusLine_80();
                     printText("菜名");
-                    printTabSpace(14);
+                    printTabSpace(22);
                     printText("数量");
                     printTabSpace(10);
                     printText("价格");
@@ -218,17 +219,27 @@ public class PrintfManager {
                     //补全空白算法：举例：“类型”字符串占据4个字节，用对应的类型名称减去4，则得到要补全的空白字节数
                     // " " 表示一个字节
                     for (int j = 0; j < foodList.size(); j++) {
+                        //打印菜品名
                         Food food = foodList.get(j);
                         String name = food.getCNname();
                         printText(name);
-                        int supplementNumber = name.getBytes().length - 4;
-                        printTabSpace(14 - supplementNumber);//补全空白
+                        int supplementLength = getGbk(name).length - 4;
+                        printTabSpace(22 - supplementLength);//补全空白
 
-                        Integer number = food.getNum();
-                        printText(String.valueOf(number));//打印数量
-                        supplementNumber = String.valueOf(number).getBytes().length - 4;
-                        printTabSpace(10 - supplementNumber);//补全空白
-                        String totalPrice = String.valueOf(Integer.parseInt(food.getPrice()) * number);
+                        //打印数量
+                        int number = food.getNum();
+                        printText(String.valueOf(number));
+                        Log.d(TAG,""+number);
+                        supplementLength = getGbk(String.valueOf(number)).length - 4;
+                        printTabSpace(10 - supplementLength);
+
+                        //打印价格
+                        String type = food.getPrice().substring(0,1);
+                        String price = food.getPrice().substring(1);
+                        String totalPrice = String.valueOf(Double.parseDouble(price) * number);
+                        Log.d(TAG,price);
+                        Log.d(TAG,totalPrice);
+                        printText(type);
                         printText(totalPrice);//打印总价
 
                         printfWrap();
@@ -353,8 +364,7 @@ public class PrintfManager {
     }
 
     private byte[] getGbk(String stText) throws IOException {
-        byte[] returnText = stText.getBytes("GBK"); // 必须放在try内才可以
-        return returnText;
+        return stText.getBytes("GBK");
     }
 
     private void printfWrap() throws IOException {
@@ -408,7 +418,7 @@ public class PrintfManager {
      * @throws IOException
      */
     private void printPlusLine_80() throws IOException {
-        printText("- - - - - - - - - - - - - - - - - - - - - - -\n");
+        printText("- - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
 
 

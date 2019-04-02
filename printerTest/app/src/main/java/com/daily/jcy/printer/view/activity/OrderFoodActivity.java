@@ -129,10 +129,10 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
         super.onClick(v);
         // 点击菜篮的操作
         if (v == btnPop) {
-            if (targetFoodList != null) {
+            if (targetFoodList.size() != 0) {
                 toNextActivity();
             } else {
-                Toast.makeText(this, "菜篮还没有菜", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "请先选择菜品", Toast.LENGTH_SHORT).show();
             }
         }
     }
