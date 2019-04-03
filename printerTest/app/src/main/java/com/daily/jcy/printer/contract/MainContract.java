@@ -24,6 +24,7 @@ public interface MainContract {
     abstract class Presenter extends BasePresenter<MainContract.View, MainContract.Model> {
         public abstract void updateOrderListData();
         public abstract void deleteOrderListData();
+
     }
 
 }

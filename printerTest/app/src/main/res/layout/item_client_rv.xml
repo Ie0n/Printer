@@ -1,67 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_layout_client"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/item_layout_client"
-    android:layout_marginTop="@dimen/item_card_margin_top"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginTop="@dimen/item_card_margin_top">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:translationZ="@dimen/item_card_translation_z"
+        android:layout_height="350dp"
         android:layout_margin="@dimen/item_card_margin"
+        android:translationZ="@dimen/item_card_translation_z"
         app:cardCornerRadius="@dimen/item_card_corner">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:paddingStart="20dp">
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:id="@+id/item_txt_id_txt_client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_id_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/item_txt_id_txt_client"
                 android:text="@string/test_id"
-                android:textSize="@dimen/txt_id_size"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_name_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名："
+                android:layout_below="@id/item_txt_id_txt_client"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size"
+                android:layout_marginTop="12dp"/>
 
             <TextView
                 android:id="@+id/item_txt_name_client"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
+                android:layout_below="@id/item_txt_id_txt_client"
+                android:layout_marginTop="@dimen/txt_margin_top"
                 android:text="@string/test_name"
-                android:layout_toEndOf="@id/item_txt_id_client"
-                android:textSize="17sp"
-                android:layout_marginStart="35dp"/>
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size"
+                android:layout_toEndOf="@id/item_txt_name_txt"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/item_layout_phone"
+                android:layout_below="@id/item_txt_name_client"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
+                    android:text="电话："
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/txt_client_size"/>
+
+                <TextView
+                    android:id="@+id/item_txt_phone_client"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_phone"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/txt_client_size" />
+
+                <TextView
+                    android:id="@+id/item_txt_phone2_client"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/test_phone"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/txt_client_size" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/item_txt_phone_client"
+                android:id="@+id/item_txt_zip_txt"
+                android:text="邮编："
+                android:textSize="@dimen/txt_client_size"
+                android:textColor="@color/primary_text"
+                android:layout_below="@id/item_layout_phone"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/item_txt_zip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_phone"
-                android:layout_below="@id/item_txt_id_client"
-                android:textColor="@color/secondary_text"
-                android:layout_marginTop="10dp"/>
+                android:layout_below="@id/item_layout_phone"
+                android:layout_toEndOf="@id/item_txt_zip_txt"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:text="1110"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_address_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_zip"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:lines="2"
+                android:text="@string/test_address"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_unit_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_address"
-                android:layout_below="@id/item_txt_phone_client"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:text="@string/unit"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_toEndOf="@id/item_txt_unit_txt"
+                android:text="10"
                 android:textColor="@color/secondary_text"
-                android:layout_marginTop="10dp"/>
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_floor_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_toEndOf="@id/item_txt_unit"
+                android:text="@string/floor"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_floor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_toEndOf="@id/item_txt_floor_txt"
+                android:text="10"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_room_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_toEndOf="@id/item_txt_floor"
+                android:text="@string/room"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/txt_client_size" />
+
+            <TextView
+                android:id="@+id/item_txt_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_address_client"
+                android:layout_marginTop="@dimen/txt_margin_top"
+                android:layout_toEndOf="@id/item_txt_room_txt"
+                android:text="10"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_note_client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
+                android:layout_below="@id/item_txt_unit_txt"
                 android:layout_marginTop="10dp"
-                android:layout_below="@id/item_txt_address_client"/>
+                android:textColor="@color/primary_text"
+                android:hint="@string/note_printer"
+                android:lines="3"
+                android:text="@string/app_name" />
+
+            <TextView
+                android:id="@+id/item_txt_note2_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_txt_note_client"
+                android:textColor="@color/secondary_text"
+                android:lines="3"
+                android:hint="@string/note_no_printer"
+                android:text="@string/app_name"/>
 
         </RelativeLayout>
 

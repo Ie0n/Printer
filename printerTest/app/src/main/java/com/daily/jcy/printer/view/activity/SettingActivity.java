@@ -4,8 +4,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,29 +15,54 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
-import com.daily.jcy.printer.utils.LogUtils;
+import com.daily.jcy.printer.contract.SettingContract;
+import com.daily.jcy.printer.model.data.bean.Login;
+import com.daily.jcy.printer.presenter.SettingPresenter;
+import com.daily.jcy.printer.utils.callback.OnPasswordDialogDismissListener;
+import com.daily.jcy.printer.view.dialog.PasswordDialog;
 
-public class SettingActivity extends BaseActivity implements Switch.OnCheckedChangeListener {
+public class SettingActivity extends BaseActivity implements Switch.OnCheckedChangeListener , SettingContract.View , OnPasswordDialogDismissListener {
 
     private RelativeLayout settingPassword;
     private Switch switchPassword;
-    private boolean isOpen;
-    private View dialogView;
-    private LayoutInflater inflater;
-    private AlertDialog.Builder builder;
     private String password;
-    private Dialog dialog;
+    private SettingContract.Presenter presenter;
+    private Login login;
+    private boolean isOpen = false;
+    private PasswordDialog dialog;
+    private static final String TAG = "SettingActivity-oo";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        inflater = LayoutInflater.from(this);
+        initPresenter();
         initView();
         setCustomActionBar();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isOpen = presenter.isOpen();
+        switchPassword.setChecked(isOpen);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
+    private void initPresenter() {
+        presenter = new SettingPresenter();
+        presenter.attachView(this);
+        password = presenter.getPassword();
+        Log.i(TAG, "initPresenter: " + password);
     }
 
     private void initView() {
@@ -46,40 +71,35 @@ public class SettingActivity extends BaseActivity implements Switch.OnCheckedCha
         settingPassword.setOnClickListener(this);
         switchPassword.setOnCheckedChangeListener(this);
 
-        dialogView = inflater.inflate(R.layout.dialog_edit, null);
-        EditText editText = dialogView.findViewById(R.id.edit_password);
-        editText.addTextChangedListener(this);
-
-        // Dialog
-        builder = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .setTitle("请输入密码")
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LogUtils.log("//-", "确认");
-                        // 存入数据库操作
-
-                    }
-                });
-        dialog = builder.create();
-
+        login =  new Login(Login.LOGIN_ID, false, password);
+        dialog = new PasswordDialog(this);
+        dialog.setOnPasswordDialogDismissListener(this);
     }
+
+    @Override
+    public void onOkListener(String password) {
+        if (password != null) {
+            this.password = password;
+            login.setPassword(password);
+            presenter.setPassword(login);
+        }
+    }
+
 
     // Switch监听
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            // 如果选中,存入数据库，设置flag
-
+        if (password == null) {
+            Toast.makeText(this, "还未设置密码", Toast.LENGTH_SHORT).show();
+            buttonView.setChecked(false);
         } else {
-            // 未选中，设置flag
-
+            if (isChecked) {
+                // 如果选中,存入数据库，设置flag
+                presenter.openPassword(login);
+            } else {
+                // 未选中，设置flag
+                presenter.closePassword(login);
+            }
         }
     }
 
@@ -87,17 +107,16 @@ public class SettingActivity extends BaseActivity implements Switch.OnCheckedCha
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         super.onTextChanged(s, start, before, count);
         password = s.toString();
-        LogUtils.log("//-", password);
     }
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
         if (v == settingPassword) {
+            dialog.setPassword(password);
             dialog.show();
-            
         }
     }
+
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);

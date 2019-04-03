@@ -12,6 +12,8 @@ import android.util.Log;
 
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.contract.MainContract;
+import com.daily.jcy.printer.model.data.bean.Login;
+import com.daily.jcy.printer.model.data.bean.Login_;
 import com.daily.jcy.printer.model.data.bean.Order;
 
 import com.daily.jcy.printer.presenter.MainPresenter;
@@ -31,12 +33,9 @@ public class MainModel implements MainContract.Model {
     private List<Order> data;
     private String result;
     private Box<Order>orderBox;
-    private BaseHandler mHandler;
-    private MainPresenter presenter;
 
     public MainModel() {
-//        mHandler = new BaseHandler(this, Looper.getMainLooper());
-//        presenter = MainPresenter.getInstance();
+        orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
     }
 
     @Override

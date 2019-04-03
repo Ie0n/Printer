@@ -33,7 +33,7 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtId, txtName, txtPhone, txtAddress,txtNote;
+        TextView txtId, txtName, txtPhone,txtPhone2, txtStreet,txtZip,txtUnit,txtFloor,txtRoom,txtNote, txtNote2;
         RelativeLayout itemView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -42,7 +42,13 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
             txtId = itemView.findViewById(R.id.item_txt_id_client);
             txtName = itemView.findViewById(R.id.item_txt_name_client);
             txtPhone = itemView.findViewById(R.id.item_txt_phone_client);
-            txtAddress = itemView.findViewById(R.id.item_txt_address_client);
+            txtPhone2 = itemView.findViewById(R.id.item_txt_phone2_client);
+            txtZip = itemView.findViewById(R.id.item_txt_zip);
+            txtUnit = itemView.findViewById(R.id.item_txt_unit);
+            txtFloor = itemView.findViewById(R.id.item_txt_floor);
+            txtRoom = itemView.findViewById(R.id.item_txt_room);
+            txtNote2 = itemView.findViewById(R.id.item_txt_note2_client);
+            txtStreet = itemView.findViewById(R.id.item_txt_address_client);
             txtNote = itemView.findViewById(R.id.item_txt_note_client);
         }
     }
@@ -60,10 +66,19 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
             viewHolder.txtId.setText(String.valueOf(mData.get(i).getId()));
             viewHolder.txtName.setText(mData.get(i).getName());
             viewHolder.txtPhone.setText(mData.get(i).getTel());
-            viewHolder.txtAddress.setText(mData.get(i).getAddress());
+            viewHolder.txtPhone2.setText(mData.get(i).getTel2());
+            viewHolder.txtZip.setText(mData.get(i).getZip());
+            viewHolder.txtStreet.setText(mData.get(i).getStreet());
+            viewHolder.txtUnit.setText(mData.get(i).getUnit());
+            viewHolder.txtFloor.setText(mData.get(i).getFloor());
+            viewHolder.txtRoom.setText(mData.get(i).getRoom());
             if (mData.get(i).getNote() != null) {
                 viewHolder.txtNote.setText(mData.get(i).getNote());
             }
+            if (mData.get(i).getNote2() != null) {
+                viewHolder.txtNote2.setText(mData.get(i).getNote2());
+            }
+
             viewHolder.itemView.setOnClickListener(this);
             viewHolder.itemView.setTag(R.id.tag_position,i);
         }

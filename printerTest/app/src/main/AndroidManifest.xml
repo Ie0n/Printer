@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -19,44 +19,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.SettingActivity"
-            android:label="设置" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.FoodActivity"
-            android:label="菜品"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.ClientActivity"
-            android:label="客户资料"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.PrinterActivity"
-            android:label="出单" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.OrderFoodActivity"
-            android:label="选择菜品" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".view.activity.OrderClientActivity"
-            android:label="选择客户" />
-        <activity
-            android:name=".view.activity.MainActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:launchMode="singleTask">
+            android:name=".view.activity.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activity.SettingActivity"
+            android:label="设置"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.activity.FoodActivity"
+            android:label="菜品"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".view.activity.ClientActivity"
+            android:label="客户资料"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".view.activity.PrinterActivity"
+            android:label="出单"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.activity.OrderFoodActivity"
+            android:label="选择菜品"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.activity.OrderClientActivity"
+            android:label="选择客户"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+
         <receiver
             android:name=".receiver.NameOfBroadcastReceiverClass"
             android:enabled="true">
@@ -65,7 +67,7 @@
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"></action><!--连接已经断开-->
             </intent-filter>
         </receiver>
-        <activity android:name=".view.activity.PrintfBlueListActivity"/>
+        <activity android:name=".view.activity.PrintfBlueListActivity" />
     </application>
 
 </manifest>

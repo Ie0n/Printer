@@ -28,8 +28,14 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     private String id;
     private String name;
     private String phone;
-    private String address;
+    private String phone2;
+    private String street;
+    private String zip;
+    private String unit;
+    private String floor;
+    private String room;
     private String note;
+    private String note2;
     private OnClientDialogDismissListener onClientDialogDismissListener;
     private TextInputEditText editNum;
     private TextInputEditText editName;
@@ -38,6 +44,12 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     private TextInputEditText editNote;
     private Context mContext;
     private Client beforeClient;
+    private TextInputEditText editPhone2;
+    private TextInputEditText editNote2;
+    private TextInputEditText editZip;
+    private TextInputEditText editUnit;
+    private TextInputEditText editFloor;
+    private TextInputEditText editRoom;
 
     public ClientDialog(@NonNull Context context, MessageEvent event) {
         super(context);
@@ -51,9 +63,15 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     private void initView() {
         editNum = findViewById(R.id.txt_edit_num);
         editName = findViewById(R.id.txt_edit_name);
-        editPhone = findViewById(R.id.txt_edit_phone);
+        editPhone = findViewById(R.id.txt_edit_phone1);
+        editPhone2 = findViewById(R.id.txt_edit_phone2);
+        editZip = findViewById(R.id.txt_edit_zip);
+        editUnit = findViewById(R.id.txt_edit_unit);
+        editFloor = findViewById(R.id.txt_edit_floor);
+        editRoom = findViewById(R.id.txt_edit_room);
         editAddress = findViewById(R.id.txt_edit_address);
         editNote = findViewById(R.id.txt_edit_note);
+        editNote2 = findViewById(R.id.txt_edit_note2);
         txtOk = findViewById(R.id.txt_ok);
         txtCancel = findViewById(R.id.txx_cancel);
         txtOk.setOnClickListener(this);
@@ -72,14 +90,26 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
         id = String.valueOf(beforeClient.getId());
         name = beforeClient.getName();
         phone = beforeClient.getTel();
-        address = beforeClient.getAddress();
+        phone2 = beforeClient.getTel2();
+        street = beforeClient.getStreet();
+        zip = beforeClient.getZip();
+        unit = beforeClient.getUnit();
+        floor = beforeClient.getFloor();
+        room = beforeClient.getRoom();
         note = beforeClient.getNote();
+        note2 = beforeClient.getNote2();
 
         setHintText(editNum, id);
         setHintText(editName, name);
         setHintText(editPhone, phone);
-        setHintText(editAddress, address);
+        setHintText(editPhone2, phone2);
+        setHintText(editAddress, street);
+        setHintText(editZip, zip);
+        setHintText(editUnit, unit);
+        setHintText(editFloor, floor);
+        setHintText(editRoom, room);
         setHintText(editNote, note);
+        setHintText(editNote2, note2);
     }
 
     @Override
@@ -114,11 +144,12 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
             dismiss();
             clear();
         } else if (v == txtOk){
-            if (!isComplete(id, name, phone, address)) {
+            if (!isComplete(id, name, phone, street, zip)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
             } else {
                 Log.i(TAG, "onClick: " + Long.parseLong(id));
-                client = new Client(Long.parseLong(id), name, phone, address, note);
+//                client = new Client(Long.parseLong(id), name, phone, street, note);
+                client = new Client(Long.parseLong(id), name, phone, phone2, zip, street, unit, floor, room, note, note2);
                 dismiss();
                 clear();
             }
@@ -126,7 +157,6 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     }
 
     // 判断是否完成
-
     private boolean isComplete(String... strings) {
         for (String string : strings) {
             if (string == null) {
@@ -148,12 +178,18 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
     }
     private void clear() {
         client = null;
-        id = name = phone = address = note = null;
+        id = name = phone = phone2 = zip = unit = floor = room = street = note2 = note = null;
         editName.setText("");
         editNum.setText("");
+        editPhone2.setText("");
+        editZip.setText("");
+        editUnit.setText("");
+        editFloor.setText("");
+        editRoom.setText("");
         editAddress.setText("");
         editPhone.setText("");
         editNote.setText("");
+        editNote2.setText("");
     }
 
     public void setOnClientDialogDismissListener(OnClientDialogDismissListener onClientDialogDismissListener) {
@@ -214,6 +250,22 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
 
             }
         });
+        editPhone2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phone2 = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         editAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -223,7 +275,71 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                address = (String) s.toString();
+                street = (String) s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editZip.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                zip = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editUnit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                unit = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editFloor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                floor = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editRoom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                room = s.toString();
             }
 
             @Override
@@ -240,6 +356,22 @@ public class ClientDialog extends Dialog implements  View.OnClickListener {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 note = (String) s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        editNote2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                note2 = s.toString();
             }
 
             @Override

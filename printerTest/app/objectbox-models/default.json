@@ -25,7 +25,7 @@
     },
     {
       "id": "2:5744900525910538668",
-      "lastPropertyId": "5:526773023396560773",
+      "lastPropertyId": "12:1700089988276303021",
       "name": "Client",
       "properties": [
         {
@@ -41,12 +41,36 @@
           "name": "tel"
         },
         {
-          "id": "4:1080201358955299628",
-          "name": "address"
-        },
-        {
           "id": "5:526773023396560773",
           "name": "note"
+        },
+        {
+          "id": "6:7074242226974207205",
+          "name": "tel2"
+        },
+        {
+          "id": "7:6858177087770389274",
+          "name": "zip"
+        },
+        {
+          "id": "8:5213971670354604021",
+          "name": "street"
+        },
+        {
+          "id": "9:8760386689200838078",
+          "name": "unit"
+        },
+        {
+          "id": "10:2732117313739334107",
+          "name": "floor"
+        },
+        {
+          "id": "11:4506949951767231577",
+          "name": "room"
+        },
+        {
+          "id": "12:1700089988276303021",
+          "name": "note2"
         }
       ],
       "relations": []
@@ -102,9 +126,29 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:8846844863850392308",
+      "lastPropertyId": "3:2354795427865410305",
+      "name": "Login",
+      "properties": [
+        {
+          "id": "1:7911229948559783210",
+          "name": "logId"
+        },
+        {
+          "id": "2:2347460490444421599",
+          "name": "isOpen"
+        },
+        {
+          "id": "3:2354795427865410305",
+          "name": "password"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:214421141467325420",
+  "lastEntityId": "5:8846844863850392308",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
@@ -112,7 +156,9 @@
   "modelVersionParserMinimum": 4,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    1080201358955299628
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

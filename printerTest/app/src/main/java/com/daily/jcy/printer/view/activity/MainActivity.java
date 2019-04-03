@@ -43,18 +43,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        verification();
         initPresenter();
         initView();
         initUtils();
-    }
-
-    private void verification() {
-//        // 取出是否开启密码
-//        if (true) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
-
     }
 
     @Override
@@ -77,7 +68,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         presenter.updateOrderListData();
-//        presenter.showResult();
 
         // 菜单控件
         btnMore = findViewById(R.id.fab_menu);

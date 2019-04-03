@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/test_id"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/txt_id_size" />
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_price_food"
@@ -36,7 +36,7 @@
                 android:layout_marginEnd="10dp"
                 android:text="@string/test_price"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/txt_id_size" />
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_cn_name_food"
@@ -46,7 +46,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/test_cn_food_name"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/txt_id_size" />
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_ger_name"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/test_gre_food_name"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/txt_id_size" />
+                android:textSize="@dimen/txt_client_size" />
 
             <TextView
                 android:id="@+id/item_txt_count_txt_food"

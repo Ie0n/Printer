@@ -191,7 +191,7 @@ public class ClientActivity extends BaseActivity implements OrderClientContract.
         }
     }
 
-    // 关闭创建的Dialog的回调
+    // 关闭CreateDialog的回调
     @Override
     public void onCreateListener(Client newClient) {
         if (newClient != null) {

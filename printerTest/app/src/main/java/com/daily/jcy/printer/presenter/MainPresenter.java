@@ -78,6 +78,8 @@ public class MainPresenter extends MainContract.Presenter {
         mView.deleteOrderListData(mModel.deleteOrderListData());
     }
 
+
+
 //    @Override
 //    public void showResult() {
 //        Log.i(TAG, "showResult: ");
