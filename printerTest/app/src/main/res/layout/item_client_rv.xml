@@ -204,7 +204,7 @@
                 android:textColor="@color/primary_text"
                 android:hint="@string/note_printer"
                 android:lines="3"
-                android:text="@string/app_name" />
+                android:text="@string/note_printer" />
 
             <TextView
                 android:id="@+id/item_txt_note2_client"
@@ -214,7 +214,7 @@
                 android:textColor="@color/secondary_text"
                 android:lines="3"
                 android:hint="@string/note_no_printer"
-                android:text="@string/app_name"/>
+                android:text="@string/note_no_printer"/>
 
         </RelativeLayout>
 

@@ -8,7 +8,6 @@ public class Order {
 
     @Id(assignable = true)
     private Long id;
-
     private String time;
     private String totalPrice;
 
