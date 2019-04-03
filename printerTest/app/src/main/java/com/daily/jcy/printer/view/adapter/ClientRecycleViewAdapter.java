@@ -66,7 +66,9 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
             viewHolder.txtId.setText(String.valueOf(mData.get(i).getId()));
             viewHolder.txtName.setText(mData.get(i).getName());
             viewHolder.txtPhone.setText(mData.get(i).getTel());
-            viewHolder.txtPhone2.setText(mData.get(i).getTel2());
+            if (mData.get(i).getTel2() != null) {
+                viewHolder.txtPhone2.setText(mData.get(i).getTel2());
+            }
             viewHolder.txtZip.setText(mData.get(i).getZip());
             viewHolder.txtStreet.setText(mData.get(i).getStreet());
             viewHolder.txtUnit.setText(mData.get(i).getUnit());

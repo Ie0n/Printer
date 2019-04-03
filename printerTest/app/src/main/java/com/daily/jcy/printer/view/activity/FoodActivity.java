@@ -153,7 +153,6 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
 
     @Override
     public void showResult(String text) {
-//        LogUtils.log("-gg", "showResult: " + text);
     }
 
     // 搜索字的回调
@@ -207,7 +206,7 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
             // 更新数据
             presenter.updateFood(oldFood, updateFood);
             // 刷新Item
-            adapter.updateData(oldFood, clickPosition);
+            adapter.updateData(updateFood, clickPosition);
         }
     }
 }

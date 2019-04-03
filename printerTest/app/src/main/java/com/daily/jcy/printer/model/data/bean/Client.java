@@ -1,14 +1,17 @@
 package com.daily.jcy.printer.model.data.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToOne;
 
 @Entity
-public class Client implements Serializable{
+public class Client implements Parcelable {
     @Id(assignable = true)
     public long id;
     private String name;
@@ -21,6 +24,8 @@ public class Client implements Serializable{
     private String room = "null";
     private String note = "备注(打印)";
     private String note2 = "备注(不打印)";
+    public ToOne<Order> order;
+
 
 
     public Client(long id, String name, String tel, String tel2, String zip, String street, String unit, String floor, String room, String note, String note2) {
@@ -47,6 +52,32 @@ public class Client implements Serializable{
 
     public Client() {
     }
+
+    protected Client(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        tel = in.readString();
+        tel2 = in.readString();
+        zip = in.readString();
+        street = in.readString();
+        unit = in.readString();
+        floor = in.readString();
+        room = in.readString();
+        note = in.readString();
+        note2 = in.readString();
+    }
+
+    public static final Creator<Client> CREATOR = new Creator<Client>() {
+        @Override
+        public Client createFromParcel(Parcel in) {
+            return new Client(in);
+        }
+
+        @Override
+        public Client[] newArray(int size) {
+            return new Client[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -145,5 +176,25 @@ public class Client implements Serializable{
                 "tel = " + getTel() +
                 "street = " + getStreet() +
                 "note = " + getNote();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(tel);
+        dest.writeString(tel2);
+        dest.writeString(zip);
+        dest.writeString(street);
+        dest.writeString(unit);
+        dest.writeString(floor);
+        dest.writeString(room);
+        dest.writeString(note);
+        dest.writeString(note2);
     }
 }

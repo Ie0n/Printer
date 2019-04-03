@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activity.OrderDetailsActivity"></activity>
         <activity
             android:name=".view.activity.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -57,16 +58,17 @@
         <activity
             android:name=".view.activity.MainActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
         <receiver
             android:name=".receiver.NameOfBroadcastReceiverClass"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"></action><!--蓝牙适配器状态改变-->
-                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"></action><!--连接已经断开-->
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" /> <!-- 蓝牙适配器状态改变 -->
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" /> <!-- 连接已经断开 -->
             </intent-filter>
         </receiver>
+
         <activity android:name=".view.activity.PrintfBlueListActivity" />
     </application>
 

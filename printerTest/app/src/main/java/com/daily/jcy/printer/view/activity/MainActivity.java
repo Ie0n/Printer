@@ -13,17 +13,26 @@ import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.MainContract;
+import com.daily.jcy.printer.utils.callback.OnOrderItemClickListener;
+import com.daily.jcy.printer.utils.message.BusEvent;
 import com.daily.jcy.printer.view.adapter.OrderRecycleViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Order;
 import com.daily.jcy.printer.presenter.MainPresenter;
 import com.daily.jcy.printer.utils.AnimateUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements MainContract.View {
+public class MainActivity extends BaseActivity implements MainContract.View , OnOrderItemClickListener {
 
     private static final String TAG = "MainActivity-zz";
+    public static final String TARGET_ORDER = "TARGET_ORDER";
+    public static final String TARGET_BUNDLE = "TARGET_BUNDLE";
     private MainPresenter presenter;
     private EditText searchEdit;
     private RecyclerView orderRecyclerView;
@@ -37,12 +46,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private ArrayList<View> animViews;
     private OrderRecycleViewAdapter adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
         initPresenter();
         initView();
         initUtils();
@@ -52,6 +60,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initPresenter() {
@@ -67,7 +76,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         searchEdit.addTextChangedListener(this);
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        presenter.updateOrderListData();
 
         // 菜单控件
         btnMore = findViewById(R.id.fab_menu);
@@ -81,9 +89,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         btnSetting.setOnClickListener(this);
         btnClear.setOnClickListener(this);
 
-        presenter.updateOrderListData();
-//        adapter = new OrderRecycleViewAdapter(this, data);
+        adapter = new OrderRecycleViewAdapter(this, null);
+        adapter.setOnOrderItemClickListener(this);
         orderRecyclerView.setAdapter(adapter);
+        presenter.updateOrderListData();
     }
 
     private void initUtils() {
@@ -99,17 +108,20 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         animateUtils.setViews(animViews);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BusEvent event) {
+        Log.i(TAG, "onEvent: " + event.getMessage());
+        if (event.getMessage() == BusEvent.CREATE_ORDER) {
+            presenter.updateOrderListData();
+        }
+    }
 
 
     @Override
     public void updateOrderListData(List<Order> data) {
         Log.i(TAG, "updateOrderListData: ");
-        orderRecyclerView.setAdapter(new OrderRecycleViewAdapter(this, data));
-    }
-
-    @Override
-    public void deleteOrderListData(boolean is) {
-
+        adapter.setmData(data);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -162,7 +174,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
                 break;
             case R.id.btn_clear:
                 CloseMenu();
-                Toast.makeText(this, "清除", Toast.LENGTH_SHORT).show();
+                presenter.clearOrderList();
+                presenter.updateOrderListData();
+                Toast.makeText(this, "清除成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
                 CloseMenu();
@@ -171,10 +185,21 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         }
     }
+
     private void CloseMenu(){
         if (isOpen){
             animateUtils.closeMenu();
             isOpen = false;
         }
+    }
+
+    // 点击Item的回调
+    @Override
+    public void onOrderItemClick(Order order) {
+        Intent intent = new Intent(this, OrderDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(TARGET_ORDER, order);
+        intent.putExtra(TARGET_BUNDLE,  bundle);
+        startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.objectbox.Box;
+import io.objectbox.query.QueryBuilder;
 
 public class OrderFoodModel implements OrderFoodContract.Model {
 
@@ -42,7 +43,6 @@ public class OrderFoodModel implements OrderFoodContract.Model {
     @Override
     public List<Food> searchFoodDb(String s) {
         queryList.clear();
-//        getTargetFood(s);
         targetFoodList = queryTargetList(s);
         if (targetFoodList != null) {
             queryList.addAll(targetFoodList);
@@ -82,7 +82,7 @@ public class OrderFoodModel implements OrderFoodContract.Model {
 
     @Override
     public List<Food> queryTargetList(String input) {
-        return foodBox.query().startsWith(Food_.uid, input).build().find();
+        return foodBox.query().startsWith(Food_.uid, input, QueryBuilder.StringOrder.CASE_SENSITIVE).build().find();
     }
 
     // 添加份数

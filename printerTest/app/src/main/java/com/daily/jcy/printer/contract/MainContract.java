@@ -10,21 +10,20 @@ import java.util.List;
 public interface MainContract {
 
     interface Model extends BaseModel {
-        //        void onSearchResult(Long id);
         List<Order> getOrderListData();
-        boolean deleteOrderListData();
 
+        void clearOrderList();
     }
 
     interface View extends BaseView {
         void updateOrderListData(List<Order> data);
-        void deleteOrderListData(boolean is);
+
     }
 
     abstract class Presenter extends BasePresenter<MainContract.View, MainContract.Model> {
         public abstract void updateOrderListData();
-        public abstract void deleteOrderListData();
 
+        public abstract void clearOrderList();
     }
 
 }

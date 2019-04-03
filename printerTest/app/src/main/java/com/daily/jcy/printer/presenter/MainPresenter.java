@@ -17,17 +17,6 @@ public class MainPresenter extends MainContract.Presenter {
     private BaseHandler mHandler;
 
 
-
-//    private static MainPresenter presenter;
-
-//    public static MainPresenter getInstance() {
-//        if (presenter == null) {
-//            presenter = new MainPresenter();
-//            return presenter;
-//        }
-//        return presenter;
-//    }
-
     // 绑定View
     @Override
     public void attachView(MainContract.View view) {
@@ -66,23 +55,13 @@ public class MainPresenter extends MainContract.Presenter {
     @Override
     public void updateOrderListData() {
         Log.i(TAG, "updateOrderListData: ");
-//        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
-//        Message message = Message.obtain();
-//        message.what = BaseHandler.RESULT_SUCCESS;
-//        mHandler.handleMessage(message);
         mView.updateOrderListData(mModel.getOrderListData());
     }
 
+
     @Override
-    public void deleteOrderListData() {
-        mView.deleteOrderListData(mModel.deleteOrderListData());
+    public void clearOrderList() {
+        mModel.clearOrderList();
     }
 
-
-
-//    @Override
-//    public void showResult() {
-//        Log.i(TAG, "showResult: ");
-//        mView.showResult(mModel.getResult());
-//    }
 }

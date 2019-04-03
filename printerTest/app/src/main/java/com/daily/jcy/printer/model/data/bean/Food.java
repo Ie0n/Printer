@@ -1,15 +1,18 @@
 package com.daily.jcy.printer.model.data.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToOne;
 
 @Entity
-public class Food implements Serializable {
+public class Food implements Parcelable {
 
     @Id(assignable = true)
     public long id;
@@ -19,6 +22,7 @@ public class Food implements Serializable {
     private String price;
     private boolean isSweetAndWine;
     private int num = 0;
+    public ToOne<Order> order;
 
 
     public Food() {
@@ -40,6 +44,28 @@ public class Food implements Serializable {
         this.price = price;
         this.isSweetAndWine = isSweetAndWine;
     }
+
+    protected Food(Parcel in) {
+        id = in.readLong();
+        uid = in.readString();
+        CNname = in.readString();
+        GERname = in.readString();
+        price = in.readString();
+        isSweetAndWine = in.readByte() != 0;
+        num = in.readInt();
+    }
+
+    public static final Creator<Food> CREATOR = new Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
 
     public String getUid() {
         return uid;
@@ -106,5 +132,22 @@ public class Food implements Serializable {
                 + " uid: " + getUid()
                 + " CName: " + getCNname()
                 + " count: " + getNum();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeLong(id);
+        dest.writeString(uid);
+        dest.writeString(CNname);
+        dest.writeString(GERname);
+        dest.writeString(price);
+        dest.writeByte((byte) (isSweetAndWine ? 1 : 0));
+        dest.writeInt(num);
     }
 }

@@ -1,26 +1,12 @@
 package com.daily.jcy.printer.model;
 
-
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.contract.MainContract;
-import com.daily.jcy.printer.model.data.bean.Login;
-import com.daily.jcy.printer.model.data.bean.Login_;
 import com.daily.jcy.printer.model.data.bean.Order;
+import com.daily.jcy.printer.view.activity.PrinterActivity;
 
-import com.daily.jcy.printer.presenter.MainPresenter;
-import com.daily.jcy.printer.utils.handler.BaseHandler;
-
-import com.daily.jcy.printer.presenter.MainPresenter;
-import com.daily.jcy.printer.utils.handler.BaseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,44 +21,20 @@ public class MainModel implements MainContract.Model {
     private Box<Order>orderBox;
 
     public MainModel() {
+        data = new ArrayList<>();
         orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
     }
 
     @Override
     public List<Order> getOrderListData() {
-        Log.i(TAG, "getOrderListData: ");
-        orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
-        data = new ArrayList<>();
-        data.add(new Order(1L,"2019.3.11 11:30","1111元"));
-        data.add(new Order(0L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(1L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(2L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(3L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(4L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(5L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(6L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(7L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(8L,"2019.3.11 11:30","1660元"));
-        data.add(new Order(9L,"2019.3.11 11:30","177元"));
-        data.add(new Order(10L,"2019.3.11 11:30","8888元"));
-        orderBox.put(data);
-
-//        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
-        setResult("Success");
-//        presenter.showResult(getResult());
-
-//        mHandler.sendEmptyMessage(BaseHandler.RESULT_SUCCESS);
-        setResult("Success");
-//        presenter.showResult(getResult());
+        data = orderBox.getAll();
         return data;
     }
 
+
     @Override
-    public boolean deleteOrderListData() {
-        orderBox.remove(data);
-        //orderBox.removeAll();
-        data.clear();
-        return true;
+    public void clearOrderList() {
+        orderBox.removeAll();
     }
 
 

@@ -18,16 +18,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.R;
-import com.daily.jcy.printer.model.data.bean.Mode;
 import com.daily.jcy.printer.manager.PrintfManager;
 
+import com.daily.jcy.printer.model.data.bean.Order;
+import com.daily.jcy.printer.utils.message.BusEvent;
 import com.daily.jcy.printer.view.adapter.FoodRecyclerViewAdapter;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 public class PrinterActivity extends BaseActivity {
 
@@ -37,11 +44,9 @@ public class PrinterActivity extends BaseActivity {
     private Button btnPrintKitchen,btnPrintCheck;
     private RecyclerView printerRecyclerView;
     private TextView tv_main_bluetooth;
-
+    private Box<Order> orderBox;
     private List<Food> listData;
-
     private PrintfManager printfManager;
-
     private Context context;
 
     @Override
@@ -54,6 +59,16 @@ public class PrinterActivity extends BaseActivity {
         initData();
         setListener();
         setCustomActionBar();
+        initBox();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void initBox() {
+        orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
     }
 
     private void setListener() {
@@ -96,9 +111,39 @@ public class PrinterActivity extends BaseActivity {
                             "Asia Restaurant",
                             listData);
                 }
+
+                saveOrder();
             }
         });
 
+    }
+
+    private String getSumme() {
+        double result = 0;
+        if (targetFoodList != null) {
+            for (int i = 0; i < targetFoodList.size(); i++) {
+                int count = targetFoodList.get(i).getNum();
+                String price = targetFoodList.get(i).getPrice();
+                String mPrice = price.replace(",", ".");
+                double priceDouble = Double.parseDouble(mPrice) * count;
+                result += priceDouble;
+            }
+        }
+        Log.i(TAG, "getSumme: " + result);
+        return String.format("%.2f", result);
+    }
+
+    private void saveOrder() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        String time = simpleDateFormat.format(System.currentTimeMillis());
+        String summe = String.valueOf(getSumme());
+        String summe2 = summe.replace(".", ",");
+        Order order = new Order(0L, time, summe2);
+        orderBox.attach(order);
+        order.foodList.addAll(targetFoodList);
+        order.clientList.add(targetClient);
+        orderBox.put(order);
+        EventBus.getDefault().post(new BusEvent(BusEvent.CREATE_ORDER));
     }
 
     private void initData() {
@@ -115,13 +160,10 @@ public class PrinterActivity extends BaseActivity {
             Bundle clientBundle = getIntent().getBundleExtra(OrderClientActivity.TARGET_Client_BUNDLE);
             Bundle foodBundle = getIntent().getBundleExtra(OrderFoodActivity.TARGET_FOOD_BUNDLE);
             if (clientBundle != null) {
-                targetClient = (Client) clientBundle.getSerializable(OrderClientActivity.TARGET_CLIENT);
+                targetClient = (Client) clientBundle.getParcelable(OrderClientActivity.TARGET_CLIENT);
             }
             if (foodBundle != null) {
-                targetFoodList = (ArrayList<Food>) foodBundle.getSerializable(OrderFoodActivity.TARGET_FOOD_LIST);
-                for (int i = 0; i < targetFoodList.size(); i++) {
-                    Log.d(TAG,targetFoodList.get(i).getCNname());
-                }
+                targetFoodList =  foodBundle.getParcelableArrayList(OrderFoodActivity.TARGET_FOOD_LIST);
             }
         }
     }
@@ -164,4 +206,5 @@ public class PrinterActivity extends BaseActivity {
             }
         });
     }
+
 }

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".view.activity.OrderDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Asia Restaurant"
+            android:textColor="@color/primary_text"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/txt_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_title"
+            android:layout_alignParentEnd="true"
+            android:text="dd-mm-yy hh:mm"
+            android:textSize="17sp" />
+
+        <View
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/txt_time"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:id="@+id/layout_food"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_divider"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/layout_food"
+            android:background="@color/divider" />
+
+        <RelativeLayout
+            android:id="@+id/layout_summe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_divider2">
+
+            <TextView
+                android:id="@+id/txt_summe_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="SUMME(EUR): "
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/txt_summe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="46,70"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_divider3"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/layout_summe"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_divider3"
+            android:text="KundenNr.: "
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_client_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_divider3"
+            android:layout_toEndOf="@id/text_id"
+            android:text="27479"
+            android:textSize="25sp" />
+
+        <View
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_divider4"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/text_id"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/txt_client_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_divider4"
+            android:text="Markus Fuchs"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_client_phone1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_client_name"
+            android:text="@string/test_phone"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/txt_client_phone2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_client_name"
+            android:layout_marginStart="25dp"
+            android:layout_toEndOf="@id/txt_client_phone1"
+            android:text="@string/test_phone"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:id="@+id/txt_client_zip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_client_phone1"
+            android:text="1030"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/txt_client_street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_client_zip"
+            android:text="Thomas klestil platz 6"
+            android:textSize="23sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_unit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_client_street"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stige: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_client_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:text="Stock: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_client_floor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:text="Tǖr: "
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_client_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/txt_client_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_unit"
+            android:lines="2"
+            android:text="note"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_print_check"
+            android:layout_below="@id/txt_client_note"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:text="出单"
+            android:background="@color/accent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</ScrollView>

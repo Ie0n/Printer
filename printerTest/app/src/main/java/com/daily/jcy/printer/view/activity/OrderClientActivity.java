@@ -134,7 +134,7 @@ public class OrderClientActivity extends BaseActivity implements OrderClientCont
         Intent intent = new Intent(this, OrderFoodActivity.class);
         Bundle bundle = new Bundle();
         // 传输点击的Client对象
-        bundle.putSerializable(TARGET_CLIENT, targetClient);
+        bundle.putParcelable(TARGET_CLIENT, targetClient);
         intent.putExtra(TARGET_Client_BUNDLE, bundle);
         startActivityForResult(intent,1);
     }

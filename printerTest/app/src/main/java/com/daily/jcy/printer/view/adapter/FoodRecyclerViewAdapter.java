@@ -15,6 +15,7 @@ import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.utils.callback.OnItemClickListener;
 import com.daily.jcy.printer.utils.callback.OnItemFoodClickListener;
 import com.daily.jcy.printer.view.activity.OrderFoodActivity;
+import com.daily.jcy.printer.view.activity.PrinterActivity;
 
 import java.util.List;
 
@@ -77,8 +78,8 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
                 // 加号
                 viewHolder.btnAdd.setOnClickListener(this);
                 viewHolder.btnAdd.setTag(R.id.tag_position, i);
-                viewHolder.btnAdd.setTag(R.id.tag_what,BTN_ADD);
-                viewHolder.btnAdd.setTag(R.id.tag_txt_count,viewHolder.txtCount);
+                viewHolder.btnAdd.setTag(R.id.tag_what, BTN_ADD);
+                viewHolder.btnAdd.setTag(R.id.tag_txt_count, viewHolder.txtCount);
                 // 减号
                 viewHolder.btnSub.setOnClickListener(this);
                 viewHolder.btnSub.setTag(R.id.tag_position, i);
@@ -86,7 +87,10 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
                 viewHolder.btnSub.setTag(R.id.tag_txt_count, viewHolder.txtCount);
                 // 份数
                 viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
-
+            } else if (mContext instanceof PrinterActivity) {
+                viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
+                viewHolder.contentLayout.removeView(viewHolder.btnAdd);
+                viewHolder.contentLayout.removeView(viewHolder.btnSub);
             } else {
                 viewHolder.contentLayout.removeView(viewHolder.btnAdd);
                 viewHolder.contentLayout.removeView(viewHolder.btnSub);

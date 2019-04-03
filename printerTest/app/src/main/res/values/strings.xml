@@ -227,4 +227,11 @@
     <string name="chang_bluetooth_name_fail">更换蓝牙名称失败，您可重启打印机后再试试</string>
     <string name="chang_bluetooth_name_now">正在更换蓝牙名称...请稍候</string>
     <string name="food_num">份数：</string>
+    <string name="id">编号：</string>
+    <string name="unit">单元：</string>
+    <string name="floor">楼层：</string>
+    <string name="room">房间：</string>
+    <string name="note_printer">备注（打印）</string>
+    <string name="note_no_printer">备注（不打印）</string>
+    <string name="check">打印账单</string>
 </resources>
