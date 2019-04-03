@@ -34,7 +34,7 @@ public class PrinterActivity extends BaseActivity {
     private ArrayList<Food> targetFoodList;
     private Client targetClient;
     private static final String TAG = "PrinterActivity-ee";
-    private Button btnPrinter;
+    private Button btnPrintKitchen,btnPrintCheck;
     private RecyclerView printerRecyclerView;
     private TextView tv_main_bluetooth;
 
@@ -73,7 +73,7 @@ public class PrinterActivity extends BaseActivity {
             }
         });
 
-        btnPrinter.setOnClickListener(new View.OnClickListener() {
+        btnPrintKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (printfManager.isConnect()) {
@@ -85,6 +85,16 @@ public class PrinterActivity extends BaseActivity {
                     );
                 } else {
                     PrintfBlueListActivity.startActivity(PrinterActivity.this);
+                }
+            }
+        });
+        btnPrintCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (printfManager.isConnect()){
+                    printfManager.print_check(
+                            "Asia Restaurant",
+                            listData);
                 }
             }
         });
@@ -118,12 +128,14 @@ public class PrinterActivity extends BaseActivity {
 
     private void initView() {
         printerRecyclerView = findViewById(R.id.printer_rv);
-        btnPrinter = findViewById(R.id.btn_printer);
+        btnPrintKitchen = findViewById(R.id.btn_print_kitchen);
+        btnPrintCheck = findViewById(R.id.btn_print_check);
 
         tv_main_bluetooth = findViewById(R.id.tv_main_bluetooth);
         printerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         initAdapter();
-        btnPrinter.setOnClickListener(this);
+        btnPrintKitchen.setOnClickListener(this);
+        btnPrintCheck.setOnClickListener(this);
     }
 
     private void initAdapter() {

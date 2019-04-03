@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.daily.jcy.printer.utils.Util;
 import com.github.promeg.pinyinhelper.Pinyin;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -195,6 +197,68 @@ public class PrintfManager {
         }
     }
 
+    public void print_check(final String restaurantName, final List<Food>foodList){
+        MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Util.ToastTextThread(context, "正在打印...请稍候");
+                    printfWrap();
+                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.mipmap.pic_small_a);
+                    //计算居中的左边距
+                    int left = getCenterLeft(48, bitmap);
+                    byte[] bytes = bitmap2PrinterBytes(bitmap, left);
+                    mPrinter.sendByteData(bytes);
+                    printTabSpace(16);
+                    String st = " Ä ä Ö ö Ü ü ẞ ß ";
+
+//                    String str = new String(st.getBytes(),"ISO-8859-1");
+                    printText(st);
+                    printfWrap();
+                    printfWrap();
+                    printLoc(""+Util.stampToDate(System.currentTimeMillis()));
+                    printfWrap();
+                    printPlusLine_80();
+                    for (int i = 0; i < foodList.size(); i++) {
+                        Food food = foodList.get(i);
+                        int number = food.getNum();
+                        printText(String.valueOf(number));
+                        printText(" X ");
+                        printText(food.getCNname());
+
+
+                        printLoc(food.getPrice());
+
+                        printfWrap();
+                    }
+                    printPlusLine_80();
+                    printText("SUMME(EUR):");
+                    printLoc("46,70");
+                    printfWrap();
+                    printfWrap();
+                    printfWrap();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void printLoc(String str) throws IOException {
+        int iNum = 0;
+        byte[] byteBuffer = new byte[100];
+        byte[] tmp;
+        tmp = setLocation(getOffset(str));
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+        iNum += tmp.length;
+
+        tmp = getGbk(str);
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+
+        mPrinter.sendByteData(byteBuffer);
+    }
+
     public void printf_80(final String companyName,
                           final String client, final String remark,
                           final List<Food> foodList) {
@@ -203,52 +267,73 @@ public class PrintfManager {
             public void run() {
                 try {
                     Util.ToastTextThread(context, "正在打印...请稍候");
-                    printTwoColumn("餐厅名称:", companyName);
-                    printfWrap();
-                    printTwoColumn("客户:", client);
-                    printfWrap();
-                    printTwoColumn("时间:", Util.stampToDate(System.currentTimeMillis()));
+//                    byte[] bytes1 = {0x1b, 0x21, 10};
+//                    mPrinter.sendByteData(bytes1);
+//                    printLargeText(0,"外卖：");
+//                    printTabSpace(5);
+//                    printText("Z6");
+
                     printfWrap();
                     printPlusLine_80();
-                    printText("菜名");
-                    printTabSpace(22);
-                    printText("数量");
-                    printTabSpace(10);
-                    printText("价格");
-                    printfWrap();
-                    //补全空白算法：举例：“类型”字符串占据4个字节，用对应的类型名称减去4，则得到要补全的空白字节数
-                    // " " 表示一个字节
-                    for (int j = 0; j < foodList.size(); j++) {
-                        //打印菜品名
-                        Food food = foodList.get(j);
-                        String name = food.getCNname();
-                        printText(name);
-                        int supplementLength = getGbk(name).length - 4;
-                        printTabSpace(22 - supplementLength);//补全空白
-
-                        //打印数量
+                    for (int i = 0; i < foodList.size(); i++) {
+                        Food food = foodList.get(i);
                         int number = food.getNum();
                         printText(String.valueOf(number));
-                        Log.d(TAG,""+number);
-                        supplementLength = getGbk(String.valueOf(number)).length - 4;
-                        printTabSpace(10 - supplementLength);
-
-                        //打印价格
-                        String type = food.getPrice().substring(0,1);
-                        String price = food.getPrice().substring(1);
-                        String totalPrice = String.valueOf(Double.parseDouble(price) * number);
-                        Log.d(TAG,price);
-                        Log.d(TAG,totalPrice);
-                        printText(type);
-                        printText(totalPrice);//打印总价
-
+                        printText(" Straße ");
+                        printText(food.getUid());
+                        printTabSpace(2);
+                        printText(food.getCNname());
                         printfWrap();
                     }
-                    printPlusLine_80();
-                    printText("备注：");
                     printfWrap();
-                    printText(remark);
-                    printfWrap(4);
+                    printfWrap();
+
+//                    printTwoColumn("餐厅名称:", companyName);
+//                    printfWrap();
+//                    printTwoColumn("客户:", client);
+//                    printfWrap();
+//                    printTwoColumn("时间:", Util.stampToDate(System.currentTimeMillis()));
+//                    printfWrap();
+//                    printPlusLine_80();
+//                    printText("菜名");
+//                    printTabSpace(22);
+//                    printText("数量");
+//                    printTabSpace(10);
+//                    printText("价格");
+//                    printfWrap();
+//                    //补全空白算法：举例：“类型”字符串占据4个字节，用对应的类型名称减去4，则得到要补全的空白字节数
+//                    // " " 表示一个字节
+//                    for (int j = 0; j < foodList.size(); j++) {
+//                        //打印菜品名
+//                        Food food = foodList.get(j);
+//                        String name = food.getCNname();
+//                        printText(name);
+//                        int supplementLength = getGbk(name).length - 4;
+//                        printTabSpace(22 - supplementLength);//补全空白
+//
+//                        //打印数量
+//                        int number = food.getNum();
+//                        printText(String.valueOf(number));
+//                        Log.d(TAG,""+number);
+//                        supplementLength = getGbk(String.valueOf(number)).length - 4;
+//                        printTabSpace(10 - supplementLength);
+//
+//                        //打印价格
+//                        String type = food.getPrice().substring(0,1);
+//                        String price = food.getPrice().substring(1);
+//                        String totalPrice = String.valueOf(Double.parseDouble(price) * number);
+//                        Log.d(TAG,price);
+//                        Log.d(TAG,totalPrice);
+//                        printText(type);
+//                        printText(totalPrice);//打印总价
+//
+//                        printfWrap();
+//                    }
+//                    printPlusLine_80();
+//                    printText("备注：");
+//                    printfWrap();
+//                    printText(remark);
+//                    printfWrap(4);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -367,6 +452,7 @@ public class PrintfManager {
         return stText.getBytes("GBK");
     }
 
+
     private void printfWrap() throws IOException {
         printfWrap(1);
     }
@@ -430,6 +516,8 @@ public class PrintfManager {
      */
     public void printLargeText(int size, String text) throws IOException {
         byte[] bytes = {0x1b, 0x21, (byte) size};//代表字体的大小
+        Log.d(TAG,""+bytes[2]);
+
         mPrinter.sendByteData(bytes);
         printText(text);
         byte[] bytes1 = {0x1b, 0x21, 0};
