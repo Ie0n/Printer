@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.model.data.bean.Client;
+import com.daily.jcy.printer.model.data.bean.Count;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.model.data.bean.Order;
 
@@ -23,6 +24,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private Order mOrder;
     private List<Food> foodList;
     private Client mClient;
+    private List<Count> countList;
     private static final String TAG = "OrderDetailsActivity-aa";
     private Box<Order> orderBox;
     private TextView txtTime, txtSumme, txtClientId, txtName, txtPhone1, txtPhone2, txtZip, txtStreet, txtUnit, txtFloor, txtRoom, txtNote;
@@ -45,28 +47,33 @@ public class OrderDetailsActivity extends AppCompatActivity {
             mOrder = (Order) bundle.getParcelable(MainActivity.TARGET_ORDER);
             if (mOrder != null) {
                 orderBox.attach(mOrder);
-                mClient = mOrder.getClientList().get(0);
-                Log.i(TAG, "initIntent: " + mClient);
-                foodList = mOrder.getFoodList();
-                Log.i(TAG, "initIntent: " + foodList.size());
+                if (mOrder.getClientList() != null) {
+                    mClient = mOrder.getClientList().get(0);
+                }
+                if (mOrder.getFoodList() != null) {
+                    foodList = mOrder.getFoodList();
+                }
+                if (mOrder.countsList != null) {
+                    countList = mOrder.countsList;
+                }
             }
         }
     }
 
     private void initView() {
-        if (mClient != null) {
-
+        if (mClient != null && foodList != null && countList != null) {
             txtTime = findViewById(R.id.txt_time);
             txtTime.setText(mOrder.getTime());
 
             layoutFood = findViewById(R.id.layout_food);
             for (int i = 0; i < foodList.size(); i++) {
                 View view = inflater.inflate(R.layout.content_food, null, false);
-                TextView txtcount = view.findViewById(R.id.txt_count);
+                TextView txtCount = view.findViewById(R.id.txt_count);
                 TextView txtId = view.findViewById(R.id.txt_food_id);
                 TextView txtName = view.findViewById(R.id.txt_food_name);
                 TextView txtPrice = view.findViewById(R.id.txt_price);
-                txtcount.setText(String.valueOf(foodList.get(i).getNum()));
+                Log.i(TAG, "initView: " + foodList.get(i).getNum());
+                txtCount.setText(String.valueOf(mOrder.countsList.get(i).getCount()));
                 txtId.setText(String.valueOf(foodList.get(i).getUid()));
                 txtName.setText(foodList.get(i).getGERname());
                 txtPrice.setText(foodList.get(i).getPrice());

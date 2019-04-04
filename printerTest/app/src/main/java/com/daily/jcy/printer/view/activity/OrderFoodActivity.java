@@ -2,6 +2,7 @@ package com.daily.jcy.printer.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -202,7 +203,7 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     private void toNextActivity() {
         Intent intent = new Intent(this, PrinterActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(TARGET_FOOD_LIST, (Serializable) targetFoodList);
+        bundle.putParcelableArrayList(TARGET_FOOD_LIST, (ArrayList<? extends Parcelable>) targetFoodList);
         intent.putExtra(TARGET_FOOD_BUNDLE, bundle);
         intent.putExtra(OrderClientActivity.TARGET_Client_BUNDLE, beforeBundle);
         startActivity(intent);
@@ -211,7 +212,6 @@ public class OrderFoodActivity extends BaseActivity implements OrderFoodContract
     // 点击加减号的监听
     @Override
     public void onItemFoodClick(View view, TextView txtCount, Food food) {
-
         if ((int) view.getTag(R.id.tag_what) == FoodRecyclerViewAdapter.BTN_ADD) {
             // 菜篮
             selectCount ++;

@@ -19,10 +19,13 @@ public class LoginActivity extends BaseActivity {
     private String password= "";
     private Box<Login> loginBox;
 
+    public static LoginActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        activity = this;
         initView();
     }
 

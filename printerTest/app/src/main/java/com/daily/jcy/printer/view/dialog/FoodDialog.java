@@ -138,6 +138,11 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
         return radioNo.isChecked() || radioYes.isChecked();
     }
 
+
+    private void toStandard(String ...strings) {
+
+    }
+
     // 置空
     private void clear() {
         mFood = null;

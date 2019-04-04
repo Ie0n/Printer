@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.contract.MainContract;
+import com.daily.jcy.printer.model.data.bean.Count;
 import com.daily.jcy.printer.model.data.bean.Order;
 import com.daily.jcy.printer.view.activity.PrinterActivity;
 
@@ -17,12 +18,14 @@ public class MainModel implements MainContract.Model {
 
     private static final String TAG = "MainModel-zz";
     private List<Order> data;
+    private Box<Count> countBox;
     private String result;
     private Box<Order>orderBox;
 
     public MainModel() {
         data = new ArrayList<>();
         orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
+        countBox = ObjectBox.getBoxStore().boxFor(Count.class);
     }
 
     @Override
@@ -35,6 +38,7 @@ public class MainModel implements MainContract.Model {
     @Override
     public void clearOrderList() {
         orderBox.removeAll();
+        countBox.removeAll();
     }
 
 

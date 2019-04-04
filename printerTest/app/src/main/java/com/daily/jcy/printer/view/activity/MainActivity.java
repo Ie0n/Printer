@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements MainContract.View , OnOrderItemClickListener {
+public class MainActivity extends BaseActivity implements MainContract.View, OnOrderItemClickListener {
 
     private static final String TAG = "MainActivity-zz";
     public static final String TARGET_ORDER = "TARGET_ORDER";
@@ -54,6 +55,27 @@ public class MainActivity extends BaseActivity implements MainContract.View , On
         initPresenter();
         initView();
         initUtils();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LoginActivity.activity.finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     @Override
@@ -135,7 +157,7 @@ public class MainActivity extends BaseActivity implements MainContract.View , On
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         super.onFocusChange(v, hasFocus);
-        if (v == searchEdit&& hasFocus) {
+        if (v == searchEdit && hasFocus) {
             startActivity(new Intent(this, OrderClientActivity.class));
         }
     }
@@ -170,7 +192,7 @@ public class MainActivity extends BaseActivity implements MainContract.View , On
                 break;
             case R.id.btn_food:
                 CloseMenu();
-                startActivity(new Intent(this,FoodActivity.class));
+                startActivity(new Intent(this, FoodActivity.class));
                 break;
             case R.id.btn_clear:
                 CloseMenu();
@@ -180,14 +202,14 @@ public class MainActivity extends BaseActivity implements MainContract.View , On
                 break;
             case R.id.btn_setting:
                 CloseMenu();
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
 
         }
     }
 
-    private void CloseMenu(){
-        if (isOpen){
+    private void CloseMenu() {
+        if (isOpen) {
             animateUtils.closeMenu();
             isOpen = false;
         }
@@ -199,7 +221,7 @@ public class MainActivity extends BaseActivity implements MainContract.View , On
         Intent intent = new Intent(this, OrderDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(TARGET_ORDER, order);
-        intent.putExtra(TARGET_BUNDLE,  bundle);
+        intent.putExtra(TARGET_BUNDLE, bundle);
         startActivity(intent);
     }
 }

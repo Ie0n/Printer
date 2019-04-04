@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import java.io.Serializable;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -21,7 +20,7 @@ public class Food implements Parcelable {
     private String GERname;
     private String price;
     private boolean isSweetAndWine;
-    private int num = 0;
+    private int num;
     public ToOne<Order> order;
 
 
@@ -43,6 +42,7 @@ public class Food implements Parcelable {
         this.GERname = GERname;
         this.price = price;
         this.isSweetAndWine = isSweetAndWine;
+        this.num = 0;
     }
 
     protected Food(Parcel in) {

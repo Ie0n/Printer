@@ -86,7 +86,9 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
                 viewHolder.btnSub.setTag(R.id.tag_what, BTN_SUB);
                 viewHolder.btnSub.setTag(R.id.tag_txt_count, viewHolder.txtCount);
                 // 份数
-                viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
+                if (mData.get(i).getNum() != 0) {
+                    viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
+                }
             } else if (mContext instanceof PrinterActivity) {
                 viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
                 viewHolder.contentLayout.removeView(viewHolder.btnAdd);

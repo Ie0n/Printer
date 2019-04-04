@@ -24,6 +24,7 @@ import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.manager.PrintfManager;
 
+import com.daily.jcy.printer.model.data.bean.Count;
 import com.daily.jcy.printer.model.data.bean.Order;
 import com.daily.jcy.printer.utils.message.BusEvent;
 import com.daily.jcy.printer.view.adapter.FoodRecyclerViewAdapter;
@@ -47,6 +48,7 @@ public class PrinterActivity extends BaseActivity {
     private RecyclerView printerRecyclerView;
     private TextView tv_main_bluetooth;
     private Box<Order> orderBox;
+    private Box<Count> countBox;
     private List<Food> listData;
     private PrintfManager printfManager;
     private Context context;
@@ -72,6 +74,7 @@ public class PrinterActivity extends BaseActivity {
 
     private void initBox() {
         orderBox = ObjectBox.getBoxStore().boxFor(Order.class);
+        countBox = ObjectBox.getBoxStore().boxFor(Count.class);
     }
 
     private void setListener() {
@@ -143,10 +146,20 @@ public class PrinterActivity extends BaseActivity {
         String time = simpleDateFormat.format(System.currentTimeMillis());
         String summe = String.valueOf(getSumme());
         String summe2 = summe.replace(".", ",");
+        Log.i(TAG, "saveOrder: " + summe2);
+
+        List<Count> counts = new ArrayList<>();
+        for (int i = 0; i < targetFoodList.size(); i++) {
+            counts.add(new Count(0L, targetFoodList.get(i).getNum()));
+        }
+        countBox.put(counts);
         Order order = new Order(0L, time, summe2);
+
+        // 数据库操作
         orderBox.attach(order);
         order.foodList.addAll(targetFoodList);
         order.clientList.add(targetClient);
+        order.countsList.addAll(counts);
         orderBox.put(order);
         EventBus.getDefault().post(new BusEvent(BusEvent.CREATE_ORDER));
     }
@@ -165,7 +178,7 @@ public class PrinterActivity extends BaseActivity {
             Bundle clientBundle = getIntent().getBundleExtra(OrderClientActivity.TARGET_Client_BUNDLE);
             Bundle foodBundle = getIntent().getBundleExtra(OrderFoodActivity.TARGET_FOOD_BUNDLE);
             if (clientBundle != null) {
-                targetClient = (Client) clientBundle.getParcelable(OrderClientActivity.TARGET_CLIENT);
+                targetClient =  clientBundle.getParcelable(OrderClientActivity.TARGET_CLIENT);
             }
             if (foodBundle != null) {
                 targetFoodList =  foodBundle.getParcelableArrayList(OrderFoodActivity.TARGET_FOOD_LIST);
