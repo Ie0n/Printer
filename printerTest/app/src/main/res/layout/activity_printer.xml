@@ -13,6 +13,15 @@
         android:layout_height="match_parent"
         android:layout_above="@id/btn_print_kitchen"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:layout_marginStart="25dp"
+        android:src="@mipmap/back"
+        android:visibility="visible" />
+
     <Button
         android:id="@+id/btn_print_kitchen"
         android:layout_width="150dp"
@@ -21,7 +30,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginStart="20dp"
         android:textSize="16sp"
-        android:text="@string/printer"
+        android:text="@string/print_kitchen"
         android:background="@drawable/btn_printer_bg"
         android:textColor="@color/primary_text"
         android:translationZ="@dimen/item_card_translation_z"/>
@@ -32,7 +41,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="10dp"
-        android:text="@string/check"
+        android:text="@string/print_check"
         android:textSize="16sp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/btn_printer_bg"

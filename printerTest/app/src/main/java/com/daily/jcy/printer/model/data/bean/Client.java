@@ -16,7 +16,7 @@ public class Client implements Parcelable {
     public long id;
     private String name;
     private String tel;
-    private String tel2 = "null";
+    private String tel2 = "";
     private String zip;
     private String street;
     private String unit = "null";

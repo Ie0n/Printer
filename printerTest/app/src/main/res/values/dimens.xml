@@ -7,6 +7,6 @@
     <dimen name="item_card_translation_z">3dp</dimen>
     <dimen name="item_card_margin_top">5dp</dimen>
     <dimen name="main_fab_layout_margin">30dp</dimen>
-    <dimen name="txt_client_size">18sp</dimen>
+    <dimen name="txt_client_size">16sp</dimen>
     <dimen name="txt_margin_top">12dp</dimen>
 </resources>

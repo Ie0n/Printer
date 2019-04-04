@@ -2,10 +2,14 @@ package com.daily.jcy.printer.view.activity;
 
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +55,7 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
         initPresenter();
         initView();
         initDialog();
+        setCustomActionBar();
     }
 
     private void initDialog() {
@@ -208,5 +213,23 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
             // 刷新Item
             adapter.updateData(updateFood, clickPosition);
         }
+    }
+    private void setCustomActionBar() {
+        ActionBar.LayoutParams lp =new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        getSupportActionBar().setCustomView(mActionBarView, lp);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        text.setText("菜品");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ImageView back = mActionBarView.findViewById(R.id.pic);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FoodActivity.this.finish();
+            }
+        });
     }
 }

@@ -13,6 +13,7 @@ import com.android.print.sdk.PrinterConstants;
 import com.android.print.sdk.PrinterInstance;
 import com.daily.jcy.printer.MyApplication;
 import com.daily.jcy.printer.R;
+import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.model.data.bean.Mode;
 import com.daily.jcy.printer.utils.Util;
@@ -197,26 +198,18 @@ public class PrintfManager {
         }
     }
 
-    public void print_check(final String restaurantName, final List<Food>foodList){
+    public void print_check(final Client client, final String restaurantName, final List<Food>foodList, final String sum){
         MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Util.ToastTextThread(context, "正在打印...请稍候");
                     printfWrap();
-                    Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.mipmap.pic_small_a);
-                    //计算居中的左边距
-                    int left = getCenterLeft(48, bitmap);
-                    byte[] bytes = bitmap2PrinterBytes(bitmap, left);
-                    mPrinter.sendByteData(bytes);
-                    printTabSpace(16);
-                    String st = " Ä ä Ö ö Ü ü ẞ ß ";
 
-//                    String str = new String(st.getBytes(),"ISO-8859-1");
-                    printText(st);
+                    printTabSpace(14);
+                    printLargeText(35,restaurantName);
                     printfWrap();
-                    printfWrap();
-                    printLoc(""+Util.stampToDate(System.currentTimeMillis()));
+                    printRight(""+Util.stampToDate(System.currentTimeMillis()));
                     printfWrap();
                     printPlusLine_80();
                     for (int i = 0; i < foodList.size(); i++) {
@@ -224,20 +217,63 @@ public class PrintfManager {
                         int number = food.getNum();
                         printText(String.valueOf(number));
                         printText(" X ");
-                        printText(food.getCNname());
+                        String result1;
+                        String str = food.getPrice();
 
+                            if (str.contains(",")){
+                                result1 = str.replace(",",".");
+                            }else {
+                                result1 = str;
+                            }
 
-                        printLoc(food.getPrice());
+                        Log.d(TAG,"result1:"+result1);
+                        double price = Double.parseDouble(result1);
+                        Log.d(TAG,""+price*food.getNum());
+                        printText(food.getGERname());
+
+                        String result2 = "";
+                        String result = String.valueOf(price*food.getNum());
+                        for (int j = 0; j < result.length(); j++) {
+                            if (result.contains(".")){
+                                result2 = result.replace(".",",");
+                            }
+                        }
+
+                        printRight(result2);
 
                         printfWrap();
+                        printExtraPrice(food.getNum(),food.getPrice());
                     }
                     printPlusLine_80();
-                    printText("SUMME(EUR):");
-                    printLoc("46,70");
+                    printLargeText(35,"SUMME(EUR):");
+                    printRightLarge(30,sum);
                     printfWrap();
+                    printPlusLine_80();
+                    printLargeText(35,"KundenNr: ");
+                    printLargeText(36,String.valueOf(client.getId()));
                     printfWrap();
+                    printPlusLine_80();
+                    printTabOrNot(client.getName());
                     printfWrap();
-
+                    printTabOrNot(client.getTel());
+                    printTabSpace(1);
+                    printTabOrNot(client.getTel2());
+                    printfWrap();
+                    printTabOrNot(client.getZip());
+                    printfWrap();
+                    printTabOrNot(client.getStreet());
+                    printfWrap();
+                    printText("Stige: ");
+                    printTabOrNot(client.getUnit());
+                    printText("  Stock: ");
+                    printTabOrNot(client.getFloor());
+                    printText("  Tuer: ");
+                    printTabOrNot(client.getRoom());
+                    printfWrap();
+                    printNoteOrNot(client.getNote());
+                    printfWrap();
+                    printPlusLine_80();
+                    printfWrap(2);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -245,7 +281,34 @@ public class PrintfManager {
         });
     }
 
-    private void printLoc(String str) throws IOException {
+    private void printExtraPrice(int num,String str) throws IOException {
+        if (num != 1){
+            printTabSpace(4);
+            printText(String.valueOf(num));
+            printText(" x ");
+            printText(str);
+            printfWrap();
+        }
+
+    }
+
+    private void printNoteOrNot(String str) throws IOException {
+        if (str == null || str.equals("备注(打印)")){
+            printText("");
+        }else {
+            printText(str);
+        }
+    }
+
+    private void printTabOrNot(String str) throws IOException {
+        if (str == null || str.equals("")){
+            printTabSpace(4);
+        }else {
+            printLargeText(35,str);
+        }
+    }
+
+    private void printRight(String str) throws IOException {
         int iNum = 0;
         byte[] byteBuffer = new byte[100];
         byte[] tmp;
@@ -259,9 +322,28 @@ public class PrintfManager {
         mPrinter.sendByteData(byteBuffer);
     }
 
-    public void printf_80(final String companyName,
-                          final String client, final String remark,
-                          final List<Food> foodList) {
+    private void printRightLarge(int size,String str) throws IOException {
+        int iNum = 0;
+        byte[] byteBuffer = new byte[100];
+        byte[] tmp;
+        //调整字体大小
+        byte[] bytes = {0x1b, 0x21, (byte) size};
+        mPrinter.sendByteData(bytes);
+        //定位
+        tmp = setLocation(getOffset(str));
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+        iNum += tmp.length;
+        tmp = getGbk(str);
+        System.arraycopy(tmp, 0, byteBuffer, iNum, tmp.length);
+
+        //打字
+        mPrinter.sendByteData(byteBuffer);
+        //复位
+        byte[] bytes1 = {0x1b, 0x21, 0};
+        mPrinter.sendByteData(bytes1);
+    }
+
+    public void printf_kitchen(final List<Food> foodList) {
         MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
             @Override
             public void run() {
@@ -277,9 +359,12 @@ public class PrintfManager {
                     printPlusLine_80();
                     for (int i = 0; i < foodList.size(); i++) {
                         Food food = foodList.get(i);
+                        if (food.isSweetAndWine()){
+                            continue;
+                        }
                         int number = food.getNum();
                         printText(String.valueOf(number));
-                        printText(" Straße ");
+                        printText(" x ");
                         printText(food.getUid());
                         printTabSpace(2);
                         printText(food.getCNname());
@@ -499,7 +584,7 @@ public class PrintfManager {
     }
 
     /**
-     * 注意：线条不能太长，不然会换出一行，如果决定长度不够，可以增城两个字符，但是得去掉换行符
+     * 注意：线条不能太长，不然会换出一行，如果决定长度不够，可以增两个字符，但是得去掉换行符
      *
      * @throws IOException
      */
@@ -522,7 +607,7 @@ public class PrintfManager {
         printText(text);
         byte[] bytes1 = {0x1b, 0x21, 0};
         mPrinter.sendByteData(bytes1);
-        mPrinter.init();
+//        mPrinter.init();
     }
 
     /**

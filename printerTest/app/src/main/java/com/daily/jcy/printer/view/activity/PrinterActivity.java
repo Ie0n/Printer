@@ -3,8 +3,10 @@ package com.daily.jcy.printer.view.activity;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +50,7 @@ public class PrinterActivity extends BaseActivity {
     private List<Food> listData;
     private PrintfManager printfManager;
     private Context context;
+    private FloatingActionButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,12 @@ public class PrinterActivity extends BaseActivity {
 
     private void setListener() {
 
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,MainActivity.class));
+            }
+        });
         printfManager.addBluetoothChangLister(new PrintfManager.BluetoothChangLister() {
             @Override
             public void chang(String name, String address) {
@@ -92,12 +100,7 @@ public class PrinterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (printfManager.isConnect()) {
-                    printfManager.printf_80(
-                            "天香饭庄",
-                            targetClient.getName(),
-                            "鱼香肉丝不要鱼",
-                            listData
-                    );
+                    printfManager.printf_kitchen(targetFoodList);
                 } else {
                     PrintfBlueListActivity.startActivity(PrinterActivity.this);
                 }
@@ -108,8 +111,10 @@ public class PrinterActivity extends BaseActivity {
             public void onClick(View v) {
                 if (printfManager.isConnect()){
                     printfManager.print_check(
+                            targetClient,
                             "Asia Restaurant",
-                            listData);
+                            targetFoodList,
+                            getSumme());
                 }
 
                 saveOrder();
@@ -172,7 +177,7 @@ public class PrinterActivity extends BaseActivity {
         printerRecyclerView = findViewById(R.id.printer_rv);
         btnPrintKitchen = findViewById(R.id.btn_print_kitchen);
         btnPrintCheck = findViewById(R.id.btn_print_check);
-
+        back = findViewById(R.id.fab_back);
         tv_main_bluetooth = findViewById(R.id.tv_main_bluetooth);
         printerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         initAdapter();

@@ -71,6 +71,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.7"
+                    android:lines="1"
                     android:text="电话："
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/txt_client_size"/>

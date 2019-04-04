@@ -8,7 +8,7 @@ import android.widget.TextView;
 import static android.text.TextUtils.TruncateAt.END;
 
 /**
- * Created by Administrator on 2017/12/22.
+ * Created by Administrator on 2017/a12/22.
  */
 
 public class SingleLineOmissionTextView extends TextView {
