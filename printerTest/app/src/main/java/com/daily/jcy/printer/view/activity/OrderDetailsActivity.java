@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.daily.jcy.printer.ObjectBox;
 import com.daily.jcy.printer.R;
+import com.daily.jcy.printer.manager.PrintfManager;
 import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Count;
 import com.daily.jcy.printer.model.data.bean.Food;
@@ -30,6 +31,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private TextView txtTime, txtSumme, txtClientId, txtName, txtPhone1, txtPhone2, txtZip, txtStreet, txtUnit, txtFloor, txtRoom, txtNote;
     private LinearLayout layoutFood;
     private LayoutInflater inflater;
+    private Button print;
+    private PrintfManager printfManager;
+    private static final String RESTAURANTNAME = "Asia Restaurant";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(this);
         initIntent();
         initView();
+        printfManager = PrintfManager.getInstance(OrderDetailsActivity.this);
     }
 
     private void initIntent() {
@@ -80,6 +85,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 layoutFood.addView(view);
             }
 
+            print  = findViewById(R.id.btn_print_check);
             txtSumme = findViewById(R.id.txt_summe);
             txtSumme.setText(getSumme());
 
@@ -133,12 +139,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
             } else {
                 txtNote.setText("");
             }
-
-            Button btn = findViewById(R.id.btn_print_check);
-            btn.setOnClickListener(new View.OnClickListener() {
+            print.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 出单
+                    printfManager.print_check(mClient,RESTAURANTNAME,foodList,getSumme());
                 }
             });
         }

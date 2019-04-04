@@ -46,7 +46,7 @@ public class PrinterActivity extends BaseActivity {
     private static final String TAG = "PrinterActivity-ee";
     private Button btnPrintKitchen,btnPrintCheck;
     private RecyclerView printerRecyclerView;
-    private TextView tv_main_bluetooth;
+    private TextView tv_main_bluetooth,totalPrice;
     private Box<Order> orderBox;
     private Box<Count> countBox;
     private List<Food> listData;
@@ -126,7 +126,7 @@ public class PrinterActivity extends BaseActivity {
 
     }
 
-    private String getSumme() {
+    public String getSumme() {
         double result = 0;
         if (targetFoodList != null) {
             for (int i = 0; i < targetFoodList.size(); i++) {
@@ -138,7 +138,7 @@ public class PrinterActivity extends BaseActivity {
             }
         }
         Log.i(TAG, "getSumme: " + result);
-        return String.format("%.2f", result);
+        return String.format("%.2f", result).replace(".", ",");
     }
 
     private void saveOrder() {
@@ -166,6 +166,7 @@ public class PrinterActivity extends BaseActivity {
 
     private void initData() {
         printfManager = PrintfManager.getInstance(context);
+        totalPrice.setText(getSumme());
         listData = new ArrayList<>();
         listData.add(new Food("10001","鱼香肉丝","dddd","$200",false,1));
         listData.add(new Food("10001","宫保鸡丁","aaaaaa","$987",false,2));
@@ -192,6 +193,7 @@ public class PrinterActivity extends BaseActivity {
         btnPrintCheck = findViewById(R.id.btn_print_check);
         back = findViewById(R.id.fab_back);
         tv_main_bluetooth = findViewById(R.id.tv_main_bluetooth);
+        totalPrice = findViewById(R.id.text_print_total_price);
         printerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         initAdapter();
         btnPrintKitchen.setOnClickListener(this);

@@ -31,6 +31,7 @@ public class PrintfManager {
     protected String TAG = "PrintfManager";
     public final static int WIDTH_PIXEL = 564;
     protected List<BluetoothChangLister> bluetoothChangListerList = new ArrayList<>();
+    private String sum;
 
     /**
      * 添加蓝牙改变监听
@@ -208,7 +209,7 @@ public class PrintfManager {
 
                     printTabSpace(14);
                     printLargeText(35,restaurantName);
-                    printfWrap();
+                    printfWrap(2);
                     printRight(""+Util.stampToDate(System.currentTimeMillis()));
                     printfWrap();
                     printPlusLine_80();
@@ -370,8 +371,7 @@ public class PrintfManager {
                         printText(food.getCNname());
                         printfWrap();
                     }
-                    printfWrap();
-                    printfWrap();
+                    printfWrap(3);
 
 //                    printTwoColumn("餐厅名称:", companyName);
 //                    printfWrap();
