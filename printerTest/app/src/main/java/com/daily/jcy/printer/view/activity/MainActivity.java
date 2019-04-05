@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
     }
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
         getSupportActionBar().setCustomView(mActionBarView, lp);
         TextView text = mActionBarView.findViewById(R.id.title);
         TextView search = mActionBarView.findViewById(R.id.search);
