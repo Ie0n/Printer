@@ -3,13 +3,18 @@ package com.daily.jcy.printer.view.activity;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
@@ -55,6 +60,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         initPresenter();
         initView();
         initUtils();
+        setCustomActionBar();
     }
 
     @Override
@@ -223,5 +229,23 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         bundle.putParcelable(TARGET_ORDER, order);
         intent.putExtra(TARGET_BUNDLE, bundle);
         startActivity(intent);
+    }
+    private void setCustomActionBar() {
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        getSupportActionBar().setCustomView(mActionBarView, lp);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        TextView search = mActionBarView.findViewById(R.id.search);
+        text.setText("Printer");
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,PrintfBlueListActivity.class));
+            }
+        });
     }
 }
