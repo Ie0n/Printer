@@ -54,6 +54,7 @@ public class PrinterActivity extends BaseActivity {
     private PrintfManager printfManager;
     private Context context;
     private FloatingActionButton back;
+    private boolean isClick = false; // 防止重复点击创建过多的Order对象
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +121,10 @@ public class PrinterActivity extends BaseActivity {
                             targetFoodList,
                             getSumme());
                 }
-
-                saveOrder();
+                if (!isClick) {
+                    saveOrder();
+                    isClick = true;
+                }
             }
         });
 

@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +58,16 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         EventBus.getDefault().register(this);
         initPresenter();
         initView();
-        initUtils();
+        requestPermission();
+        initAnimatorUtils();
         setCustomActionBar();
+    }
+
+    /**
+     * 针对6.0以上设备动态请求权限
+     */
+    private void requestPermission() {
+
     }
 
     @Override
@@ -77,7 +83,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
             return true;
         }
         return super.onKeyDown(keyCode, event);
-
     }
 
     @Override
@@ -124,7 +129,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         presenter.updateOrderListData();
     }
 
-    private void initUtils() {
+    private void initAnimatorUtils() {
         animViews = new ArrayList<>();
         animViews.add(btnClient);
         animViews.add(btnFood);
