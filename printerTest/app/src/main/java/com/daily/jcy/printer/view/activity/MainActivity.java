@@ -1,6 +1,7 @@
 package com.daily.jcy.printer.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -204,6 +205,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
                 CloseMenu();
                 presenter.clearOrderList();
                 presenter.updateOrderListData();
+                clearOrderId();
                 Toast.makeText(this, "清除成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
@@ -212,6 +214,12 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
                 break;
 
         }
+    }
+
+    private void clearOrderId() {
+        SharedPreferences.Editor editor = getSharedPreferences(Order.ORDER_DB, MODE_PRIVATE).edit();
+        editor.putLong(Order.ORDER_ID, 0L);
+        editor.apply();
     }
 
     private void CloseMenu() {

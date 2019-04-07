@@ -77,7 +77,7 @@ public class OrderFoodModel implements OrderFoodContract.Model {
 
     @Override
     public void getTargetFood(String uid) {
-        targetFood = foodBox.query().equal(Food_.uid, uid).build().findUnique();
+        targetFood = foodBox.query().equal(Food_.uid, uid,QueryBuilder.StringOrder.CASE_SENSITIVE).build().findUnique();
     }
 
     @Override

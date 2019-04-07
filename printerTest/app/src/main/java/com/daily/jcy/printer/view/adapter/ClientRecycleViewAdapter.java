@@ -31,12 +31,12 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
         inflater = LayoutInflater.from(context);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtId, txtName, txtPhone,txtPhone2, txtStreet,txtZip,txtUnit,txtFloor,txtRoom,txtNote, txtNote2;
         RelativeLayout itemView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView.findViewById(R.id.item_layout_client);
             txtId = itemView.findViewById(R.id.item_txt_id_client);
@@ -63,24 +63,19 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if (mData != null && mData.size() != 0) {
+            Client client = mData.get(i);
             viewHolder.txtId.setText(String.valueOf(mData.get(i).getId()));
             viewHolder.txtName.setText(mData.get(i).getName());
             viewHolder.txtPhone.setText(mData.get(i).getTel());
-            if (mData.get(i).getTel2() != null) {
-                viewHolder.txtPhone2.setText(mData.get(i).getTel2());
-            }
+            viewHolder.txtPhone2.setText(getValue(client.getTel2()));
             viewHolder.txtZip.setText(mData.get(i).getZip());
             viewHolder.txtStreet.setText(mData.get(i).getStreet());
-            viewHolder.txtUnit.setText(mData.get(i).getUnit());
-            viewHolder.txtFloor.setText(mData.get(i).getFloor());
-            viewHolder.txtRoom.setText(mData.get(i).getRoom());
-            if (mData.get(i).getNote() != null) {
-                viewHolder.txtNote.setText(mData.get(i).getNote());
-            }
-            if (mData.get(i).getNote2() != null) {
-                viewHolder.txtNote2.setText(mData.get(i).getNote2());
-            }
-
+            viewHolder.txtUnit.setText(getValue(client.getUnit()));
+            viewHolder.txtFloor.setText(getValue(client.getFloor()));
+            viewHolder.txtRoom.setText(getValue(client.getRoom()));
+            Log.i(TAG, "onBindViewHolder: " + client.getNote());
+            viewHolder.txtNote.setText(getValue(client.getNote()));
+            viewHolder.txtNote2.setText(getValue(client.getNote2()));
             viewHolder.itemView.setOnClickListener(this);
             viewHolder.itemView.setTag(R.id.tag_position,i);
         }
@@ -122,5 +117,9 @@ public class ClientRecycleViewAdapter extends RecyclerView.Adapter<ClientRecycle
     public void updateData(Client client, int position) {
         mData.set(position, client);
         notifyItemChanged(position);
+    }
+
+    private String getValue(String value) {
+        return value == null ? "" : value;
     }
 }

@@ -87,7 +87,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
             print  = findViewById(R.id.btn_print_check);
             txtSumme = findViewById(R.id.txt_summe);
-            txtSumme.setText(getSumme());
+            txtSumme.setText(getSumme().replace(".", ","));
 
             txtClientId = findViewById(R.id.txt_client_id);
             txtClientId.setText(String.valueOf(mClient.getId()));
@@ -153,14 +153,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
         double result = 0;
         if (foodList != null) {
             for (int i = 0; i < foodList.size(); i++) {
-                int count = foodList.get(i).getNum();
+                int count = countList.get(i).getCount();
                 String price = foodList.get(i).getPrice();
                 String mPrice = price.replace(",", ".");
                 double priceDouble = Double.parseDouble(mPrice) * count;
                 result += priceDouble;
             }
         }
-        Log.i(TAG, "getSumme: " + result);
         return String.format("%.2f", result);
     }
 }

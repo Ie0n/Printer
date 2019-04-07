@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Printer</string>
+    <string name="app_name">Gemes</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="start_order">开始下单</string>
     <string name="edit_client_num">输入客户编号</string>
@@ -10,9 +10,9 @@
     <string name="room">房间：</string>
     <string name="note_printer">备注（打印）</string>
     <string name="note_no_printer">备注（不打印）</string>
-    <string name="test_name">张三</string>
-    <string name="test_phone">10008011111111</string>
-    <string name="test_address">CQUPT,Nanan,Chongqing,China</string>
+    <string name="test_name">姓名</string>
+    <string name="test_phone"></string>
+    <string name="test_address"></string>
     <string name="edit_food_num">请输入菜品编号</string>
     <string name="test_txt_num">1</string>
     <string name="test_price">$3.99</string>

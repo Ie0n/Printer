@@ -1,5 +1,6 @@
 package com.daily.jcy.printer.model;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.daily.jcy.printer.ObjectBox;
@@ -39,6 +40,7 @@ public class MainModel implements MainContract.Model {
     public void clearOrderList() {
         orderBox.removeAll();
         countBox.removeAll();
+
     }
 
 

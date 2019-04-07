@@ -16,14 +16,14 @@ public class Client implements Parcelable {
     public long id;
     private String name;
     private String tel;
-    private String tel2 = "";
+    private String tel2;
     private String zip;
     private String street;
-    private String unit = "null";
-    private String floor = "null";
-    private String room = "null";
-    private String note = "备注(打印)";
-    private String note2 = "备注(不打印)";
+    private String unit;
+    private String floor;
+    private String room ;
+    private String note;
+    private String note2;
     public ToOne<Order> order;
 
 
@@ -41,13 +41,6 @@ public class Client implements Parcelable {
         this.note2 = note2;
     }
 
-//    public Client(long id, String name, String tel, String address, String note) {
-//        this.id = id;
-//        this.name = name;
-//        this.tel = tel;
-//        this.address = address;
-//        this.note = note;
-//    }
 
     public Client() {
     }

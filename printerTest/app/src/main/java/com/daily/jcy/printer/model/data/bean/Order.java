@@ -15,7 +15,10 @@ import io.objectbox.relation.ToOne;
 @Entity
 public class Order implements Parcelable {
 
-    @Id
+    public static final String ORDER_DB = "Order";
+    public static final String ORDER_ID = "Order_id";
+
+    @Id(assignable = true)
     private Long id;
     private String time;
     private String totalPrice;
@@ -116,6 +119,5 @@ public class Order implements Parcelable {
         dest.writeString(time);
         dest.writeString(totalPrice);
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.daily.jcy.printer.view.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
@@ -14,11 +15,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
+import com.daily.jcy.printer.contract.DialogContarct;
 import com.daily.jcy.printer.model.data.bean.Food;
+import com.daily.jcy.printer.model.data.bean.Order;
+import com.daily.jcy.printer.presenter.DialogPresenter;
 import com.daily.jcy.printer.utils.callback.OnFoodDialogDismissListener;
 import com.daily.jcy.printer.utils.message.MessageEvent;
 
-public class FoodDialog extends Dialog implements View.OnClickListener,RadioGroup.OnCheckedChangeListener {
+import static android.content.Context.MODE_PRIVATE;
+
+public class FoodDialog extends Dialog implements View.OnClickListener
+        ,RadioGroup.OnCheckedChangeListener, DialogContarct.View {
 
     private Context mContext;
     private int mCommand;
@@ -41,6 +48,8 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
     private Food beforeFood;
     private static long id = 100;
     private static final String TAG = "FoodDialog-pp";
+    private DialogContarct.Presenter presenter;
+
 
 
     public FoodDialog(@NonNull Context context, MessageEvent event) {
@@ -113,6 +122,8 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
         if (mCommand == MessageEvent.UPDATE_FOOD) {
             initEditHint();
         }
+        presenter = new DialogPresenter();
+        presenter.attachView(this);
         super.show();
     }
 
@@ -124,6 +135,7 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
         } else if (mCommand == MessageEvent.UPDATE_FOOD) {
             onFoodDialogDismissListener.onUpdateListener(mFood);
         }
+        presenter.detachView();
     }
 
     // 判断是否完成
@@ -140,7 +152,15 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
 
 
     private void toStandard(String ...strings) {
-
+        // 循环数组
+        for (int i = 0; i < strings.length; i++) {
+            if (strings[i] != null) {
+                if (strings[i].contains("Ä")) {
+                    // TODO: 2019/4/6 更换变音字母
+//                    strings[i].replace("Ä",)
+                }
+            }
+        }
     }
 
     // 置空
@@ -165,16 +185,27 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
         } else if (v == txtOk){
             if (!isComplete(uid, price, cnName, greName)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
+            } else if (presenter.checkFoodNumber(uid)) {
+                Toast.makeText(mContext, "编号已存在", Toast.LENGTH_SHORT).show();
             } else {
-                Log.i(TAG, "原来的id：" + id);
-                id++;
+                long id = getSharePreferencesId();
+                toStandard(uid, cnName, greName, price);
                 mFood = new Food(uid, cnName, greName, price, isSweetAndWine);
                 mFood.setId(id);
-                Log.i(TAG, "add id: " + id);
                 dismiss();
                 clear();
             }
         }
+    }
+
+    private long getSharePreferencesId() {
+        SharedPreferences sp = mContext.getSharedPreferences(Food.FOOD_DB, MODE_PRIVATE);
+        long id = sp.getLong(Food.FOOD_ID, 0L);
+        id++;
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(Food.FOOD_DB, MODE_PRIVATE).edit();
+        editor.putLong(Food.FOOD_ID, id);
+        editor.apply();
+        return id;
     }
 
     // 单选框选择监听
@@ -266,5 +297,15 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
 
             }
         });
+    }
+
+    @Override
+    public boolean confirmationNumber(boolean flag) {
+        return false;
+    }
+
+    @Override
+    public void showResult(String text) {
+
     }
 }

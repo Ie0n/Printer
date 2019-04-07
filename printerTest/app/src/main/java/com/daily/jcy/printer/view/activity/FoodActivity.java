@@ -109,7 +109,6 @@ public class FoodActivity extends BaseActivity implements OrderFoodContract.View
 
                 // 点击删除的操作
                 presenter.deleteFood(adapter.getmData().get(adapterPosition));
-                Toast.makeText(FoodActivity.this, "删除" + adapterPosition, Toast.LENGTH_SHORT).show();
 
             }
         };

@@ -2,16 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    app:cardCornerRadius="@dimen/item_card_corner">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:gravity="center"
         android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:layout_marginTop="5dp">
 
         <android.support.design.widget.TextInputLayout
@@ -66,6 +64,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/txt_layout_phone2"
             android:layout_width="220dp"
@@ -83,12 +82,30 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/txt_layout_zip"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="邮编"
+            android:layout_below="@id/txt_layout_phone2"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txt_edit_zip"
+                android:lines="1"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+        </android.support.design.widget.TextInputLayout>
+
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/txt_layout_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_layout_phone2"
+            android:layout_below="@id/txt_layout_zip"
             android:hint="请输入街道"
             app:errorEnabled="true">
 
@@ -109,24 +126,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/txt_layout_address">
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txt_layout_zip"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:hint="邮编"
-                app:errorEnabled="true">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/txt_edit_zip"
-                    android:lines="1"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"/>
-
-            </android.support.design.widget.TextInputLayout>
-
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/txt_layout_unit"
@@ -228,8 +227,8 @@
             android:id="@+id/txt_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/txt_layout_note2"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             android:text="确定"
             android:textColor="@color/accent"
@@ -239,9 +238,9 @@
             android:id="@+id/txx_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_margin="10dp"
             android:layout_toStartOf="@id/txt_ok"
+            android:layout_below="@id/txt_layout_note2"
             android:text="取消"
             android:textColor="@color/secondary_text"
             android:textSize="20sp" />

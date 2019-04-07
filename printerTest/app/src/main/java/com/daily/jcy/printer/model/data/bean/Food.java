@@ -13,6 +13,9 @@ import io.objectbox.relation.ToOne;
 @Entity
 public class Food implements Parcelable {
 
+    public static final String FOOD_DB = "FOOD";
+    public static final String FOOD_ID = "FOOD_ID";
+
     @Id(assignable = true)
     public long id;
     private String uid;
@@ -20,7 +23,7 @@ public class Food implements Parcelable {
     private String GERname;
     private String price;
     private boolean isSweetAndWine;
-    private int num;
+    private int num = 0;
     public ToOne<Order> order;
 
 

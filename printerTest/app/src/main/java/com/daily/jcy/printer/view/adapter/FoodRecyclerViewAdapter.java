@@ -88,6 +88,8 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
                 // 份数
                 if (mData.get(i).getNum() != 0) {
                     viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));
+                } else {
+                    viewHolder.txtCount.setText(String.valueOf(0));
                 }
             } else if (mContext instanceof PrinterActivity) {
                 viewHolder.txtCount.setText(String.valueOf(mData.get(i).getNum()));

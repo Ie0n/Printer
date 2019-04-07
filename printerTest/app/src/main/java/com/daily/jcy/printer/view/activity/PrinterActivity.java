@@ -4,6 +4,7 @@ package com.daily.jcy.printer.view.activity;
 import android.content.Context;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.design.widget.FloatingActionButton;
@@ -44,9 +45,9 @@ public class PrinterActivity extends BaseActivity {
     private ArrayList<Food> targetFoodList;
     private Client targetClient;
     private static final String TAG = "PrinterActivity-ee";
-    private Button btnPrintKitchen,btnPrintCheck;
+    private Button btnPrintKitchen, btnPrintCheck;
     private RecyclerView printerRecyclerView;
-    private TextView tv_main_bluetooth,totalPrice;
+    private TextView tv_main_bluetooth, totalPrice;
     private Box<Order> orderBox;
     private Box<Count> countBox;
     private List<Food> listData;
@@ -82,7 +83,7 @@ public class PrinterActivity extends BaseActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MainActivity.class));
+                startActivity(new Intent(context, MainActivity.class));
             }
         });
         printfManager.addBluetoothChangLister(new PrintfManager.BluetoothChangLister() {
@@ -112,7 +113,7 @@ public class PrinterActivity extends BaseActivity {
         btnPrintCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (printfManager.isConnect()){
+                if (printfManager.isConnect()) {
                     printfManager.print_check(
                             targetClient,
                             "Asia Restaurant",
@@ -142,7 +143,7 @@ public class PrinterActivity extends BaseActivity {
     }
 
     private void saveOrder() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd,MM,yyyy hh:mm");
         String time = simpleDateFormat.format(System.currentTimeMillis());
         String summe = String.valueOf(getSumme());
         String summe2 = summe.replace(".", ",");
@@ -153,7 +154,9 @@ public class PrinterActivity extends BaseActivity {
             counts.add(new Count(0L, targetFoodList.get(i).getNum()));
         }
         countBox.put(counts);
-        Order order = new Order(0L, time, summe2);
+
+        long orderId = getSharePreferencesId();
+        Order order = new Order(orderId, time, summe2);
 
         // 数据库操作
         orderBox.attach(order);
@@ -164,13 +167,28 @@ public class PrinterActivity extends BaseActivity {
         EventBus.getDefault().post(new BusEvent(BusEvent.CREATE_ORDER));
     }
 
+    /**
+     * 先从数据库中取出数据id。++后再放回
+     *
+     * @return
+     */
+    private long getSharePreferencesId() {
+        SharedPreferences sp = getSharedPreferences(Order.ORDER_DB, MODE_PRIVATE);
+        long id = sp.getLong(Order.ORDER_ID, 0L);
+        id++;
+        SharedPreferences.Editor editor = getSharedPreferences(Order.ORDER_DB, MODE_PRIVATE).edit();
+        editor.putLong(Order.ORDER_ID, id);
+        editor.apply();
+        return id;
+    }
+
     private void initData() {
         printfManager = PrintfManager.getInstance(context);
         totalPrice.setText(getSumme());
         listData = new ArrayList<>();
-        listData.add(new Food("10001","鱼香肉丝","dddd","$200",false,1));
-        listData.add(new Food("10001","宫保鸡丁","aaaaaa","$987",false,2));
-        listData.add(new Food("10001","盐煎肉","efefe","$160",false,1));
+        listData.add(new Food("10001", "鱼香肉丝", "dddd", "$200", false, 1));
+        listData.add(new Food("10001", "宫保鸡丁", "aaaaaa", "$987", false, 2));
+        listData.add(new Food("10001", "盐煎肉", "efefe", "$160", false, 1));
         printfManager.defaultConnection();
     }
 
@@ -179,10 +197,10 @@ public class PrinterActivity extends BaseActivity {
             Bundle clientBundle = getIntent().getBundleExtra(OrderClientActivity.TARGET_Client_BUNDLE);
             Bundle foodBundle = getIntent().getBundleExtra(OrderFoodActivity.TARGET_FOOD_BUNDLE);
             if (clientBundle != null) {
-                targetClient =  clientBundle.getParcelable(OrderClientActivity.TARGET_CLIENT);
+                targetClient = clientBundle.getParcelable(OrderClientActivity.TARGET_CLIENT);
             }
             if (foodBundle != null) {
-                targetFoodList =  foodBundle.getParcelableArrayList(OrderFoodActivity.TARGET_FOOD_LIST);
+                targetFoodList = foodBundle.getParcelableArrayList(OrderFoodActivity.TARGET_FOOD_LIST);
             }
         }
     }

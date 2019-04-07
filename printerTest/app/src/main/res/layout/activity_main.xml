@@ -49,10 +49,12 @@
             android:layout_width="200dp"
             android:layout_height="250dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/main_fab_layout_margin">
+            android:layout_margin="@dimen/main_fab_layout_margin"
+            android:paddingBottom="10dp">
 
 
             <android.support.design.widget.FloatingActionButton
+                android:translationZ="@dimen/item_card_translation_z"
                 android:id="@+id/fab_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
