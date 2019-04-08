@@ -71,12 +71,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         initView();
         initUtils();
         setCustomActionBar();
-        if (PermissionUtil.checkExternalStoragePermission(this)){
-
-        }
-        if(PermissionUtil.checkLocationPermission(this)){
-
-        }
+        PermissionUtil.checkExternalStoragePermission(this);
+        PermissionUtil.checkLocationPermission(this);
     }
 
     @Override
