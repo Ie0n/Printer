@@ -1,10 +1,14 @@
 package com.daily.jcy.printer.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,11 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.MainContract;
+import com.daily.jcy.printer.manager.PrintfManager;
+import com.daily.jcy.printer.utils.PermissionUtil;
+import com.daily.jcy.printer.utils.Util;
 import com.daily.jcy.printer.utils.callback.OnOrderItemClickListener;
 import com.daily.jcy.printer.utils.message.BusEvent;
 import com.daily.jcy.printer.view.adapter.OrderRecycleViewAdapter;
@@ -30,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +59,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
     private Button btnClear;
     private ArrayList<View> animViews;
     private OrderRecycleViewAdapter adapter;
+    private TextView tv_main_bluetooth;
+    private PrintfManager printfManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +69,14 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         EventBus.getDefault().register(this);
         initPresenter();
         initView();
-        requestPermission();
-        initAnimatorUtils();
+        initUtils();
         setCustomActionBar();
-    }
+        if (PermissionUtil.checkExternalStoragePermission(this)){
 
-    /**
-     * 针对6.0以上设备动态请求权限
-     */
-    private void requestPermission() {
+        }
+        if(PermissionUtil.checkLocationPermission(this)){
 
+        }
     }
 
     @Override
@@ -83,6 +92,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
             return true;
         }
         return super.onKeyDown(keyCode, event);
+
     }
 
     @Override
@@ -97,6 +107,42 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG,"RequestPermissionsResult");
+        switch (requestCode) {
+            case PermissionUtil.MY_PERMISSIONS_REQUEST_CODE:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d(TAG,""+grantResults.length);
+//                    if(!printfManager.isConnect()){
+////                        starSearchBlue();
+//                        Util.ToastTextThread(this,"已经有权限了");
+//                    }
+                    } else {
+                        //权限被拒绝
+                        new AlertDialog.Builder(this).setMessage(getString(R.string.permissions_are_rejected_bluetooth))
+                                .setPositiveButton(getString(R.string.to_set_up), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = Util.getAppDetailSettingIntent(MainActivity.this);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                    }
+                                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).setTitle(getString(R.string.prompt)).show();
+                        break;
+                    }
+                }
+
+        }
+    }
+
     private void initPresenter() {
         presenter = new MainPresenter();
         presenter.attachView(this);
@@ -104,12 +150,20 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
 
     private void initView() {
         Log.i(TAG, "initView: ");
+        printfManager = PrintfManager.getInstance(MainActivity.this);
         searchEdit = findViewById(R.id.main_search);
         searchEdit.setOnFocusChangeListener(this);
         searchEdit.setOnClickListener(this);
         searchEdit.addTextChangedListener(this);
         orderRecyclerView = findViewById(R.id.main_rv);
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        tv_main_bluetooth = findViewById(R.id.tv_main_bluetooth);
+        printfManager.addBluetoothChangLister(new PrintfManager.BluetoothChangLister() {
+            @Override
+            public void chang(String name, String address) {
+                tv_main_bluetooth.setText(name);
+            }
+        });
 
         // 菜单控件
         btnMore = findViewById(R.id.fab_menu);
@@ -129,7 +183,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         presenter.updateOrderListData();
     }
 
-    private void initAnimatorUtils() {
+    private void initUtils() {
         animViews = new ArrayList<>();
         animViews.add(btnClient);
         animViews.add(btnFood);
@@ -210,7 +264,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
                 CloseMenu();
                 presenter.clearOrderList();
                 presenter.updateOrderListData();
-                clearOrderId();
                 Toast.makeText(this, "清除成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
@@ -243,6 +296,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         intent.putExtra(TARGET_BUNDLE, bundle);
         startActivity(intent);
     }
+
     private void setCustomActionBar() {
         ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
         View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
@@ -257,7 +311,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,PrintfBlueListActivity.class));
+                PrintfBlueListActivity.startActivity(MainActivity.this);
             }
         });
     }

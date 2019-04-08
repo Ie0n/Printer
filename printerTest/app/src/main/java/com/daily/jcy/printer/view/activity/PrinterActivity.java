@@ -94,13 +94,6 @@ public class PrinterActivity extends BaseActivity {
             }
         });
 
-        tv_main_bluetooth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PrintfBlueListActivity.startActivity(PrinterActivity.this);
-            }
-        });
-
         btnPrintKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

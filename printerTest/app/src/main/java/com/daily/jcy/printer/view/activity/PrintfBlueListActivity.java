@@ -13,7 +13,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -37,7 +41,7 @@ import java.util.Set;
 import static com.daily.jcy.printer.utils.Util.rotate;
 
 
-public class PrintfBlueListActivity extends Activity {
+public class PrintfBlueListActivity extends AppCompatActivity {
 
     private BluetoothAdapter mBluetoothAdapter = null;
 
@@ -53,7 +57,7 @@ public class PrintfBlueListActivity extends Activity {
     private Context context;
 
     private ListView lv_blue_list,lv_already_blue_list;
-    private TextView tv_blue_list_back, tv_blue_list_operation;
+    private TextView search;
     private String TAG = "PrintfBlueListActivity";
     private BlueListViewAdapter adapter;
     private boolean isRegister;
@@ -76,6 +80,7 @@ public class PrintfBlueListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_printf_blue_list);
         context = this;
+        setCustomActionBar();
         initView();
         initData();
         setLister();
@@ -88,7 +93,7 @@ public class PrintfBlueListActivity extends Activity {
     }
 
     private void stopSearchBlue() {
-        tv_blue_list_operation.setText(getString(R.string.printf_blue_list_search));
+        search.setText(getString(R.string.printf_blue_list_search));
         if (mReceiver != null && isRegister) {
             try {
                 unregisterReceiver(mReceiver);
@@ -153,7 +158,7 @@ public class PrintfBlueListActivity extends Activity {
     }
 
     private void starSearchBlue() {
-        tv_blue_list_operation.setText(getString(R.string.printf_blue_list_stop));
+        search.setText(getString(R.string.printf_blue_list_stop));
         Util.ToastText(context,getString(R.string.start_search));
         bluetoothDeviceArrayList.clear();
         IntentFilter filter = new IntentFilter();
@@ -247,10 +252,10 @@ public class PrintfBlueListActivity extends Activity {
         });
 
 
-        tv_blue_list_operation.setOnClickListener(new View.OnClickListener() {
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = tv_blue_list_operation.getText().toString();
+                String text = search.getText().toString();
                 String stopText = getString(R.string.printf_blue_list_stop);
                 String searchText = getString(R.string.printf_blue_list_search);
                 if (text.equals(searchText)) {//点了搜索
@@ -258,13 +263,6 @@ public class PrintfBlueListActivity extends Activity {
                 } else if (text.equals(stopText)) {//点击了停止
                     stopSearchBlue();
                 }
-            }
-        });
-
-        tv_blue_list_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
             }
         });
 
@@ -335,8 +333,6 @@ public class PrintfBlueListActivity extends Activity {
 
         lv_blue_list = (ListView) findViewById(R.id.lv_blue_list);
         lv_already_blue_list = (ListView)findViewById(R.id.lv_already_blue_list);
-        tv_blue_list_back = (TextView) findViewById(R.id.tv_blue_list_back);
-        tv_blue_list_operation = (TextView) findViewById(R.id.tv_blue_list_operation);
 
         tv_blue_list_name = (TextView)findViewById(R.id.tv_blue_list_name);
         tv_blue_list_address = (TextView)findViewById(R.id.tv_blue_list_address);
@@ -369,7 +365,7 @@ public class PrintfBlueListActivity extends Activity {
             }
             //搜索完成
             else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                tv_blue_list_operation.setText(getString(R.string.printf_blue_list_search));
+                search.setText(getString(R.string.printf_blue_list_search));
                 stopSearchBlue();
             }
         }
@@ -394,6 +390,26 @@ public class PrintfBlueListActivity extends Activity {
         }
         Intent intent = new Intent(activity,PrintfBlueListActivity.class);
         activity.startActivity(intent);
+    }
+    private void setCustomActionBar() {
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar_bluelist, null);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        ImageView back = mActionBarView.findViewById(R.id.pic);
+        search = mActionBarView.findViewById(R.id.search);
+        text.setText("打印机列表");
+        getSupportActionBar().setCustomView(mActionBarView, lp);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PrintfBlueListActivity.this.finish();
+            }
+        });
+
     }
 
 
