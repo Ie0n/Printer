@@ -1,5 +1,6 @@
 package com.daily.jcy.printer.view.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,7 +43,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements MainContract.View, OnOrderItemClickListener {
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks,MainContract.View, OnOrderItemClickListener {
 
     private static final String TAG = "MainActivity-zz";
     public static final String TARGET_ORDER = "TARGET_ORDER";
@@ -61,6 +64,8 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
     private OrderRecycleViewAdapter adapter;
     private TextView tv_main_bluetooth;
     private PrintfManager printfManager;
+    private String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +76,7 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         initView();
         initUtils();
         setCustomActionBar();
-        PermissionUtil.checkExternalStoragePermission(this);
-        PermissionUtil.checkLocationPermission(this);
+        getPermission();
     }
 
     @Override
@@ -103,41 +107,6 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.d(TAG,"RequestPermissionsResult");
-        switch (requestCode) {
-            case PermissionUtil.MY_PERMISSIONS_REQUEST_CODE:
-                for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        Log.d(TAG,""+grantResults.length);
-//                    if(!printfManager.isConnect()){
-////                        starSearchBlue();
-//                        Util.ToastTextThread(this,"已经有权限了");
-//                    }
-                    } else {
-                        //权限被拒绝
-                        new AlertDialog.Builder(this).setMessage(getString(R.string.permissions_are_rejected_bluetooth))
-                                .setPositiveButton(getString(R.string.to_set_up), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = Util.getAppDetailSettingIntent(MainActivity.this);
-                                        startActivity(intent);
-                                        dialog.dismiss();
-                                    }
-                                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).setTitle(getString(R.string.prompt)).show();
-                        break;
-                    }
-                }
-
-        }
-    }
 
     private void initPresenter() {
         presenter = new MainPresenter();
@@ -310,5 +279,31 @@ public class MainActivity extends BaseActivity implements MainContract.View, OnO
                 PrintfBlueListActivity.startActivity(MainActivity.this);
             }
         });
+    }
+
+    //获取相关权限
+    private void getPermission() {
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            Toast.makeText(this, "已经申请相关权限", Toast.LENGTH_SHORT).show();
+        } else {
+            EasyPermissions.requestPermissions(this, "需要获取您的相册、照相使用权限", 1, permissions);
+        }
+
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(this, "请同意相关权限，否则功能无法使用", Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 }

@@ -1,5 +1,6 @@
 package com.daily.jcy.printer.view.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daily.jcy.printer.MyApplication;
 import com.daily.jcy.printer.R;
@@ -38,10 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 import static com.daily.jcy.printer.utils.Util.rotate;
 
 
-public class PrintfBlueListActivity extends AppCompatActivity {
+public class PrintfBlueListActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private BluetoothAdapter mBluetoothAdapter = null;
 
@@ -74,6 +78,9 @@ public class PrintfBlueListActivity extends AppCompatActivity {
      */
     private boolean ALREADY_PAIRED_IS_OPEN,UNPAIRED_IS_OPEN;
 
+    private String[] permissions = {Manifest.permission.BLUETOOTH,Manifest.permission.ACCESS_COARSE_LOCATION};
+
+
     @SuppressLint("ServiceCast")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class PrintfBlueListActivity extends AppCompatActivity {
         initView();
         initData();
         setLister();
+        getPermission();
 
         if(PermissionUtil.checkLocationPermission(context)){
             if(!printfManager.isConnect()){
@@ -107,36 +115,6 @@ public class PrintfBlueListActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case PermissionUtil.MY_PERMISSIONS_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(!printfManager.isConnect()){
-                        starSearchBlue();
-                    }
-                } else {
-                    //权限被拒绝
-                    new AlertDialog.Builder(context).setMessage(getString(R.string.permissions_are_rejected_bluetooth))
-                            .setPositiveButton(getString(R.string.to_set_up), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = Util.getAppDetailSettingIntent(context);
-                                    startActivity(intent);
-                                    dialog.dismiss();
-                                }
-                            }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).setTitle(getString(R.string.prompt)).show();
-                    break;
-                }
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -412,5 +390,27 @@ public class PrintfBlueListActivity extends AppCompatActivity {
 
     }
 
+    private void getPermission() {
+        if (EasyPermissions.hasPermissions(this, permissions)) {
+            Toast.makeText(this, "已经申请相关权限", Toast.LENGTH_SHORT).show();
+        } else {
+            EasyPermissions.requestPermissions(this, "需要获取您的相册、照相使用权限", 1, permissions);
+        }
 
+    }
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(this, "权限获取成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Toast.makeText(this, "请同意相关权限，否则功能无法使用", Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 }
