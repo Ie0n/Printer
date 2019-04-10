@@ -20,7 +20,7 @@ import com.daily.jcy.printer.utils.message.MessageEvent;
 
 import java.util.regex.Pattern;
 
-public class ClientDialog extends Dialog implements  View.OnClickListener , DialogContarct.View{
+public class ClientDialog extends Dialog implements View.OnClickListener, DialogContarct.View {
 
     private static final String TAG = "-mm";
     private int mCommand; // 判断是创建还是更新
@@ -53,6 +53,7 @@ public class ClientDialog extends Dialog implements  View.OnClickListener , Dial
     private TextInputEditText editFloor;
     private TextInputEditText editRoom;
     private DialogContarct.Presenter presenter;
+    private String uid;
 
     public ClientDialog(@NonNull Context context, MessageEvent event) {
         super(context);
@@ -84,11 +85,12 @@ public class ClientDialog extends Dialog implements  View.OnClickListener , Dial
     }
 
     // 设置点击item传进来的信息赋值给EditText的Hint
-    private void setHintText(TextInputEditText editText,String hint) {
+    private void setHintText(TextInputEditText editText, String hint) {
         if (hint != null) {
             editText.setText(hint);
         }
     }
+
     private void initEditHint() {
         id = String.valueOf(beforeClient.getId());
         name = beforeClient.getName();
@@ -149,15 +151,15 @@ public class ClientDialog extends Dialog implements  View.OnClickListener , Dial
         if (v == txtCancel) {
             dismiss();
             clear();
-        } else if (v == txtOk){
-            if (!isComplete(id, name, phone, street, zip)) {
+        } else if (v == txtOk) {
+            if (!isComplete(id, phone, street, zip)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
-            } else if (isInteger(id)){
+            } else if (!isInteger(id)) {
                 Toast.makeText(mContext, "请输入正整数", Toast.LENGTH_SHORT).show();
-            } else if (presenter.checkClientNumber(id)) {
+            } else if (mCommand == MessageEvent.CREATE_CLIENT && presenter.checkClientNumber(uid)) {
                 Toast.makeText(mContext, "编号已存在", Toast.LENGTH_SHORT).show();
             } else {
-                client = new Client(Long.parseLong(id), name, phone, phone2, zip, street, unit, floor, room, note, note2);
+                client = new Client(Long.parseLong(id), uid, name, phone, phone2, zip, street, unit, floor, room, note, note2);
                 dismiss();
                 clear();
             }
@@ -175,13 +177,15 @@ public class ClientDialog extends Dialog implements  View.OnClickListener , Dial
         }
         return true;
     }
+
     private boolean isInteger(String str) {
         Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
         return pattern.matcher(str).matches();
     }
+
     private void clear() {
         client = null;
-        id = name = phone = phone2 = zip = unit = floor = room = street = note2 = note = null;
+        id = uid = name = phone = phone2 = zip = unit = floor = room = street = note2 = note = null;
         editName.setText("");
         editNum.setText("");
         editPhone2.setText("");
@@ -212,7 +216,7 @@ public class ClientDialog extends Dialog implements  View.OnClickListener , Dial
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                id =  s.toString();
+                uid = id = s.toString();
             }
 
             @Override

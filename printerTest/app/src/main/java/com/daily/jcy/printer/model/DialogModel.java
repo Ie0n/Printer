@@ -40,7 +40,7 @@ public class DialogModel implements DialogContarct.Model {
 
     @Override
     public boolean checkClientNumber(String clientId) {
-        List<Client> client = clientBox.query().equal(Client_.id, clientId).build().find();
+        List<Client> client = clientBox.query().equal(Client_.uid, clientId).build().find();
         return client.size() != 0;
     }
 

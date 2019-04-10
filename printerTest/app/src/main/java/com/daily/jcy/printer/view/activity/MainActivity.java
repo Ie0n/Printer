@@ -26,8 +26,6 @@ import android.widget.Toast;
 import com.daily.jcy.printer.R;
 import com.daily.jcy.printer.contract.MainContract;
 import com.daily.jcy.printer.manager.PrintfManager;
-import com.daily.jcy.printer.utils.PermissionUtil;
-import com.daily.jcy.printer.utils.Util;
 import com.daily.jcy.printer.utils.callback.OnOrderItemClickListener;
 import com.daily.jcy.printer.utils.message.BusEvent;
 import com.daily.jcy.printer.view.adapter.OrderRecycleViewAdapter;
@@ -39,7 +37,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,6 +226,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 CloseMenu();
                 presenter.clearOrderList();
                 presenter.updateOrderListData();
+                clearOrderId();
                 Toast.makeText(this, "清除成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_setting:
@@ -284,7 +282,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     //获取相关权限
     private void getPermission() {
         if (EasyPermissions.hasPermissions(this, permissions)) {
-            Toast.makeText(this, "已经申请相关权限", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "已经申请相关权限", Toast.LENGTH_SHORT).show();
         } else {
             EasyPermissions.requestPermissions(this, "需要获取您的相册、照相使用权限", 1, permissions);
         }

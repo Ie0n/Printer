@@ -14,6 +14,7 @@ import io.objectbox.relation.ToOne;
 public class Client implements Parcelable {
     @Id(assignable = true)
     public long id;
+    public String uid;
     private String name;
     private String tel;
     private String tel2;
@@ -27,7 +28,7 @@ public class Client implements Parcelable {
     public ToOne<Order> order;
 
 
-    public Client(long id, String name, String tel, String tel2, String zip, String street, String unit, String floor, String room, String note, String note2) {
+    public Client(long id,String uid, String name, String tel, String tel2, String zip, String street, String unit, String floor, String room, String note, String note2) {
         this.id = id;
         this.name = name;
         this.tel = tel;
@@ -39,14 +40,17 @@ public class Client implements Parcelable {
         this.room = room;
         this.note = note;
         this.note2 = note2;
+        this.uid = uid;
     }
 
 
     public Client() {
     }
 
+
     protected Client(Parcel in) {
         id = in.readLong();
+        uid = in.readString();
         name = in.readString();
         tel = in.readString();
         tel2 = in.readString();
@@ -57,6 +61,27 @@ public class Client implements Parcelable {
         room = in.readString();
         note = in.readString();
         note2 = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(uid);
+        dest.writeString(name);
+        dest.writeString(tel);
+        dest.writeString(tel2);
+        dest.writeString(zip);
+        dest.writeString(street);
+        dest.writeString(unit);
+        dest.writeString(floor);
+        dest.writeString(room);
+        dest.writeString(note);
+        dest.writeString(note2);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Client> CREATOR = new Creator<Client>() {
@@ -70,6 +95,15 @@ public class Client implements Parcelable {
             return new Client[size];
         }
     };
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 
     public long getId() {
         return id;
@@ -168,25 +202,5 @@ public class Client implements Parcelable {
                 "tel = " + getTel() +
                 "street = " + getStreet() +
                 "note = " + getNote();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(tel);
-        dest.writeString(tel2);
-        dest.writeString(zip);
-        dest.writeString(street);
-        dest.writeString(unit);
-        dest.writeString(floor);
-        dest.writeString(room);
-        dest.writeString(note);
-        dest.writeString(note2);
     }
 }

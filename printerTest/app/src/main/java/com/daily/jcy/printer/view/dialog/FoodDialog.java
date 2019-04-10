@@ -185,7 +185,7 @@ public class FoodDialog extends Dialog implements View.OnClickListener
         } else if (v == txtOk){
             if (!isComplete(uid, price, cnName, greName)) {
                 Toast.makeText(mContext, "请填写完整！", Toast.LENGTH_SHORT).show();
-            } else if (presenter.checkFoodNumber(uid)) {
+            } else if (mCommand == MessageEvent.CREATE_FOOD && presenter.checkFoodNumber(uid)) {
                 Toast.makeText(mContext, "编号已存在", Toast.LENGTH_SHORT).show();
             } else {
                 long id = getSharePreferencesId();
