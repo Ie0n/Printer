@@ -25,7 +25,7 @@ public class Client implements Parcelable {
     private String room ;
     private String note;
     private String note2;
-    public ToOne<Order> order;
+//    public ToOne<Order> order;
 
 
     public Client(long id,String uid, String name, String tel, String tel2, String zip, String street, String unit, String floor, String room, String note, String note2) {

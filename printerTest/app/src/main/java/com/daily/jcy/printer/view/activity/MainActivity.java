@@ -44,7 +44,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks,MainContract.View, OnOrderItemClickListener {
 
-    private static final String TAG = "MainActivity-zz";
+    private static final String TAG = "MainActivity-lllll";
     public static final String TARGET_ORDER = "TARGET_ORDER";
     public static final String TARGET_BUNDLE = "TARGET_BUNDLE";
     private MainPresenter presenter;
@@ -253,6 +253,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     // 点击Item的回调
     @Override
     public void onOrderItemClick(Order order) {
+        Log.i(TAG, "onOrderItemClick: " + order.getId());
         Intent intent = new Intent(this, OrderDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(TARGET_ORDER, order);

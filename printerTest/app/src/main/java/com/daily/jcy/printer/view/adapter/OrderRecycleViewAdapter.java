@@ -3,6 +3,7 @@ package com.daily.jcy.printer.view.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class OrderRecycleViewAdapter extends RecyclerView.Adapter<OrderRecycleVi
     private List<Order> mData;
     private Context mContext;
     private OnOrderItemClickListener onOrderItemClickListener;
+    private static final String TAG = "Ordpter-lllll";
 
 
     public OrderRecycleViewAdapter(Context context,List<Order> data) {
@@ -81,6 +83,10 @@ public class OrderRecycleViewAdapter extends RecyclerView.Adapter<OrderRecycleVi
     @Override
     public void onClick(View v) {
         if (onOrderItemClickListener != null) {
+            Log.i(TAG, "onClick: " + v.getTag(R.id.tag_position));
+            for (int i = 0; i < mData.size(); i++) {
+                Log.i(TAG, "data: " + mData.get(i));
+            }
             onOrderItemClickListener.onOrderItemClick(mData.get((Integer) v.getTag(R.id.tag_position)));
         }
     }

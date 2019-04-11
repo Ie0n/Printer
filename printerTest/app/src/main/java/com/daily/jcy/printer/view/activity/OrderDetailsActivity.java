@@ -26,7 +26,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private List<Food> foodList;
     private Client mClient;
     private List<Count> countList;
-    private static final String TAG = "OrderDetailsActivity-aa";
+    private static final String TAG = "OrderDetailsAy-llll";
     private Box<Order> orderBox;
     private TextView txtTime, txtSumme, txtClientId, txtName, txtPhone1, txtPhone2, txtZip, txtStreet, txtUnit, txtFloor, txtRoom, txtNote;
     private LinearLayout layoutFood;
@@ -49,17 +49,23 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private void initIntent() {
         if (getIntent() != null) {
             Bundle bundle = getIntent().getBundleExtra(MainActivity.TARGET_BUNDLE);
-            mOrder = (Order) bundle.getParcelable(MainActivity.TARGET_ORDER);
+            Order order =  bundle.getParcelable(MainActivity.TARGET_ORDER);
+            Log.i(TAG, "id: " + order.getId());
+            mOrder = orderBox.get(order.getId());
+            Log.i(TAG, "initIntent: " + mOrder.getId());
+
             if (mOrder != null) {
-                orderBox.attach(mOrder);
-                if (mOrder.getClientList() != null) {
-                    mClient = mOrder.getClientList().get(0);
+                if (mOrder.clientList != null) {
+                    mClient = mOrder.clientList.get(0);
+                    Log.i(TAG, "clientList: " + mOrder.clientList.size());
                 }
-                if (mOrder.getFoodList() != null) {
-                    foodList = mOrder.getFoodList();
+                if (mOrder.foodList != null) {
+                    foodList = mOrder.foodList;
+                    Log.i(TAG, "foodList: " + foodList.size());
                 }
                 if (mOrder.countsList != null) {
                     countList = mOrder.countsList;
+                    Log.i(TAG, "countslist: " + countList.size());
                 }
             }
         }

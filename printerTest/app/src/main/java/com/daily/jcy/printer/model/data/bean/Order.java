@@ -22,11 +22,11 @@ public class Order implements Parcelable {
     private Long id;
     private String time;
     private String totalPrice;
-    @Backlink(to = "order")
+//    @Backlink
     public ToMany<Count> countsList;
-    @Backlink(to = "order")
+//    @Backlink
     public ToMany<Food> foodList;
-    @Backlink(to = "order")
+//    @Backlink
     public ToMany<Client> clientList;
 
 
@@ -86,23 +86,6 @@ public class Order implements Parcelable {
         this.totalPrice = totalPrice;
     }
 
-    public List<Food> getFoodList() {
-        return foodList;
-    }
-
-    public void setFoodList(ToMany<Food> foodList) {
-        this.foodList = foodList;
-    }
-
-
-    public ToMany<Client> getClientList() {
-        return clientList;
-    }
-
-    public void setClientList(ToMany<Client> clientList) {
-        this.clientList = clientList;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -119,5 +102,26 @@ public class Order implements Parcelable {
         dest.writeString(time);
         dest.writeString(totalPrice);
     }
+//
+//    public List<Food> getFoodList() {
+//        return foodList;
+//    }
+
+
+//
+//    public void setFoodList(ToMany<Food> foodList) {
+//        this.foodList = foodList;
+//    }
+//
+//
+//    public ToMany<Client> getClientList() {
+//        return clientList;
+//    }
+//
+//    public void setClientList(ToMany<Client> clientList) {
+//        this.clientList = clientList;
+//    }
+
+
 
 }

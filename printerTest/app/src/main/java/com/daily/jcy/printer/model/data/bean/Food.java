@@ -24,7 +24,7 @@ public class Food implements Parcelable {
     private String price;
     private boolean isSweetAndWine;
     private int num = 0;
-    public ToOne<Order> order;
+//    public ToOne<Order> order;
 
 
     public Food() {

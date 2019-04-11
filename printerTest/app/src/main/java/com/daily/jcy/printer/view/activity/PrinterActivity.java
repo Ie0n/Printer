@@ -197,6 +197,9 @@ public class PrinterActivity extends BaseActivity {
             }
             if (foodBundle != null) {
                 targetFoodList = foodBundle.getParcelableArrayList(OrderFoodActivity.TARGET_FOOD_LIST);
+                for (int i = 0; i < targetFoodList.size(); i++) {
+                    Log.i(TAG, "initBeforeArg: " + targetFoodList.get(i).getNum());
+                }
             }
         }
     }
