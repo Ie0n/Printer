@@ -230,6 +230,8 @@ public class PrintfManager {
                         Log.d(TAG,"result1:"+result1);
                         double price = Double.parseDouble(result1);
                         Log.d(TAG,""+price*food.getNum());
+                        printText(food.getUid());
+                        printTabSpace(1);
                         printText(food.getGERname());
 
                         String result2 = "";
