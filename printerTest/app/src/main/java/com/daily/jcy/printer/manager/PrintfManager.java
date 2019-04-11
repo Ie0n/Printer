@@ -364,11 +364,11 @@ public class PrintfManager {
                             continue;
                         }
                         int number = food.getNum();
-                        printText(String.valueOf(number));
-                        printText(" x ");
-                        printText(food.getUid());
+                        printLargeText(30,String.valueOf(number));
+                        printLargeText(30," x ");
+                        printLargeText(30,food.getUid());
                         printTabSpace(2);
-                        printText(food.getCNname());
+                        printLargeText(30,food.getCNname());
                         printfWrap();
                     }
                     printfWrap(3);
