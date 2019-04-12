@@ -86,29 +86,101 @@ public class OrderClientModel implements OrderClientContract.Model {
             result.add(clientBox.get(num));
         }
         switch (strNum.length()) {
+            // 2
             case 1:
+                // 20-29，200-299，2000-2999，20000-29999，200000-299999,2000000-2999999,20000000-29999999
                 List<Client> result1 = clientBox.query().between(Client_.id, num * 10, num * 10 + 9).build().find();
                 List<Client> result2 = clientBox.query().between(Client_.id, num * 100, num * 100 + 99).build().find();
                 List<Client> result3 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 999).build().find();
+                List<Client> result8 = clientBox.query().between(Client_.id, num * 10000, num * 10000 + 9999).build().find();
+                List<Client> result9 = clientBox.query().between(Client_.id, num * 100000, num * 100000 + 99999).build().find();
+                List<Client> result10 = clientBox.query().between(Client_.id, num * 1000000, num * 1000000 + 999999).build().find();
+                List<Client> result11 = clientBox.query().between(Client_.id, num * 10000000, num * 10000000 + 9999999).build().find();
+
                 result.addAll(result1);
                 result.addAll(result2);
                 result.addAll(result3);
+                result.addAll(result8);
+                result.addAll(result9);
+                result.addAll(result10);
+                result.addAll(result11);
+
                 return result;
+                // 20
             case 2:
+                // 200-299,2000-2999,20000-29999,200000-299999,2000000-2999999,20000000-29999999
                 List<Client> result4 = clientBox.query().between(Client_.id, num * 10, num * 10 + 99).build().find();
                 List<Client> result5 = clientBox.query().between(Client_.id, num * 100, num * 100 + 999).build().find();
+                List<Client> result12 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 9999).build().find();
+                List<Client> result13 = clientBox.query().between(Client_.id, num * 10000, num * 10000 + 99999).build().find();
+                List<Client> result14 = clientBox.query().between(Client_.id, num * 100000, num * 100000 + 999999).build().find();
+                List<Client> result15 = clientBox.query().between(Client_.id, num * 1000000, num * 1000000 + 9999999).build().find();
+
                 result.addAll(result4);
                 result.addAll(result5);
+                result.addAll(result12);
+                result.addAll(result13);
+                result.addAll(result14);
+                result.addAll(result15);
                 return result;
+                // 200
             case 3:
+                // 2000-2999,20000-29999,200000-299999,2000000-2999999
                 List<Client> result6 = clientBox.query().between(Client_.id, num * 10, num * 10 + 999).build().find();
+                List<Client> result16 = clientBox.query().between(Client_.id, num * 100, num * 100 + 9999).build().find();
+                List<Client> result17 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 99999).build().find();
+                List<Client> result18 = clientBox.query().between(Client_.id, num * 10000, num * 10000 + 999999).build().find();
+                List<Client> result19 = clientBox.query().between(Client_.id, num * 100000, num * 100000 + 9999999).build().find();
                 result.addAll(result6);
+                result.addAll(result16);
+                result.addAll(result17);
+                result.addAll(result18);
+                result.addAll(result19);
                 return result;
+                // 2000
             case 4:
+                // 20000-29999,200000-299999,2000000-2999999,20000000-29999999
+                List<Client> result7 = clientBox.query().between(Client_.id, num * 10, num * 10 + 9999).build().find();
+                List<Client> result20 = clientBox.query().between(Client_.id, num * 100, num * 100 + 99999).build().find();
+                List<Client> result21 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 999999).build().find();
+                List<Client> result22 = clientBox.query().between(Client_.id, num * 10000, num * 10000 + 9999999).build().find();
+                result.addAll(result7);
+                result.addAll(result20);
+                result.addAll(result21);
+                result.addAll(result22);
+                return result;
+                //20000
+            case 5:
+                //200000-299999,2000000-2999999,20000000-29999999
+                List<Client> result23 = clientBox.query().between(Client_.id, num * 10, num * 10 + 99999).build().find();
+                List<Client> result24 = clientBox.query().between(Client_.id, num * 100, num * 100 + 999999).build().find();
+                List<Client> result25 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 9999999).build().find();
+                result.addAll(result23);
+                result.addAll(result24);
+                result.addAll(result25);
+                return result;
+                // 200000
+            case 6:
+                // 2000000-2999999,20000000-29999999
+                List<Client> result26 = clientBox.query().between(Client_.id, num * 10, num * 10 + 999999).build().find();
+                List<Client> result27 = clientBox.query().between(Client_.id, num * 100, num * 100 + 9999999).build().find();
+                List<Client> result28 = clientBox.query().between(Client_.id, num * 1000, num * 1000 + 99999999).build().find();
+                result.addAll(result26);
+                result.addAll(result27);
+                result.addAll(result28);
+                return result;
+                // 2000000
+            case 7:
+                // 20000000-29999999
+                List<Client> result29 = clientBox.query().between(Client_.id, num * 10, num * 10 + 9999999).build().find();
+                result.addAll(result29);
+                return result;
+            case 8:
                 return result;
             default:
                 return null;
         }
+
     }
 
 

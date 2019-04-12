@@ -24,8 +24,7 @@ import com.daily.jcy.printer.utils.message.MessageEvent;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class FoodDialog extends Dialog implements View.OnClickListener
-        ,RadioGroup.OnCheckedChangeListener, DialogContarct.View {
+public class FoodDialog extends Dialog implements View.OnClickListener,RadioGroup.OnCheckedChangeListener, DialogContarct.View {
 
     private Context mContext;
     private int mCommand;
@@ -46,7 +45,6 @@ public class FoodDialog extends Dialog implements View.OnClickListener
     private RadioGroup radioGroup;
     private OnFoodDialogDismissListener onFoodDialogDismissListener;
     private Food beforeFood;
-    private static long id = 100;
     private static final String TAG = "FoodDialog-pp";
     private DialogContarct.Presenter presenter;
 
@@ -101,30 +99,28 @@ public class FoodDialog extends Dialog implements View.OnClickListener
             setHintText(editCNName, cnName);
             setHintText(editGreName, greName);
             if (isSweetAndWine) {
-//                radioGroup.check(radioYes.getId());
-                radioYes.setChecked(true);
+                radioGroup.check(radioYes.getId());
+//                radioNo.setChecked(false);
             } else {
-//                radioGroup.check(R.id.radio_no);
-//                radioGroup.check(radioNo.getId());
-                radioNo.setChecked(true);
-
+                radioGroup.check(radioNo.getId());
+//                radioYes.setChecked(false);
             }
-            Log.i(TAG, "initEditHint: isSweetAndWine:  " + isSweetAndWine);
         }
     }
 
     @Override
     public void show() {
+        super.show();
         // 每次打开给editNum焦点和弹出软键盘
         editId.setFocusable(true);
         editId.setFocusableInTouchMode(true);
         editId.requestFocus();
+        radioGroup.clearCheck();
         if (mCommand == MessageEvent.UPDATE_FOOD) {
             initEditHint();
         }
         presenter = new DialogPresenter();
         presenter.attachView(this);
-        super.show();
     }
 
     @Override
@@ -136,6 +132,7 @@ public class FoodDialog extends Dialog implements View.OnClickListener
             onFoodDialogDismissListener.onUpdateListener(mFood);
         }
         presenter.detachView();
+
     }
 
     // 判断是否完成
