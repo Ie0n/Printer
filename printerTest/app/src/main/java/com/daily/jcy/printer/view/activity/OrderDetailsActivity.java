@@ -1,11 +1,15 @@
 package com.daily.jcy.printer.view.activity;
 
+import android.content.Context;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +20,7 @@ import com.daily.jcy.printer.model.data.bean.Client;
 import com.daily.jcy.printer.model.data.bean.Count;
 import com.daily.jcy.printer.model.data.bean.Food;
 import com.daily.jcy.printer.model.data.bean.Order;
+import com.daily.jcy.printer.utils.Util;
 
 import java.util.List;
 
@@ -32,6 +37,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private LinearLayout layoutFood;
     private LayoutInflater inflater;
     private Button print;
+    private Context mContext;
     private PrintfManager printfManager;
     private static final String RESTAURANTNAME = "Asia Restaurant";
 
@@ -43,6 +49,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(this);
         initIntent();
         initView();
+        mContext = this;
+        setCustomActionBar();
         printfManager = PrintfManager.getInstance(OrderDetailsActivity.this);
     }
 
@@ -149,7 +157,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // 出单
-                    printfManager.print_check(mClient,RESTAURANTNAME,foodList,getSumme());
+                    if(!printfManager.isConnect()){
+                        Util.ToastTextThread(mContext,"请先连接蓝牙");
+                        return;
+                    }else {
+                        printfManager.print_check(mClient,RESTAURANTNAME,foodList,getSumme());
+                    }
                 }
             });
         }
@@ -167,5 +180,24 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         }
         return String.format("%.2f", result);
+    }
+
+    private void setCustomActionBar() {
+        ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+        View mActionBarView = LayoutInflater.from(this).inflate(R.layout.actionbar, null);
+        TextView text = mActionBarView.findViewById(R.id.title);
+        text.setText("Gemes");
+        getSupportActionBar().setCustomView(mActionBarView, lp);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ImageView back = mActionBarView.findViewById(R.id.pic);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderDetailsActivity.this.finish();
+            }
+        });
     }
 }
