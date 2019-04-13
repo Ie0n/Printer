@@ -358,7 +358,7 @@ public class PrintfManager {
 //                    printTabSpace(5);
 //                    printText("Z6");
 
-                    printfWrap();
+                    printfWrap(3);
                     printPlusLine_80();
                     for (int i = 0; i < foodList.size(); i++) {
                         Food food = foodList.get(i);
@@ -366,14 +366,14 @@ public class PrintfManager {
                             continue;
                         }
                         int number = food.getNum();
-                        printLargeText(45,String.valueOf(number));
-                        printLargeText(45," x ");
-                        printLargeText(45,food.getUid());
+                        printLargeText(50,String.valueOf(number));
+                        printLargeText(50," x ");
+                        printLargeText(50,food.getUid());
                         printTabSpace(2);
-                        printLargeText(45,food.getCNname());
+                        printLargeText(50,food.getCNname());
                         printfWrap();
                     }
-                    printfWrap(3);
+                    printfWrap(2);
 
 //                    printTwoColumn("餐厅名称:", companyName);
 //                    printfWrap();
