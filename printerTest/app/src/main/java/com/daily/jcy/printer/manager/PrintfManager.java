@@ -366,11 +366,11 @@ public class PrintfManager {
                             continue;
                         }
                         int number = food.getNum();
-                        printLargeText(30,String.valueOf(number));
-                        printLargeText(30," x ");
-                        printLargeText(30,food.getUid());
+                        printLargeText(45,String.valueOf(number));
+                        printLargeText(45," x ");
+                        printLargeText(45,food.getUid());
                         printTabSpace(2);
-                        printLargeText(30,food.getCNname());
+                        printLargeText(45,food.getCNname());
                         printfWrap();
                     }
                     printfWrap(3);
