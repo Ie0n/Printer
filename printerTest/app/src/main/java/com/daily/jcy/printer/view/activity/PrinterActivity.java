@@ -113,6 +113,8 @@ public class PrinterActivity extends BaseActivity {
                             "Asia Restaurant",
                             targetFoodList,
                             getSumme());
+                } else {
+                    PrintfBlueListActivity.startActivity(PrinterActivity.this);
                 }
                 if (!isClick) {
                     saveOrder();
