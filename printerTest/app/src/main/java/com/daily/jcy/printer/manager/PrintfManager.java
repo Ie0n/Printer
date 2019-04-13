@@ -146,8 +146,8 @@ public class PrintfManager {
         return CONNECTING;
     }
 
-    public void cut(){
-        if (mPrinter != null){
+    public void cut() {
+        if (mPrinter != null) {
             mPrinter.cutPaper();
         }
     }
@@ -199,61 +199,56 @@ public class PrintfManager {
         }
     }
 
-    public void print_check(final Client client, final String restaurantName, final List<Food>foodList, final String sum){
+    public void print_check(final Client client, final String restaurantName, final List<Food> foodList, final String sum) {
         MyApplication.getInstance().getCachedThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     Util.ToastTextThread(context, "正在打印...请稍候");
-                    printfWrap();
+                    printfWrap(2);
 
                     printTabSpace(14);
-                    printLargeText(35,restaurantName);
+                    printLargeText(35, restaurantName);
                     printfWrap(2);
-                    printRight(""+Util.stampToDate(System.currentTimeMillis()));
+                    printRight("" + Util.stampToDate(System.currentTimeMillis()));
                     printfWrap();
                     printPlusLine_80();
                     for (int i = 0; i < foodList.size(); i++) {
                         Food food = foodList.get(i);
                         int number = food.getNum();
-                        printText(String.valueOf(number));
-                        printText(" X ");
+                        printLargeText(35, String.valueOf(number));
+                        printLargeText(35, " X ");
                         String result1;
                         String str = food.getPrice();
-
-                            if (str.contains(",")){
-                                result1 = str.replace(",",".");
-                            }else {
-                                result1 = str;
-                            }
-
-                        Log.d(TAG,"result1:"+result1);
+                        if (str.contains(",")) {
+                            result1 = str.replace(",", ".");
+                        } else {
+                            result1 = str;
+                        }
                         double price = Double.parseDouble(result1);
-                        Log.d(TAG,""+price*food.getNum());
-                        printText(food.getUid());
+                        printLargeText(35,food.getUid());
                         printTabSpace(1);
-                        printText(food.getGERname());
+                        printLargeText(35,food.getGERname());
 
                         String result2 = "";
-                        String result = String.valueOf(price*food.getNum());
+                        String result = String.valueOf(price * food.getNum());
                         for (int j = 0; j < result.length(); j++) {
-                            if (result.contains(".")){
-                                result2 = result.replace(".",",");
+                            if (result.contains(".")) {
+                                result2 = result.replace(".", ",");
                             }
                         }
-
-                        printRight(result2);
+                        printRightLarge(30,result2);
 
                         printfWrap();
-                        printExtraPrice(food.getNum(),food.getPrice());
+                        printExtraPrice(food.getNum(), food.getPrice());
                     }
                     printPlusLine_80();
-                    printLargeText(35,"SUMME(EUR):");
-                    printRightLarge(30,sum);
+                    printLargeText(35, "SUMME(EUR):");
+                    printRightLarge(30, sum);
                     printfWrap();
                     printPlusLine_80();
-                    printLargeText(35,"KundenNr: ");
-                    printLargeText(36,String.valueOf(client.getId()));
+                    printLargeText(35, "KundenNr: ");
+                    printLargeText(36, String.valueOf(client.getId()));
                     printfWrap();
                     printPlusLine_80();
                     printTabOrNot(client.getName());
@@ -276,7 +271,7 @@ public class PrintfManager {
                     printNoteOrNot(client.getNote());
                     printfWrap();
                     printPlusLine_80();
-                    printfWrap(2);
+                    printfWrap(3);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -284,8 +279,8 @@ public class PrintfManager {
         });
     }
 
-    private void printExtraPrice(int num,String str) throws IOException {
-        if (num != 1){
+    private void printExtraPrice(int num, String str) throws IOException {
+        if (num != 1) {
             printTabSpace(4);
             printText(String.valueOf(num));
             printText(" x ");
@@ -296,18 +291,18 @@ public class PrintfManager {
     }
 
     private void printNoteOrNot(String str) throws IOException {
-        if (str == null || str.equals("备注(打印)")){
+        if (str == null || str.equals("备注(打印)")) {
             printText("");
-        }else {
+        } else {
             printText(str);
         }
     }
 
     private void printTabOrNot(String str) throws IOException {
-        if (str == null || str.equals("")){
+        if (str == null || str.equals("")) {
             printTabSpace(4);
-        }else {
-            printLargeText(35,str);
+        } else {
+            printLargeText(35, str);
         }
     }
 
@@ -325,7 +320,7 @@ public class PrintfManager {
         mPrinter.sendByteData(byteBuffer);
     }
 
-    private void printRightLarge(int size,String str) throws IOException {
+    private void printRightLarge(int size, String str) throws IOException {
         int iNum = 0;
         byte[] byteBuffer = new byte[100];
         byte[] tmp;
@@ -362,15 +357,15 @@ public class PrintfManager {
                     printPlusLine_80();
                     for (int i = 0; i < foodList.size(); i++) {
                         Food food = foodList.get(i);
-                        if (food.isSweetAndWine()){
+                        if (food.isSweetAndWine()) {
                             continue;
                         }
                         int number = food.getNum();
-                        printLargeText(50,String.valueOf(number));
-                        printLargeText(50," x ");
-                        printLargeText(50,food.getUid());
+                        printLargeText(50, String.valueOf(number));
+                        printLargeText(50, " x ");
+                        printLargeText(50, food.getUid());
                         printTabSpace(2);
-                        printLargeText(50,food.getCNname());
+                        printLargeText(50, food.getCNname());
                         printfWrap();
                     }
                     printfWrap(2);
@@ -603,7 +598,7 @@ public class PrintfManager {
      */
     public void printLargeText(int size, String text) throws IOException {
         byte[] bytes = {0x1b, 0x21, (byte) size};//代表字体的大小
-        Log.d(TAG,""+bytes[2]);
+        Log.d(TAG, "" + bytes[2]);
 
         mPrinter.sendByteData(bytes);
         printText(text);
@@ -618,7 +613,7 @@ public class PrintfManager {
      * @return
      */
     public static byte[] boldOff() {
-        byte[] result =  { 27, 69, 0 };
+        byte[] result = {27, 69, 0};
         return result;
     }
 
@@ -628,7 +623,7 @@ public class PrintfManager {
      * @return
      */
     public static byte[] boldOn() {
-        byte[] result = { 27, 69, 1 };
+        byte[] result = {27, 69, 1};
         return result;
     }
 
