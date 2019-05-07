@@ -100,10 +100,8 @@ public class FoodDialog extends Dialog implements View.OnClickListener,RadioGrou
             setHintText(editGreName, greName);
             if (isSweetAndWine) {
                 radioGroup.check(radioYes.getId());
-//                radioNo.setChecked(false);
             } else {
                 radioGroup.check(radioNo.getId());
-//                radioYes.setChecked(false);
             }
         }
     }
